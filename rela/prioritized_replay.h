@@ -10,12 +10,9 @@ namespace rela {
 template <class DataType>
 class PrioritizedReplay {
  public:
-  PrioritizedReplay(int capacity,
-                    int seed,
-                    float alpha,  // priority exponent
-                    float beta)   // importance sampling exponent
-      : alpha_(alpha)
-      , beta_(beta)
+  PrioritizedReplay(int capacity, int seed, float alpha, float beta)
+      : alpha_(alpha)  // priority exponent
+      , beta_(beta)    // importance sampling exponent
       , sumTree_(capacity)
       , numAdd_(0) {
     rng_.seed(seed);

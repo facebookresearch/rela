@@ -121,7 +121,7 @@ class MultiStepTransitionBuffer {
   std::deque<torch::Tensor> terminalHistory_;
 };
 
-class DQNActor : public Actor{
+class DQNActor : public Actor {
  public:
   DQNActor(std::shared_ptr<ModelLocker> modelLocker,
            int multiStep,
@@ -151,15 +151,14 @@ class DQNActor : public Actor{
   virtual TensorDict act(TensorDict& obs) override {
     torch::NoGradGuard ng;
 
-    auto inputObs =
-        utils::convertTensorDictToTorchDict(obs, modelLocker_->device);
+    auto inputObs = utils::tensorDictToTorchDict(obs, modelLocker_->device);
     TorchJitInput input;
     input.push_back(inputObs);
 
     auto model = modelLocker_->getModel();
     TorchJitOutput output = model.get_method("act")(input);
 
-    auto action = utils::convertIValueToTensorDict(output, torch::kCPU, true);
+    auto action = utils::iValueToTensorDict(output, torch::kCPU, true);
     if (replayBuffer_ != nullptr) {
       transitionBuffer_.pushObsAndAction(obs, action);
     }
@@ -169,7 +168,8 @@ class DQNActor : public Actor{
   }
 
   // r is float32 tensor, t is bool tensor
-  virtual void setRewardAndTerminal(torch::Tensor& r, torch::Tensor& t) override {
+  virtual void setRewardAndTerminal(torch::Tensor& r,
+                                    torch::Tensor& t) override {
     assert(replayBuffer_ != nullptr);
     transitionBuffer_.pushRewardAndTerminal(r, t);
   }

@@ -38,7 +38,7 @@ class R2D2TransitionBuffer {
       if (nextIdx != 0) {
         // should not append after terminal
         // terminal should be processed when it is pushed
-        assert(!batchSeqTransition_[i][nextIdx-1].terminal.item<bool>());
+        assert(!batchSeqTransition_[i][nextIdx - 1].terminal.item<bool>());
         assert(batchLen_[i] == 0);
       }
 
@@ -65,9 +65,8 @@ class R2D2TransitionBuffer {
     return canPop_;
   }
 
-  std::tuple<std::vector<RNNTransition>,
-             torch::Tensor,
-             torch::Tensor> popTransition() {
+  std::tuple<std::vector<RNNTransition>, torch::Tensor, torch::Tensor>
+  popTransition() {
     assert(canPop_);
 
     std::vector<RNNTransition> batchTransition;
@@ -138,7 +137,8 @@ class R2D2Actor : public Actor {
       , multiStepBuffer_(1, 1, 1)
       , replayBuffer_(nullptr)
       , hidden_(getH0(1))
-      , numAct_(0) {}
+      , numAct_(0) {
+  }
 
   int numAct() const {
     return numAct_;
@@ -153,30 +153,28 @@ class R2D2Actor : public Actor {
     }
 
     TorchJitInput input;
-    auto jitObs = utils::convertTensorDictToTorchDict(
-        obs, modelLocker_->device);
-    auto jitHid = utils::convertTensorDictToTorchDict(
-        hidden_, modelLocker_->device);
+    auto jitObs = utils::tensorDictToTorchDict(obs, modelLocker_->device);
+    auto jitHid = utils::tensorDictToTorchDict(hidden_, modelLocker_->device);
     input.push_back(jitObs);
     input.push_back(jitHid);
 
     auto model = modelLocker_->getModel();
     auto output = model.get_method("act")(input).toTuple()->elements();
 
-    auto action = utils::convertIValueToTensorDict(
-        output[0], torch::kCPU, true);
-    hidden_ = utils::convertIValueToTensorDict(output[1], torch::kCPU, true);
+    auto action = utils::iValueToTensorDict(output[0], torch::kCPU, true);
+    hidden_ = utils::iValueToTensorDict(output[1], torch::kCPU, true);
 
     if (replayBuffer_ != nullptr) {
       multiStepBuffer_.pushObsAndAction(obs, action);
     }
 
     numAct_++;
-   return action;
+    return action;
   }
 
   // r is float32 tensor, t is byte tensor
-  virtual void setRewardAndTerminal(torch::Tensor& r, torch::Tensor& t) override {
+  virtual void setRewardAndTerminal(torch::Tensor& r,
+                                    torch::Tensor& t) override {
     assert(replayBuffer_ != nullptr);
     multiStepBuffer_.pushRewardAndTerminal(r, t);
 
@@ -234,16 +232,17 @@ class R2D2Actor : public Actor {
     input.push_back(batchsize);
     auto model = modelLocker_->getModel();
     auto output = model.get_method("get_h0")(input);
-    return utils::convertIValueToTensorDict(output, torch::kCPU, true);
+    return utils::iValueToTensorDict(output, torch::kCPU, true);
   }
 
-  torch::Tensor computePriority(
-      const FFTransition& transition, TensorDict hid, TensorDict nextHid) {
+  torch::Tensor computePriority(const FFTransition& transition,
+                                TensorDict hid,
+                                TensorDict nextHid) {
     torch::NoGradGuard ng;
     auto device = modelLocker_->device;
     auto input = transition.toJitInput(device);
-    input.push_back(utils::convertTensorDictToTorchDict(hid, device));
-    input.push_back(utils::convertTensorDictToTorchDict(nextHid, device));
+    input.push_back(utils::tensorDictToTorchDict(hid, device));
+    input.push_back(utils::tensorDictToTorchDict(nextHid, device));
 
     auto model = modelLocker_->getModel();
     auto priority = model.get_method("compute_priority")(input).toTensor();

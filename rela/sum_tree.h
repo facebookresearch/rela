@@ -49,7 +49,8 @@ class SumTree {
   }
 
   // batched append, vector version
-  void append(const std::vector<DataType>& batch, const torch::Tensor& weights) {
+  void append(const std::vector<DataType>& batch,
+              const torch::Tensor& weights) {
     auto weightAccessor = weights.accessor<float, 1>();
     std::lock_guard<std::mutex> lk(mTree_);
     for (size_t i = 0; i < batch.size(); i++) {
@@ -205,8 +206,8 @@ class SumTree {
       }
       if (!(tree_[treeIdx] == tree_[left] + tree_[right])) {
         std::cout << "At treeIdx " + std::to_string(treeIdx) << std::endl;
-        std::cout << std::to_string(tree_[treeIdx]) +
-                         " == " + std::to_string(tree_[left]) + " + " +
+        std::cout << std::to_string(tree_[treeIdx]) + " == " +
+                         std::to_string(tree_[left]) + " + " +
                          std::to_string(tree_[right])
                   << std::endl;
         assert(false);

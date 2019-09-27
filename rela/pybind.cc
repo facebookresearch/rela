@@ -1,13 +1,13 @@
 #include <pybind11/pybind11.h>
 #include <torch/extension.h>
 
-#include "rela/context.h"
-#include "rela/env.h"
-#include "rela/thread_loop.h"
 #include "rela/actor.h"
+#include "rela/context.h"
 #include "rela/dqn_actor.h"
-#include "rela/r2d2_actor.h"
+#include "rela/env.h"
 #include "rela/prioritized_replay.h"
+#include "rela/r2d2_actor.h"
+#include "rela/thread_loop.h"
 
 // #include "rpc/rpc_env.h"
 
@@ -34,10 +34,10 @@ PYBIND11_MODULE(rela, m) {
 
   py::class_<FFPrioritizedReplay, std::shared_ptr<FFPrioritizedReplay>>(
       m, "FFPrioritizedReplay")
-      .def(py::init<int,      // capacity,
-                    int,      // seed,
-                    float,    // alpha, priority exponent
-                    float>()) // beta, importance sampling exponent
+      .def(py::init<int,       // capacity,
+                    int,       // seed,
+                    float,     // alpha, priority exponent
+                    float>())  // beta, importance sampling exponent
       .def("size", &FFPrioritizedReplay::size)
       .def("num_add", &FFPrioritizedReplay::numAdd)
       .def("sample", &FFPrioritizedReplay::sample)
@@ -45,10 +45,10 @@ PYBIND11_MODULE(rela, m) {
 
   py::class_<RNNPrioritizedReplay, std::shared_ptr<RNNPrioritizedReplay>>(
       m, "RNNPrioritizedReplay")
-      .def(py::init<int,      // capacity,
-                    int,      // seed,
-                    float,    // alpha, priority exponent
-                    float>()) // beta, importance sampling exponent
+      .def(py::init<int,       // capacity,
+                    int,       // seed,
+                    float,     // alpha, priority exponent
+                    float>())  // beta, importance sampling exponent
       .def("size", &RNNPrioritizedReplay::size)
       .def("num_add", &RNNPrioritizedReplay::numAdd)
       .def("sample", &RNNPrioritizedReplay::sample)
@@ -64,9 +64,8 @@ PYBIND11_MODULE(rela, m) {
 
   py::class_<BasicThreadLoop, ThreadLoop, std::shared_ptr<BasicThreadLoop>>(
       m, "BasicThreadLoop")
-      .def(py::init<std::shared_ptr<Actor>,
-                    std::shared_ptr<VectorEnv>,
-                    bool>());
+      .def(
+          py::init<std::shared_ptr<Actor>, std::shared_ptr<VectorEnv>, bool>());
 
   py::class_<Context>(m, "Context")
       .def(py::init<>())
@@ -89,19 +88,17 @@ PYBIND11_MODULE(rela, m) {
                     int,                                      // batchsize
                     float,                                    // gamma
                     std::shared_ptr<FFPrioritizedReplay>>())  // replayBuffer
-      .def(py::init<std::shared_ptr<ModelLocker>>())   // evaluation mode
+      .def(py::init<std::shared_ptr<ModelLocker>>())          // evaluation mode
       .def("num_act", &DQNActor::numAct);
 
   py::class_<R2D2Actor, Actor, std::shared_ptr<R2D2Actor>>(m, "R2D2Actor")
-      .def(py::init<std::shared_ptr<ModelLocker>,             // modelLocker
-                    int,                                      // multiStep
-                    int,                                      // batchsize
-                    float,                                    // gamma
-                    int,                                      // seqLen
-                    int,                                      // burnin
-                    std::shared_ptr<RNNPrioritizedReplay>>()) // replayBuffer
-      .def(py::init<std::shared_ptr<ModelLocker>>())   // evaluation mode
+      .def(py::init<std::shared_ptr<ModelLocker>,              // modelLocker
+                    int,                                       // multiStep
+                    int,                                       // batchsize
+                    float,                                     // gamma
+                    int,                                       // seqLen
+                    int,                                       // burnin
+                    std::shared_ptr<RNNPrioritizedReplay>>())  // replayBuffer
+      .def(py::init<std::shared_ptr<ModelLocker>>())  // evaluation mode
       .def("num_act", &R2D2Actor::numAct);
-
-
 }

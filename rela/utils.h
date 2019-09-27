@@ -41,8 +41,7 @@ inline int getProduct(const std::vector<int64_t>& nums) {
 }
 
 template <typename T>
-inline std::vector<T> pushLeft(T left,
-                               const std::vector<T>& vals) {
+inline std::vector<T> pushLeft(T left, const std::vector<T>& vals) {
   std::vector<T> vec;
   vec.reserve(1 + vals.size());
   vec.push_back(left);
@@ -76,9 +75,7 @@ inline void printMap(const T& map) {
   // std::cout << std::endl;
 }
 
-inline void verifyTensors(
-    const TensorDict& src,
-    const TensorDict& dest) {
+inline void verifyTensors(const TensorDict& src, const TensorDict& dest) {
   if (src.size() != dest.size()) {
     std::cout << "src.size()[" << src.size() << "] != dest.size()["
               << dest.size() << "]" << std::endl;
@@ -118,9 +115,7 @@ inline void verifyTensors(
   }
 }
 
-inline void copyTensors(
-    const TensorDict& src,
-    TensorDict& dest) {
+inline void copyTensors(const TensorDict& src, TensorDict& dest) {
   verifyTensors(src, dest);
   for (const auto& name2tensor : src) {
     const auto& name = name2tensor.first;
@@ -286,9 +281,9 @@ inline TensorDict vectorTensorDictJoin(const std::vector<TensorDict>& vec,
   return tensorDictJoin(ret, stackdim);
 }
 
-inline TensorDict convertIValueToTensorDict(const torch::IValue& value,
-                                            torch::DeviceType device,
-                                            bool detach) {
+inline TensorDict iValueToTensorDict(const torch::IValue& value,
+                                     torch::DeviceType device,
+                                     bool detach) {
   std::unordered_map<std::string, torch::Tensor> map;
   auto dict = value.toGenericDict();
   // auto ivalMap = dict->elements();
@@ -305,8 +300,8 @@ inline TensorDict convertIValueToTensorDict(const torch::IValue& value,
 }
 
 // TODO: this may be simplified with constructor in the future version
-inline TorchTensorDict convertTensorDictToTorchDict(
-    const TensorDict& tensorDict, const torch::Device& device) {
+inline TorchTensorDict tensorDictToTorchDict(const TensorDict& tensorDict,
+                                             const torch::Device& device) {
   TorchTensorDict dict;
   for (const auto& name2tensor : tensorDict) {
     dict.insert(name2tensor.first, name2tensor.second.to(device));

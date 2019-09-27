@@ -2,8 +2,8 @@
 
 #include <atomic>
 
-#include "rela/env.h"
 #include "rela/actor.h"
+#include "rela/env.h"
 
 namespace rela {
 
@@ -102,7 +102,6 @@ class BasicThreadLoop : public ThreadLoop {
         break;
       }
     }
-
   }
 
  private:
