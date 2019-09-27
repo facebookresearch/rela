@@ -1,0 +1,27 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.3)
+project(atari)
+
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS
+    "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-register -fPIC -march=native -Wfatal-errors")
+
+# add dep
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../rela rela)
+
+# python lib
+pybind11_add_module(atari ${CMAKE_CURRENT_SOURCE_DIR}/pybind.cc)
+
+target_include_directories(atari PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)
+target_include_directories(
+  atari PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Arcade-Learning-Environment/src
+)
+
+target_link_directories(
+  atari PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Arcade-Learning-Environment
+)
+target_link_libraries(atari PUBLIC ale)
+target_link_libraries(atari PUBLIC _rela)
+
+# # add tests
+# add_executable(test_env game/src_cpp/test/test_env.cc)
+# target_link_libraries(test_env _tube ale)
