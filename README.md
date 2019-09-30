@@ -7,6 +7,8 @@ Instruction for building PyTorch on devfair:
 module purge
 module load cudnn/v7.4-cuda.10.0
 module load cuda/10.0
+
+export OMP_NUM_THREADS=1
 ```
 
 Get a clone of conda env with PyTorch compiled with `gcc7.4.0` from
@@ -84,9 +86,15 @@ make
 ### run
 Note that we need to set the following before running any multi-threading
 program that uses torch::Tensor. Otherwise a simple tensor operation will
-use all cores by default.
+use all cores by default. (ignore if you have put this line in your `bashrc`.)
 ```
 export OMP_NUM_THREADS=1
+```
+`pyrela/scripts` contains some examples scripts for training/debugging
+```
+cd pyrela
+sh scripts/dev.sh  # for fast launching & debugging
+sh scripts/run_apex.sh  # launching a job onto cluster
 ```
 
 ### Contribute
