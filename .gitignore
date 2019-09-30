@@ -5,3 +5,4 @@ cmake-build-debug/
 *.pyc
 */__pycache__/*
 .DS_Store
+pyrela/exps

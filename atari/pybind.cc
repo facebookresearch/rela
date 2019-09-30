@@ -9,6 +9,7 @@ PYBIND11_MODULE(atari, m) {
 
   py::class_<AtariEnv, rela::Env, std::shared_ptr<AtariEnv>>(m, "AtariEnv")
       .def(py::init<std::string,  // romFile
+                    float,        // exploreEps
                     int,          // seed
                     int,          // frameStack
                     int,          // frameSkip

@@ -35,6 +35,7 @@ torch::Tensor getLegalActionMask(ALEInterface& ale, bool useMinAction) {
 class AtariEnv : public rela::Env {
  public:
   AtariEnv(std::string romFile,
+           float exploreEps,
            int seed,
            int frameStack,
            int frameSkip,
@@ -44,11 +45,11 @@ class AtariEnv : public rela::Env {
            int maxNumFrame,
            bool terminalOnLifeLoss,
            bool terminalSignalOnLifeLoss)
-           // std::string videoStorageDir)
-      : romFile(romFile)
-      , frameSkip(frameSkip)
-      , maxNumFrame(maxNumFrame)
-      , terminalSignalOnLifeLoss(terminalSignalOnLifeLoss)
+      : romFile_(romFile)
+      , exploreEps_(torch::tensor(exploreEps))
+      , frameSkip_(frameSkip)
+      , maxNumFrame_(maxNumFrame)
+      , terminalSignalOnLifeLoss_(terminalSignalOnLifeLoss)
       , numSteps_(0)
       , rng_(seed)
       , noOpStartSampler_(0, noOpStart) {
@@ -58,7 +59,7 @@ class AtariEnv : public rela::Env {
     ale_->setInt("random_seed", seed);
     ale_->setFloat("repeat_action_probability", 0.0);
     ale_->setBool("showinfo", false);
-    ale_->loadROM(romFile);
+    ale_->loadROM(romFile_);
 
     int height = ale_->getScreen().height();
     int width = ale_->getScreen().width();
@@ -98,7 +99,11 @@ class AtariEnv : public rela::Env {
     // get first observation
     ale_->getScreenRGB(state_->getObservationBuffer());
     torch::Tensor obs = state_->computeFeature();
-    rela::TensorDict input = {{"s", obs}, {"legal_move", legalActionMask_}};
+    rela::TensorDict input = {
+      {"s", obs},
+      {"eps", exploreEps_},
+      {"legal_move", legalActionMask_}
+    };
     return input;
   }
 
@@ -112,18 +117,22 @@ class AtariEnv : public rela::Env {
     // update state
     state_->addReward(reward);
     state_->setLives(ale_->lives());
-    if (ale_->game_over() || numSteps_ * frameSkip > maxNumFrame) {
+    if (ale_->game_over() || numSteps_ * frameSkip_ > maxNumFrame_) {
       state_->setTerminal();
     }
 
     // compute reward and terminal signal
     float clippedReward = clipRewards(reward);
     bool terminalSignal =
-        state_->terminal() || (terminalSignalOnLifeLoss && state_->lostLife());
+        state_->terminal() || (terminalSignalOnLifeLoss_ && state_->lostLife());
     if (state_->terminal()) {
       // state should not matter, but we still need to send it
       torch::Tensor obs = state_->computeFeature();
-      rela::TensorDict input = {{"s", obs}, {"legal_move", legalActionMask_}};
+      rela::TensorDict input = {
+        {"s", obs},
+        {"eps", exploreEps_},
+        {"legal_move", legalActionMask_}
+      };
       return std::make_tuple(input, clippedReward, true);
     }
 
@@ -135,7 +144,11 @@ class AtariEnv : public rela::Env {
     // compute obs
     ale_->getScreenRGB(state_->getObservationBuffer());
     torch::Tensor obs = state_->computeFeature();
-    rela::TensorDict input = {{"s", obs}, {"legal_move", legalActionMask_}};
+    rela::TensorDict input = {
+      {"s", obs},
+      {"eps", exploreEps_},
+      {"legal_move", legalActionMask_}
+    };
     return std::make_tuple(input, clippedReward, terminalSignal);
   }
 
@@ -146,11 +159,6 @@ class AtariEnv : public rela::Env {
   float getEpisodeReward() {
     return state_->getAccReward();
   }
-
-  const std::string romFile;
-  const int frameSkip;
-  const int maxNumFrame;
-  const bool terminalSignalOnLifeLoss;
 
  private:
   float clipRewards(float reward) {
@@ -167,9 +175,9 @@ class AtariEnv : public rela::Env {
   float aleStep(int actIdx) {
     assert(!ale_->game_over());
     float reward = 0;
-    for (int i = 0; i < frameSkip; i++) {
+    for (int i = 0; i < frameSkip_; i++) {
       // need previous observation buffer for max
-      if (i == frameSkip - 1) {
+      if (i == frameSkip_ - 1) {
         ale_->getScreenRGB(state_->getPrevObservationBuffer());
       }
 
@@ -184,10 +192,17 @@ class AtariEnv : public rela::Env {
 
   void pressStartKey() {
     // breakout requires pressing FIRE key after each life loss
-    if (romFile.find("breakout") != std::string::npos) {
+    if (romFile_.find("breakout") != std::string::npos) {
       aleStep(1);  // fire
     }
   }
+
+
+  const std::string romFile_;
+  const torch::Tensor exploreEps_;
+  const int frameSkip_;
+  const int maxNumFrame_;
+  const bool terminalSignalOnLifeLoss_;
 
   std::unique_ptr<ALEInterface> ale_;
   std::unique_ptr<GameState> state_;
@@ -198,6 +213,5 @@ class AtariEnv : public rela::Env {
   std::mt19937 rng_;
   std::unique_ptr<std::uniform_int_distribution<>> actionSampler_;
   std::uniform_int_distribution<int> noOpStartSampler_;
-  // std::unique_ptr<VideoRecorder> vidRec_;
 };
 }
