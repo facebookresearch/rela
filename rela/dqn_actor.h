@@ -62,8 +62,8 @@ class MultiStepTransitionBuffer {
     TensorDict obs = obsHistory_.front();
     TensorDict action = actionHistory_.front();
     torch::Tensor terminal = terminalHistory_.front();
-    torch::Tensor bootstrap = torch::ones(batchsize_, torch::kBool);
-    auto bootstrapAccessor = bootstrap.accessor<bool, 1>();
+    torch::Tensor bootstrap = torch::ones(batchsize_, torch::kFloat32);
+    auto bootstrapAccessor = bootstrap.accessor<float, 1>();
 
     std::vector<int> nextObsIndices(batchsize_);
     // calculate bootstrap and nextState indices
@@ -71,13 +71,13 @@ class MultiStepTransitionBuffer {
       for (int step = 0; step < multiStep_; step++) {
         // next state is step (shouldn't be used anyways)
         if (terminalHistory_[step][i].item<bool>()) {
-          bootstrapAccessor[i] = false;
+          bootstrapAccessor[i] = 0.0;
           nextObsIndices[i] = step;
           break;
         }
       }
       // next state is step+n
-      if (bootstrapAccessor[i]) {
+      if (bootstrapAccessor[i] > 1e-6) {
         nextObsIndices[i] = multiStep_;
       }
     }
@@ -150,7 +150,6 @@ class DQNActor : public Actor {
 
   virtual TensorDict act(TensorDict& obs) override {
     torch::NoGradGuard ng;
-
     auto inputObs = utils::tensorDictToTorchDict(obs, modelLocker_->device);
     TorchJitInput input;
     input.push_back(inputObs);
@@ -193,7 +192,7 @@ class DQNActor : public Actor {
     auto model = modelLocker_->getModel();
     auto input = sample.toJitInput(modelLocker_->device);
     auto output = model.get_method("compute_priority")(input);
-    return output.toTensor().to(torch::kCPU).detach();
+    return output.toTensor().detach().to(torch::kCPU);
   }
 
   const int batchsize_;

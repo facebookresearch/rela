@@ -246,7 +246,7 @@ class R2D2Actor : public Actor {
 
     auto model = modelLocker_->getModel();
     auto priority = model.get_method("compute_priority")(input).toTensor();
-    return priority.to(torch::kCPU).detach();
+    return priority.detach().to(torch::kCPU);
   }
 
   torch::Tensor aggregatePriority(torch::Tensor priority, torch::Tensor len) {

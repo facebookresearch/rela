@@ -66,12 +66,12 @@ FFTransition FFTransition::padLike() const {
 
 TorchJitInput FFTransition::toJitInput(const torch::Device& device) const {
   TorchJitInput input;
-  input.push_back(utils::convertTensorDictToTorchDict(obs, device));
-  input.push_back(utils::convertTensorDictToTorchDict(action, device));
+  input.push_back(utils::tensorDictToTorchDict(obs, device));
+  input.push_back(utils::tensorDictToTorchDict(action, device));
   input.push_back(reward.to(device));
   input.push_back(terminal.to(device));
   input.push_back(bootstrap.to(device));
-  input.push_back(utils::convertTensorDictToTorchDict(nextObs, device));
+  input.push_back(utils::tensorDictToTorchDict(nextObs, device));
   return input;
 }
 

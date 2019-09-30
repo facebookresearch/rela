@@ -57,7 +57,7 @@ PYBIND11_MODULE(rela, m) {
   py::class_<Env, std::shared_ptr<Env>>(m, "Env");
 
   py::class_<VectorEnv, std::shared_ptr<VectorEnv>>(m, "VectorEnv")
-      .def(py::init<int>())
+      .def(py::init<>())
       .def("append", &VectorEnv::append, py::keep_alive<1, 2>());
 
   py::class_<ThreadLoop, std::shared_ptr<ThreadLoop>>(m, "ThreadLoop");

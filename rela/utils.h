@@ -12,26 +12,6 @@ namespace rela {
 
 namespace utils {
 
-// inline torch::Tensor logEpsToBin(float eps, int batchsize) {
-//   int numBin = 16;  // ceil(log(1e-6)) = 14, 15 for eps < 1e-6
-//   int binIdx = 0;
-//   if (eps < 1e-6) {
-//     binIdx = numBin - 1;
-//   } else {
-//     float logEps = log(eps);
-//     binIdx = ceil(-logEps);
-//     if (!(binIdx >= 0 && binIdx <= 14 && numBin == 16)) {
-//       std::cout << "wrong bin: " << binIdx << ", " << numBin << std::endl;
-//       assert(false);
-//     }
-//   }
-//   torch::Tensor epsTensor = torch::zeros({batchsize, numBin}, torch::kInt32);
-//   for (int i = 0; i < batchsize; ++i) {
-//     epsTensor[i][binIdx] = 1;
-//   }
-//   return epsTensor;
-// }
-
 inline int getProduct(const std::vector<int64_t>& nums) {
   int prod = 1;
   for (auto v : nums) {

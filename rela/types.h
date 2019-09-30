@@ -6,7 +6,6 @@
 namespace rela {
 
 using TensorDict = std::unordered_map<std::string, torch::Tensor>;
-// TODO: we may be able to remove this all together
 using TensorVecDict =
     std::unordered_map<std::string, std::vector<torch::Tensor>>;
 
