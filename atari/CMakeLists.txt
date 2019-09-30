@@ -13,7 +13,7 @@ pybind11_add_module(atari ${CMAKE_CURRENT_SOURCE_DIR}/pybind.cc)
 
 target_include_directories(atari PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)
 target_include_directories(
-  atari PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Arcade-Learning-Environment/src
+  atari PUBLIC SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/Arcade-Learning-Environment/src
 )
 
 target_link_directories(

@@ -10,7 +10,7 @@ class AtariFFNet(torch.jit.ScriptModule):
         super().__init__()
         self.frame_stack = 4
         self.conv_out = 3136
-        self.self.hid_dim = 512
+        self.hid_dim = 512
         self.num_action = num_action
 
         self.net = nn.Sequential(
