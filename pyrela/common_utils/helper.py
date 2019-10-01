@@ -37,9 +37,9 @@ def get_mem_usage():
 
     mem = psutil.virtual_memory()
     result = ""
-    result += "available: %s\t" % (mem2str(mem.available))
-    result += "used: %s\t" % (mem2str(mem.used))
-    result += "free: %s\t" % (mem2str(mem.free))
+    result += "available: %s, " % (mem2str(mem.available))
+    result += "used: %s, " % (mem2str(mem.used))
+    result += "free: %s" % (mem2str(mem.free))
     # result += "active: %s\t" % (mem2str(mem.active))
     # result += "inactive: %s\t" % (mem2str(mem.inactive))
     # result += "buffers: %s\t" % (mem2str(mem.buffers))

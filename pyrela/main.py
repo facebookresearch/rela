@@ -110,14 +110,9 @@ if __name__ == "__main__":
             agent.online_net.parameters(), lr=args.lr, eps=args.eps
         )
 
-    ref_model0 = agent.clone(agent, device=args.act_device)
-    ref_model = ref_model0._c
-    zero = agent.clone(agent, device=args.act_device)
-    for p in zero.parameters():
-        p.data.zero_()
-    ref_model0.load_state_dict(zero.state_dict())
-
-    model_locker = rela.ModelLocker(ref_model, args.act_device)
+    # to keep them alive
+    ref_models = [agent.clone(agent, args.act_device) for _ in range(3)]
+    model_locker = rela.ModelLocker(ref_models, args.act_device)
     replay_buffer = replay_class(
         args.replay_buffer_size,
         args.seed,
@@ -152,6 +147,7 @@ if __name__ == "__main__":
             replay_buffer,
         )
 
+    print("creating train env")
     context, games, actors = create_atari.create_train_env(
         args.game,
         args.seed,
@@ -173,7 +169,7 @@ if __name__ == "__main__":
     train_time = 0
     for epoch in range(args.num_epoch):
         mem_usage = common_utils.get_mem_usage()
-        print("Beginning of Epoch %d\nMem usage %s" % (epoch, mem_usage))
+        print("Beginning of Epoch %d\nMem usage: %s" % (epoch, mem_usage))
 
         stat.reset()
         stopwatch.reset()
@@ -181,35 +177,54 @@ if __name__ == "__main__":
         t = time.time()
         for batch_idx in range(args.epoch_len):
             num_update = batch_idx + epoch * args.epoch_len
+            if stopwatch is not None:
+                torch.cuda.synchronize()
             if num_update % args.num_update_between_sync == 0:
                 agent.sync_target_with_online()
 
             if num_update % args.actor_sync_freq == 0:
-                ref_model = agent.clone(agent, device=args.act_device)._c
-                model_locker.update_model(ref_model)
-            stopwatch.time("sync and updating")
+                # ref_model = agent.clone(agent, device=args.act_device)._c
+                model_locker.update_model(agent)
+                # model_locker.update_model(ref_model)
+            if stopwatch is not None:
+                torch.cuda.synchronize()
+                stopwatch.time("sync and updating")
 
             batch, weight = replay_buffer.sample(args.batchsize)
             stopwatch.time("sample data")
 
+            if stopwatch is not None:
+                torch.cuda.synchronize()
             weight = weight.to(args.train_device).detach()
             batch = utils.to_device(batch, args.train_device)
-            stopwatch.time("device conversion")
+            if stopwatch is not None:
+                torch.cuda.synchronize()
+                stopwatch.time("device conversion")
+
+            if stopwatch is not None:
+                torch.cuda.synchronize()
 
             loss, priority = agent.loss(batch)
             loss = (loss * weight).mean()
-            stopwatch.time("calculating loss")
+            if stopwatch is not None:
+                torch.cuda.synchronize()
+                stopwatch.time("calculating loss")
 
+            if stopwatch is not None:
+                torch.cuda.synchronize()
             loss.backward()
             g_norm = torch.nn.utils.clip_grad_norm_(
                 agent.online_net.parameters(), args.grad_clip
             )
             optim.step()
             optim.zero_grad()
-            stopwatch.time("backprop & update")
+            if stopwatch is not None:
+                torch.cuda.synchronize()
+                stopwatch.time("backprop & update")
 
             replay_buffer.update_priority(priority)
-            stopwatch.time("updating priority")
+            if stopwatch is not None:
+                stopwatch.time("updating priority")
 
             stat["loss"].feed(loss.detach().item())
             stat["grad_norm"].feed(g_norm)
@@ -221,16 +236,16 @@ if __name__ == "__main__":
             % (epoch, epoch_t, common_utils.sec2str(train_time))
         )
         tachometer.lap(actors, replay_buffer, args.epoch_len * args.batchsize)
-        stopwatch.summary()
+        if stopwatch is not None:
+            stopwatch.summary()
 
         context.pause()
         eval_model = agent.clone(agent, device="cpu")
-
         score = evaluate(
             args.game,
             10,
             eval_model,
-            "cpu",  # device,
+            "cpu",
             actor_cls,
             epoch + 999,
             args.max_frame,

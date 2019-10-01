@@ -24,7 +24,7 @@ class R2D2Agent(torch.jit.ScriptModule):
         return self.online_net.get_h0(batchsize)
 
     @classmethod
-    def clone(cls, model, *, device):
+    def clone(cls, model, device):
         cloned = cls(
             model.net_cons,
             device,
@@ -34,7 +34,7 @@ class R2D2Agent(torch.jit.ScriptModule):
             model.burn_in
         )
         cloned.load_state_dict(model.state_dict())
-        return cloned
+        return cloned.to(device)
 
     def sync_target_with_online(self):
         self.target_net.load_state_dict(self.online_net.state_dict())

@@ -154,8 +154,10 @@ class DQNActor : public Actor {
     TorchJitInput input;
     input.push_back(inputObs);
 
-    auto model = modelLocker_->getModel();
+    int id = -1;
+    auto model = modelLocker_->getModel(&id);
     TorchJitOutput output = model.get_method("act")(input);
+    modelLocker_->releaseModel(id);
 
     auto action = utils::iValueToTensorDict(output, torch::kCPU, true);
     if (replayBuffer_ != nullptr) {
@@ -189,9 +191,13 @@ class DQNActor : public Actor {
  private:
   torch::Tensor computePriority(const FFTransition& sample) {
     torch::NoGradGuard ng;
-    auto model = modelLocker_->getModel();
+    int id = -1;
     auto input = sample.toJitInput(modelLocker_->device);
+
+    auto model = modelLocker_->getModel(&id);
     auto output = model.get_method("compute_priority")(input);
+    modelLocker_->releaseModel(id);
+
     return output.toTensor().detach().to(torch::kCPU);
   }
 

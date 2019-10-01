@@ -45,7 +45,7 @@ class Stopwatch:
         for k in self.keys:
             v = self.times[k]
             print(
-                "%s: %d MS, %.2f%%"
+                "\t%s: %d MS, %.2f%%"
                 % (k.ljust(max_key_len), np.mean(v), 100.0 * np.sum(v) / total)
             )
         print("@@@total time per iter: %.2f ms" % (float(total) / num_elems))

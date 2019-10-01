@@ -185,8 +185,10 @@ class R2D2Actor : public Actor {
     input.push_back(jitObs);
     input.push_back(jitHid);
 
-    auto model = modelLocker_->getModel();
+    int id = -1;
+    auto model = modelLocker_->getModel(&id);
     auto output = model.get_method("act")(input).toTuple()->elements();
+    modelLocker_->releaseModel(id);
 
     auto action = utils::iValueToTensorDict(output[0], torch::kCPU, true);
     hidden_ = utils::iValueToTensorDict(output[1], torch::kCPU, true);
@@ -257,8 +259,10 @@ class R2D2Actor : public Actor {
   TensorDict getH0(int batchsize) {
     TorchJitInput input;
     input.push_back(batchsize);
-    auto model = modelLocker_->getModel();
+    int id = -1;
+    auto model = modelLocker_->getModel(&id);
     auto output = model.get_method("get_h0")(input);
+    modelLocker_->releaseModel(id);
     return utils::iValueToTensorDict(output, torch::kCPU, true);
   }
 
@@ -271,8 +275,10 @@ class R2D2Actor : public Actor {
     input.push_back(utils::tensorDictToTorchDict(hid, device));
     input.push_back(utils::tensorDictToTorchDict(nextHid, device));
 
-    auto model = modelLocker_->getModel();
+    int id = -1;
+    auto model = modelLocker_->getModel(&id);
     auto priority = model.get_method("compute_priority")(input).toTensor();
+    modelLocker_->releaseModel(id);
     return priority.detach().to(torch::kCPU);
   }
 
@@ -281,8 +287,10 @@ class R2D2Actor : public Actor {
     TorchJitInput input;
     input.push_back(priority);
     input.push_back(len);
-    auto model = modelLocker_->getModel();
+    int id = -1;
+    auto model = modelLocker_->getModel(&id);
     auto aggPriority = model.get_method("aggregate_priority")(input).toTensor();
+    modelLocker_->releaseModel(id);
     return aggPriority;
   }
 

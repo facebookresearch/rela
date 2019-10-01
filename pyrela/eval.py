@@ -9,7 +9,7 @@ import rela
 def evaluate(
     game_name, num_thread, model, device, actor_cls, seed, max_frame, eval_eps
 ):
-    model_locker = rela.ModelLocker(model._c, device)
+    model_locker = rela.ModelLocker([model], device)
     context, games = create_eval_env(
         game_name,
         num_thread,

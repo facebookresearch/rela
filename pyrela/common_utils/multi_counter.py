@@ -1,6 +1,7 @@
 import os
 from collections import defaultdict, Counter
 from datetime import datetime
+import numpy as np
 from tensorboardX import SummaryWriter
 
 

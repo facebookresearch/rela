@@ -77,7 +77,8 @@ PYBIND11_MODULE(rela, m) {
       .def("terminated", &Context::terminated);
 
   py::class_<ModelLocker, std::shared_ptr<ModelLocker>>(m, "ModelLocker")
-      .def(py::init<TorchJitModel, const std::string&>())
+      .def(py::init<std::vector<py::object>, const std::string&>())
+      // .def(py::init<TorchJitModel, const std::string&>())
       .def("update_model", &ModelLocker::updateModel);
 
   py::class_<Actor, std::shared_ptr<Actor>>(m, "Actor");

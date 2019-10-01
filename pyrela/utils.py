@@ -57,11 +57,11 @@ class Tachometer:
         num_act = get_num_acts(actors)
         act_rate = (num_act - self.num_act) / t
         num_buffer = replay_buffer.num_add()
-        buffer_rate = num_buffer - self.num_buffer
+        buffer_rate = (num_buffer - self.num_buffer) / t
         train_rate = num_train / t
         print(
-            "Speed: train: %.1f, act: %.1f, buffer-add: %.1f"
-            % (train_rate, act_rate, buffer_rate)
+            "Speed: train: %.1f, act: %.1f, buffer_add: %.1f, buffer_size: %d"
+            % (train_rate, act_rate, buffer_rate, replay_buffer.size())
         )
         self.num_act = num_act
         self.num_buffer = num_buffer
