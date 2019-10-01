@@ -1,8 +1,8 @@
 # Reinforcement Learning Assembly
 
-### build pytorch from source
+### Prerequisite
 
-Instruction for building PyTorch on devfair:
+load the following modules
 ```
 module purge
 module load cudnn/v7.4-cuda.10.0
@@ -14,6 +14,13 @@ export OMP_NUM_THREADS=1
 Get a clone of conda env with PyTorch compiled with `gcc7.4.0` from
 ```
 /private/home/hengyuan/miniconda3/envs/pytorch1.2
+```
+and add the following lines to `.bashrc` after `conda active conda-env`
+```
+CONDA_PREFIX=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
+export CPATH=${CONDA_PREFIX}/include:${CPATH}
+export LIBRARY_PATH=${CONDA_PREFIX}/lib:${LIBRARY_PATH}
+export LD_LIBRARY_PATH=${CONDA_PREFIX}/lib:${LD_LIBRARY_PATH}
 ```
 
 Or create your own conda env & compile pytorch with compiler of your choice
