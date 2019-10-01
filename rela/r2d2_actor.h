@@ -11,13 +11,15 @@ class R2D2TransitionBuffer {
       : batchsize_(batchsize)
       , multiStep_(multiStep)
       , seqLen_(seqLen)
+      , burnin_(burnin)
       , batchNextIdx_(batchsize, 0)
       , batchH0_(batchsize)
+      , batchNextH0_(batchsize)
       , batchSeqTransition_(batchsize, std::vector<FFTransition>(seqLen))
       , batchSeqPriority_(batchsize, std::vector<float>(seqLen))
       , batchLen_(batchsize, 0)
       , canPop_(false) {
-    assert(burnin == 0);
+    assert(2 * burnin_ <= seqLen_);
   }
 
   void push(const FFTransition& transition,
@@ -27,26 +29,37 @@ class R2D2TransitionBuffer {
 
     auto priorityAccessor = priority.accessor<float, 1>();
     for (int i = 0; i < batchsize_; ++i) {
-      int nextIdx = batchNextIdx_[i];
-      assert(nextIdx < seqLen_ && nextIdx >= 0);
-      if (nextIdx == 0) {
-        batchH0_[i] = utils::tensorDictNarrow(hid, 1, i, 1, true);
-      }
-
       auto t = transition.index(i);
-      // some sanity check for termination
-      if (nextIdx != 0) {
+
+      if (batchNextIdx_[i] == 0) {
+        // it does not matter here, should be reset after burnin
+        batchH0_[i] = utils::tensorDictNarrow(hid, 1, i, 1, true);
+        while (batchNextIdx_[i] < burnin_) {
+          batchSeqTransition_[i][batchNextIdx_[i]] = t.padLike();
+          batchSeqPriority_[i][batchNextIdx_[i]] = 0;
+          ++batchNextIdx_[i];
+        }
+      } else {
         // should not append after terminal
         // terminal should be processed when it is pushed
+        int nextIdx = batchNextIdx_[i];
         assert(!batchSeqTransition_[i][nextIdx - 1].terminal.item<bool>());
         assert(batchLen_[i] == 0);
+      }
+
+      int nextIdx = batchNextIdx_[i];
+      assert(nextIdx < seqLen_ && nextIdx >= 0);
+
+      if (nextIdx == (seqLen_ - burnin_)) {
+        // will become stored hidden for next trajectory
+        batchNextH0_[i] = utils::tensorDictNarrow(hid, 1, i, 1, true);
       }
 
       batchSeqTransition_[i][nextIdx] = t;
       batchSeqPriority_[i][nextIdx] = priorityAccessor[i];
 
       ++batchNextIdx_[i];
-      if (!t.terminal.item<bool>()) {
+      if (!t.terminal.item<bool>() && batchNextIdx_[i] < seqLen_) {
         continue;
       }
 
@@ -85,9 +98,21 @@ class R2D2TransitionBuffer {
                              batchH0_[i],
                              torch::tensor(float(batchLen_[i])));
       batchTransition.push_back(t);
+      if (batchLen_[i] < seqLen_) {
+        // terminal encountered, treat as fresh start
+        batchLen_[i] = 0;
+        batchNextIdx_[i] = 0;
+      } else {
+        for (int j = 0; j < burnin_; ++j) {
+          int k = seqLen_ - burnin_ + j;
+          batchSeqTransition_[i][j] = batchSeqTransition_[i][k];
+          batchSeqPriority_[i][j] = batchSeqPriority_[i][k];
+        }
+        batchH0_[i] = batchNextH0_[i];
 
-      batchLen_[i] = 0;
-      batchNextIdx_[i] = 0;
+        batchLen_[i] = 0;
+        batchNextIdx_[i] = burnin_;
+      }
     }
     canPop_ = false;
     assert(batchTransition.size() > 0);
@@ -101,9 +126,11 @@ class R2D2TransitionBuffer {
   const int batchsize_;
   const int multiStep_;
   const int seqLen_;
+  const int burnin_;
 
   std::vector<int> batchNextIdx_;
   std::vector<TensorDict> batchH0_;
+  std::vector<TensorDict> batchNextH0_;
 
   std::vector<std::vector<FFTransition>> batchSeqTransition_;
   std::vector<std::vector<float>> batchSeqPriority_;

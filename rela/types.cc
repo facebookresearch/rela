@@ -142,12 +142,12 @@ RNNTransition RNNTransition::makeBatch(std::vector<RNNTransition> transitions) {
   }
 
   RNNTransition batch;
-  batch.obs = utils::tensorDictJoin(obsVec, 0);
+  batch.obs = utils::tensorDictJoin(obsVec, 1);
   batch.h0 = utils::tensorDictJoin(h0Vec, 1);  // 1 is batch for rnn hid
-  batch.action = utils::tensorDictJoin(actionVec, 0);
-  batch.reward = torch::stack(rewardVec, 0);
-  batch.terminal = torch::stack(terminalVec, 0);
-  batch.bootstrap = torch::stack(bootstrapVec, 0);
+  batch.action = utils::tensorDictJoin(actionVec, 1);
+  batch.reward = torch::stack(rewardVec, 1);
+  batch.terminal = torch::stack(terminalVec, 1);
+  batch.bootstrap = torch::stack(bootstrapVec, 1);
   batch.seqLen = torch::stack(seqLenVec, 0).squeeze(1);
   return batch;
 }

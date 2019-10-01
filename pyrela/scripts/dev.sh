@@ -5,5 +5,5 @@ python main.py --save_dir exps/dev \
        --epoch_len 10 \
        --game boxing  \
        --algo apex \
-       --burn_in_frames 500 \
+       --burn_in_frames 50 \
        --batchsize 32 \

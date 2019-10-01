@@ -1,5 +1,7 @@
 #pragma once
 
+#include <pybind11/pybind11.h>
+
 #include "rela/types.h"
 
 namespace rela {
@@ -42,5 +44,18 @@ class ModelLocker {
   TorchJitModel model_;     // read-only model
   bool updated_;
 };
+
+
+// class ModelLocker2 {
+//  public:
+//   ModelLocker2(py::function model_cons)
+//       : model_cons_(model_cons) {
+//   }
+
+//  private:
+//   py::function model_cons_;
+//   std::vector<py::object> pyModels_;
+//   std::vector<TorchJitModel> models_;
+// }
 
 }  // namespace rela

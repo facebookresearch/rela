@@ -16,7 +16,7 @@ class ApexAgent(torch.jit.ScriptModule):
         self.target_net = net_cons()
 
     @classmethod
-    def clone(cls, model):
+    def clone(cls, model, **kwargs):
         cloned = cls(model.net_cons, model.multi_step, model.gamma)
         cloned.load_state_dict(model.state_dict())
         return cloned
@@ -46,6 +46,7 @@ class ApexAgent(torch.jit.ScriptModule):
     def greedy_act(self, obs: Dict[str, torch.Tensor]) -> torch.Tensor:
         legal_move = obs["legal_move"]
         q = self.online_net(obs).detach()
+        print(q)
         legal_q = (1 + q - q.min()) * legal_move
         # legal_q > 0 for legal_move and maintain correct orders
         greedy_action = legal_q.argmax(1)

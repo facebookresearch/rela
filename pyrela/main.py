@@ -8,17 +8,14 @@ import numpy as np
 import torch
 
 import create_atari
+import rela
 from apex import ApexAgent
-from net import AtariFFNet
+from r2d2 import R2D2Agent
+from net import AtariFFNet, AtariLSTMNet
 
-# from rainbow import RainbowAgent
-# from r2d2 import R2D2Agent
-# from create_envs import *
 import common_utils
 import utils
 from eval import evaluate
-
-import rela
 
 
 def parse_args():
@@ -73,7 +70,7 @@ def parse_args():
     parser.add_argument("--act_base_eps", type=float, default=0.4)
     parser.add_argument("--act_eps_alpha", type=float, default=7)
     parser.add_argument("--act_device", default="cuda:1", type=str)
-    parser.add_argument("--actor_sync_freq", default=10, type=int)
+    parser.add_argument("--actor_sync_freq", default=20, type=int)
 
     args = parser.parse_args()
     return args
@@ -90,20 +87,13 @@ if __name__ == "__main__":
     sys.stderr = common_utils.Logger(os.path.join(args.save_dir, "train.err"))
 
     num_action = create_atari.get_num_action(args.game)
-    # if args.algo == "r2d2":
-    #     assert False, "not enabled yet"
-    #     agent = R2D2Agent(
-    #         args.frame_stack,
-    #         args.hid_dim,
-    #         num_action,
-    #         args.multi_step,
-    #         args.gamma,
-    #         args.seq_burn_in,
-    #         args.eta,
-    #     )
-    #     replay_class = rela.RNNPrioritizedReplay
-    # elif args.algo == "apex":
-    if args.algo == "apex":
+    if args.algo == "r2d2":
+        net_cons = lambda device: AtariLSTMNet(device, num_action)
+        agent = R2D2Agent(
+            net_cons, args.train_device, args.multi_step, args.gamma, args.eta, args.seq_burn_in
+        )
+        replay_class = rela.RNNPrioritizedReplay
+    elif args.algo == "apex":
         net_cons = lambda: AtariFFNet(num_action)
         agent = ApexAgent(net_cons, args.multi_step, args.gamma)
         replay_class = rela.FFPrioritizedReplay
@@ -120,7 +110,13 @@ if __name__ == "__main__":
             agent.online_net.parameters(), lr=args.lr, eps=args.eps
         )
 
-    ref_model = agent.clone(agent)._c
+    ref_model0 = agent.clone(agent, device=args.act_device)
+    ref_model = ref_model0._c
+    zero = agent.clone(agent, device=args.act_device)
+    for p in zero.parameters():
+        p.data.zero_()
+    ref_model0.load_state_dict(zero.state_dict())
+
     model_locker = rela.ModelLocker(ref_model, args.act_device)
     replay_buffer = replay_class(
         args.replay_buffer_size,
@@ -134,20 +130,19 @@ if __name__ == "__main__":
         args.act_eps_alpha,
         args.num_thread * args.num_game_per_thread,
     )
-    # print("actor eps:", actor_eps)
-    # if args.algo == "r2d2":
-    #     actor_cls = rela.R2D2Actor
-    #     actor_creator = lambda i: rela.R2D2Actor(
-    #         model_locker,
-    #         args.multi_step,
-    #         args.num_game_per_thread,
-    #         args.gamma,
-    #         args.seq_len,
-    #         args.seq_burn_in,
-    #         actor_eps[i],
-    #         replay_buffer,
-    #     )
-    if args.algo == "apex":
+
+    if args.algo == "r2d2":
+        actor_cls = rela.R2D2Actor
+        actor_creator = lambda i: rela.R2D2Actor(
+            model_locker,
+            args.multi_step,
+            args.num_game_per_thread,
+            args.gamma,
+            args.seq_len,
+            args.seq_burn_in,
+            replay_buffer,
+        )
+    elif args.algo == "apex":
         actor_cls = rela.DQNActor
         actor_creator = lambda i: rela.DQNActor(
             model_locker,
@@ -190,7 +185,7 @@ if __name__ == "__main__":
                 agent.sync_target_with_online()
 
             if num_update % args.actor_sync_freq == 0:
-                ref_model = agent.clone(agent)._c
+                ref_model = agent.clone(agent, device=args.act_device)._c
                 model_locker.update_model(ref_model)
             stopwatch.time("sync and updating")
 
@@ -229,7 +224,7 @@ if __name__ == "__main__":
         stopwatch.summary()
 
         context.pause()
-        eval_model = agent.clone(agent)
+        eval_model = agent.clone(agent, device="cpu")
 
         score = evaluate(
             args.game,
