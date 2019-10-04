@@ -29,6 +29,8 @@ def parse_args():
     parser.add_argument("--seq_len", type=int, default=80)
     parser.add_argument("--eta", type=float, default=0.9)
 
+    parser.add_argument("--use_prefetcher",type=bool, default=True)
+
     # game settings
     parser.add_argument("--game", type=str, default="boxing")
     parser.add_argument("--seed", type=int, default=10002)
@@ -92,11 +94,18 @@ if __name__ == "__main__":
         agent = R2D2Agent(
             net_cons, args.train_device, args.multi_step, args.gamma, args.eta, args.seq_burn_in
         )
-        replay_class = rela.RNNPrioritizedReplay
+        if args.use_prefetcher:
+            replay_class = rela.RNNPrefetcher
+        else:
+            replay_class = rela.RNNPrioritizedReplay
     elif args.algo == "apex":
         net_cons = lambda: AtariFFNet(num_action)
         agent = ApexAgent(net_cons, args.multi_step, args.gamma)
-        replay_class = rela.FFPrioritizedReplay
+        if args.use_prefetcher:
+            replay_class = rela.FFPrefetcher
+        else:
+            replay_class = rela.FFPrioritizedReplay
+
 
     agent = agent.to(args.train_device)
     print(agent)
