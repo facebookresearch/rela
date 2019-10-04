@@ -44,7 +44,7 @@ def parse_args():
     # parser.add_argument("--adam_eps", type=float, default=1e-3, help="Adam epsilon")
     parser.add_argument("--train_device", type=str, default="cuda:0")
     parser.add_argument("--batchsize", default=512, type=int, help="for train")
-    parser.add_argument("--num_epoch", type=int, default=3000)
+    parser.add_argument("--num_epoch", type=int, default=50)
     parser.add_argument("--epoch_len", type=int, default=1000)
     parser.add_argument("--num_update_between_sync", type=int, default=2500)
 
@@ -118,6 +118,7 @@ if __name__ == "__main__":
         args.seed,
         args.priority_exponent,
         args.importance_exponent,
+        args.batchsize,
     )
 
     explore_eps = utils.generate_eps(
@@ -190,7 +191,7 @@ if __name__ == "__main__":
                 torch.cuda.synchronize()
                 stopwatch.time("sync and updating")
 
-            batch, weight = replay_buffer.sample(args.batchsize)
+            batch, weight = replay_buffer.sample()
             stopwatch.time("sample data")
 
             if stopwatch is not None:
@@ -258,3 +259,4 @@ if __name__ == "__main__":
 
         stat.summary(epoch)
         print("****************************************")
+    replay_buffer.signal_done()

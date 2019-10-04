@@ -37,22 +37,26 @@ PYBIND11_MODULE(rela, m) {
       .def(py::init<int,       // capacity,
                     int,       // seed,
                     float,     // alpha, priority exponent
-                    float>())  // beta, importance sampling exponent
+                    float,     // beta, importance sampling exponent
+                    int>())    // batch size for experience replay
       .def("size", &FFPrioritizedReplay::size)
       .def("num_add", &FFPrioritizedReplay::numAdd)
       .def("sample", &FFPrioritizedReplay::sample)
-      .def("update_priority", &FFPrioritizedReplay::updatePriority);
+      .def("update_priority", &FFPrioritizedReplay::updatePriority)
+      .def("signal_done", &FFPrioritizedReplay::signalDone);
 
   py::class_<RNNPrioritizedReplay, std::shared_ptr<RNNPrioritizedReplay>>(
       m, "RNNPrioritizedReplay")
       .def(py::init<int,       // capacity,
                     int,       // seed,
                     float,     // alpha, priority exponent
-                    float>())  // beta, importance sampling exponent
+                    float,     // beta, importance sampling exponent
+                    int>())    // batch size for experience replay 
       .def("size", &RNNPrioritizedReplay::size)
       .def("num_add", &RNNPrioritizedReplay::numAdd)
       .def("sample", &RNNPrioritizedReplay::sample)
-      .def("update_priority", &RNNPrioritizedReplay::updatePriority);
+      .def("update_priority", &RNNPrioritizedReplay::updatePriority)
+      .def("signal_done", &RNNPrioritizedReplay::signalDone);
 
   py::class_<Env, std::shared_ptr<Env>>(m, "Env");
 
