@@ -8,6 +8,7 @@
 #include "rela/prioritized_replay.h"
 #include "rela/r2d2_actor.h"
 #include "rela/thread_loop.h"
+#include "rela/prefetcher.h"
 
 // #include "rpc/rpc_env.h"
 
@@ -53,6 +54,14 @@ PYBIND11_MODULE(rela, m) {
       .def("num_add", &RNNPrioritizedReplay::numAdd)
       .def("sample", &RNNPrioritizedReplay::sample)
       .def("update_priority", &RNNPrioritizedReplay::updatePriority);
+
+  py::class_<FFPrefetcher, std::shared_ptr<FFPrefetcher>>(
+      m, "FFPrefetcher")
+      .def(py::init<std::shared_ptr<FFPrioritizedReplay>>());
+
+  py::class_<RNNPrefetcher, std::shared_ptr<RNNPrefetcher>>(
+      m, "RNNPrefetcher")
+      .def(py::init<std::shared_ptr<RNNPrioritizedReplay>>());
 
   py::class_<Env, std::shared_ptr<Env>>(m, "Env");
 
