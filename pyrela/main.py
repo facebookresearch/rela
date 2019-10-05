@@ -94,17 +94,11 @@ if __name__ == "__main__":
         agent = R2D2Agent(
             net_cons, args.train_device, args.multi_step, args.gamma, args.eta, args.seq_burn_in
         )
-        if args.use_prefetcher:
-            replay_class = rela.RNNPrefetcher
-        else:
-            replay_class = rela.RNNPrioritizedReplay
+        replay_class = rela.RNNPrioritizedReplay
     elif args.algo == "apex":
         net_cons = lambda: AtariFFNet(num_action)
         agent = ApexAgent(net_cons, args.multi_step, args.gamma)
-        if args.use_prefetcher:
-            replay_class = rela.FFPrefetcher
-        else:
-            replay_class = rela.FFPrioritizedReplay
+        replay_class = rela.FFPrioritizedReplay
 
 
     agent = agent.to(args.train_device)
@@ -128,6 +122,10 @@ if __name__ == "__main__":
         args.priority_exponent,
         args.importance_exponent,
     )
+    
+    if args.use_prefetcher:
+        prefetcher_class = rela.RNNPrefetcher if args.algo == "r2d2" else rela.FFPrefetcher
+        prefetcher = prefetcher_class(replay_buffer, args.batchsize)
 
     explore_eps = utils.generate_eps(
         args.act_base_eps,
@@ -199,7 +197,10 @@ if __name__ == "__main__":
                 torch.cuda.synchronize()
                 stopwatch.time("sync and updating")
 
-            batch, weight = replay_buffer.sample(args.batchsize)
+            if args.use_prefetcher:
+                batch, weight = prefetcher.sample()
+            else:
+                batch, weight = replay_buffer.sample(args.batchsize)
             stopwatch.time("sample data")
 
             if stopwatch is not None:
@@ -230,8 +231,11 @@ if __name__ == "__main__":
             if stopwatch is not None:
                 torch.cuda.synchronize()
                 stopwatch.time("backprop & update")
-
-            replay_buffer.update_priority(priority)
+            
+            if args.use_prefetcher:
+                prefetcher.update_priority(priority)
+            else:
+                replay_buffer.update_priority(priority)
             if stopwatch is not None:
                 stopwatch.time("updating priority")
 
