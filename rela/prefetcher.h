@@ -24,10 +24,10 @@ class Prefetcher {
   std::tuple<DataType, torch::Tensor> sample() {
     wait_for_buffer_to_fill();
 
-    m_buffer.lock();
+    mBuffer_.lock();
     std::tuple<DataType, torch::Tensor> currSample = sampleBuffer_.front();
     sampleBuffer_.pop_front();
-    m_buffer.unlock();
+    mBuffer_.unlock();
     return currSample;
   }
 
@@ -36,13 +36,13 @@ class Prefetcher {
     assert(std::abs((int)sampledIndices_.size() - (int)sampleBuffer_.size()) <
            3);
 
-    m_indices.lock();
+    mIndices_.lock();
     std::vector<int> currIndices = sampledIndices_.front();
     sampledIndices_.pop_front();
-    m_indices.unlock();
+    mIndices_.unlock();
     replayer_->updatePrefetcherPriority(priority, currIndices);
 
-    cv_fill_buffer.notify_one();
+    cvFillBuffer_.notify_one();
   }
 
   ~Prefetcher() {
@@ -58,7 +58,7 @@ class Prefetcher {
     while (true) {
       wait_to_fill_buffer();
       if (done_) {
-        cv_done.notify_one();
+        cvDone_.notify_one();
         return;
       }
       sample_batch();
@@ -66,48 +66,48 @@ class Prefetcher {
   }
 
   void wait_to_fill_buffer() {
-    std::unique_lock<std::mutex> lg(m_buffer);
+    std::unique_lock<std::mutex> lg(mBuffer_);
     while ((size_t)sampleBuffer_.size() > bufferSize_ ||
            (size_t)replayer_->size() < 2 * batchsize_) {
       if (done_)
         break;
-      cv_fill_buffer.wait(lg);
+      cvFillBuffer_.wait(lg);
     }
   }
 
   void wait_for_buffer_to_fill() {
     if ((size_t)replayer_->size() >= 2 * batchsize_)
-      cv_fill_buffer.notify_one();
-    std::unique_lock<std::mutex> lg(m_buffer);
+      cvFillBuffer_.notify_one();
+    std::unique_lock<std::mutex> lg(mBuffer_);
     while (sampleBuffer_.size() == 0) {
-      cv_buffer_empty.wait(lg);
+      cvBufferEmpty_.wait(lg);
     }
   }
 
   void sample_batch() {
     std::tuple<DataType, torch::Tensor> batch = replayer_->sample(batchsize_);
     std::vector<int> indices = replayer_->getSampledIndices();
-    m_indices.lock();
+    mIndices_.lock();
     sampledIndices_.push_back(indices);
-    m_indices.unlock();
+    mIndices_.unlock();
 
-    m_buffer.lock();
+    mBuffer_.lock();
     sampleBuffer_.push_back(batch);
-    m_buffer.unlock();
+    mBuffer_.unlock();
 
     replayer_->clearSampledIndices();
-    cv_buffer_empty.notify_one();
+    cvBufferEmpty_.notify_one();
   }
 
   void signalDone() {
     done_ = true;
-    cv_fill_buffer.notify_one();
+    cvFillBuffer_.notify_one();
   }
 
   void wait() {
-    std::unique_lock<std::mutex> lg(m_buffer);
+    std::unique_lock<std::mutex> lg(mBuffer_);
     while (!done_) {
-      cv_done.wait(lg);
+      cvDone_.wait(lg);
     }
   }
 
@@ -119,12 +119,12 @@ class Prefetcher {
 
   bool done_;
 
-  std::mutex m_indices;
-  std::mutex m_buffer;
+  std::mutex mIndices_;
+  std::mutex mBuffer_;
 
-  std::condition_variable cv_buffer_empty;
-  std::condition_variable cv_fill_buffer;
-  std::condition_variable cv_done;
+  std::condition_variable cvBufferEmpty_;
+  std::condition_variable cvFillBuffer_;
+  std::condition_variable cvDone_;
 
   std::shared_ptr<PrioritizedReplay> replayer_;
   std::thread sampleThr_;
