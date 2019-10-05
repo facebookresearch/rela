@@ -29,7 +29,7 @@ def parse_args():
     parser.add_argument("--seq_len", type=int, default=80)
     parser.add_argument("--eta", type=float, default=0.9)
 
-    parser.add_argument("--use_prefetcher",type=bool, default=True)
+    parser.add_argument("--use_prefetcher", type=bool, default=False)
 
     # game settings
     parser.add_argument("--game", type=str, default="boxing")
@@ -92,14 +92,18 @@ if __name__ == "__main__":
     if args.algo == "r2d2":
         net_cons = lambda device: AtariLSTMNet(device, num_action)
         agent = R2D2Agent(
-            net_cons, args.train_device, args.multi_step, args.gamma, args.eta, args.seq_burn_in
+            net_cons,
+            args.train_device,
+            args.multi_step,
+            args.gamma,
+            args.eta,
+            args.seq_burn_in,
         )
         replay_class = rela.RNNPrioritizedReplay
     elif args.algo == "apex":
         net_cons = lambda: AtariFFNet(num_action)
         agent = ApexAgent(net_cons, args.multi_step, args.gamma)
         replay_class = rela.FFPrioritizedReplay
-
 
     agent = agent.to(args.train_device)
     print(agent)
@@ -122,9 +126,11 @@ if __name__ == "__main__":
         args.priority_exponent,
         args.importance_exponent,
     )
-    
+
     if args.use_prefetcher:
-        prefetcher_class = rela.RNNPrefetcher if args.algo == "r2d2" else rela.FFPrefetcher
+        prefetcher_class = (
+            rela.RNNPrefetcher if args.algo == "r2d2" else rela.FFPrefetcher
+        )
         prefetcher = prefetcher_class(replay_buffer, args.batchsize)
 
     explore_eps = utils.generate_eps(
@@ -231,11 +237,12 @@ if __name__ == "__main__":
             if stopwatch is not None:
                 torch.cuda.synchronize()
                 stopwatch.time("backprop & update")
-            
+
             if args.use_prefetcher:
                 prefetcher.update_priority(priority)
             else:
                 replay_buffer.update_priority(priority)
+
             if stopwatch is not None:
                 stopwatch.time("updating priority")
 
@@ -255,14 +262,7 @@ if __name__ == "__main__":
         context.pause()
         eval_model = agent.clone(agent, device="cpu")
         score = evaluate(
-            args.game,
-            10,
-            eval_model,
-            "cpu",
-            actor_cls,
-            epoch + 999,
-            args.max_frame,
-            0,
+            args.game, 10, eval_model, "cpu", actor_cls, epoch + 999, args.max_frame, 0
         )
 
         print("epoch %d, eval score: %f" % (epoch, score))
