@@ -3,6 +3,7 @@ import os
 import sys
 import argparse
 import pprint
+import json
 
 import numpy as np
 import torch
@@ -36,6 +37,9 @@ def parse_args():
         "--max_frame", type=int, default=108000, help="30min of gameplay (50fps)"
     )
     parser.add_argument("--gamma", type=float, default=0.997, help="discount factor")
+    parser.add_argument("--game_training_proportion", type=str, default=None, help="""
+    dictionary mapping game to proportion of games to make in training, sum of values = 1
+    """)
 
     # optimization/training settings
     parser.add_argument("--lr", type=float, default=6.25e-5, help="learning rate")
@@ -146,6 +150,9 @@ if __name__ == "__main__":
             args.gamma,
             replay_buffer,
         )
+    
+    if args.game_training_proportion is not None:
+        args.game_training_proportion = json.loads(args.game_training_proportion)    
 
     print("creating train env")
     context, games, actors = create_atari.create_train_env(
@@ -156,6 +163,7 @@ if __name__ == "__main__":
         args.num_thread,
         args.num_game_per_thread,
         actor_creator,
+        args.game_training_proportion,
     )
 
     context.start()

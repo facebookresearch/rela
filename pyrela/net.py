@@ -47,7 +47,7 @@ class AtariFFNet(torch.jit.ScriptModule):
         h = self.linear(h)
         v = self.fc_v(h)  # .view(-1, 1)
         a = self.fc_a(h)  # .view(-1, self.num_action)
-
+        
         return self.duel(v, a, legal_move)
 
 

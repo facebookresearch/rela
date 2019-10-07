@@ -1,4 +1,4 @@
-export job_name='exps/apex_pong'
+export job_name='exps/apex_pong_no_prefetch'
 mkdir -p ${job_name}
 sbatch --job-name $job_name \
        --mem 500G \

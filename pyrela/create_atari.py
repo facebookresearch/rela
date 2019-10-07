@@ -68,16 +68,29 @@ def create_train_env(
     num_thread,
     num_game_per_thread,
     actor_creator,
+    game_training_proportion,
     *,
     terminal_on_life_loss=False,
     terminal_signal_on_life_loss=True,
 ):
+    if game_training_proportion is not None: 
+        if sum(game_training_proportion.values()) != 1:
+            print ("The game proportions must sum to 1")
+            assert False
+        total_game_number = num_thread * num_game_per_thread
+        game_training_proportion = {key: value * total_game_number for key, value in game_trianing_proportion.items()}
+        print ("going to create the following games", game_training_proportion)
     context = rela.Context()
     games = []
     actors = []
     for thread_idx in range(num_thread):
         env = rela.VectorEnv()
         for game_idx in range(num_game_per_thread):
+            if game_training_proportion is not None:
+                game_name = game_training_proportion.keys()[0]
+                game_training_proportion[game_name] -= 1
+                if game_training_proportion[game_name] == 0:
+                    del game_training_proportion[game_name]
             game = create_game(
                 game_name,
                 seed + thread_idx * num_game_per_thread + game_idx,
