@@ -1,4 +1,4 @@
-export job_name='exps/apex_pong'
+export job_name='exps/apex_ms_pacman_prefetcher'
 mkdir -p ${job_name}
 sbatch --job-name $job_name \
        --mem 500G \
@@ -14,7 +14,7 @@ sbatch --job-name $job_name \
        --wrap "
 #!/bin/bash
 python main.py \
-       --game pong \
+       --game ms_pacman \
        --save_dir ${job_name} \
        --num_thread 80 \
        --num_game_per_thread 20 \
@@ -22,4 +22,5 @@ python main.py \
        --eps 1.5e-7 \
        --algo apex \
        --actor_sync_freq 20 \
+       --use_prefetcher True
 "
