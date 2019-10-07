@@ -22,7 +22,7 @@ class Prefetcher {
   }
 
   std::tuple<DataType, torch::Tensor> sample() {
-    wait_for_buffer_to_fill();
+    waitForBufferToFill();
 
     mBuffer_.lock();
     std::tuple<DataType, torch::Tensor> currSample = sampleBuffer_.front();
@@ -56,16 +56,16 @@ class Prefetcher {
  private:
   void workerThread() {
     while (true) {
-      wait_to_fill_buffer();
+      waitToFillBuffer();
       if (done_) {
         cvDone_.notify_one();
         return;
       }
-      sample_batch();
+      sampleBatch();
     }
   }
 
-  void wait_to_fill_buffer() {
+  void waitToFillBuffer() {
     std::unique_lock<std::mutex> lg(mBuffer_);
     while ((size_t)sampleBuffer_.size() > bufferSize_ ||
            (size_t)replayer_->size() < 2 * batchsize_) {
@@ -75,7 +75,7 @@ class Prefetcher {
     }
   }
 
-  void wait_for_buffer_to_fill() {
+  void waitForBufferToFill() {
     if ((size_t)replayer_->size() >= 2 * batchsize_)
       cvFillBuffer_.notify_one();
     std::unique_lock<std::mutex> lg(mBuffer_);
@@ -84,7 +84,7 @@ class Prefetcher {
     }
   }
 
-  void sample_batch() {
+  void sampleBatch() {
     std::tuple<DataType, torch::Tensor> batch = replayer_->sample(batchsize_);
     std::vector<int> indices = replayer_->getSampledIndices();
     mIndices_.lock();

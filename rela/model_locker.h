@@ -45,7 +45,6 @@ namespace rela {
 //   bool updated_;
 // };
 
-
 class ModelLocker {
  public:
   ModelLocker(std::vector<py::object> pyModels, const std::string& device)
