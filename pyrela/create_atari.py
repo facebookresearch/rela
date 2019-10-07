@@ -78,8 +78,10 @@ def create_train_env(
             print ("The game proportions must sum to 1")
             assert False
         total_game_number = num_thread * num_game_per_thread
-        game_training_proportion = {key: value * total_game_number for key, value in game_trianing_proportion.items()}
+        game_training_proportion = {key: value * total_game_number for key, value in game_training_proportion.items()}
         print ("going to create the following games", game_training_proportion)
+    else:
+        print ("not doing heterogeneous dev")
     context = rela.Context()
     games = []
     actors = []
@@ -87,7 +89,7 @@ def create_train_env(
         env = rela.VectorEnv()
         for game_idx in range(num_game_per_thread):
             if game_training_proportion is not None:
-                game_name = game_training_proportion.keys()[0]
+                game_name = list(game_training_proportion.keys())[0]
                 game_training_proportion[game_name] -= 1
                 if game_training_proportion[game_name] == 0:
                     del game_training_proportion[game_name]

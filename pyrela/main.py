@@ -152,7 +152,9 @@ if __name__ == "__main__":
         )
     
     if args.game_training_proportion is not None:
-        args.game_training_proportion = json.loads(args.game_training_proportion)    
+        args.game_training_proportion = json.loads(args.game_training_proportion)  
+    else:
+        print ("args is none")  
 
     print("creating train env")
     context, games, actors = create_atari.create_train_env(
