@@ -40,8 +40,8 @@ class Prefetcher {
     std::vector<int> currIndices = sampledIndices_.front();
     sampledIndices_.pop_front();
     mIndices_.unlock();
-    replayer_->updatePrefetcherPriority(priority, currIndices);
 
+    replayer_->updatePrefetcherPriority(priority, currIndices);
     cvFillBuffer_.notify_one();
   }
 
@@ -87,6 +87,7 @@ class Prefetcher {
   void sampleBatch() {
     std::tuple<DataType, torch::Tensor> batch = replayer_->sample(batchsize_);
     std::vector<int> indices = replayer_->getSampledIndices();
+
     mIndices_.lock();
     sampledIndices_.push_back(indices);
     mIndices_.unlock();

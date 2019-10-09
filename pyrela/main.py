@@ -29,7 +29,11 @@ def parse_args():
     parser.add_argument("--seq_len", type=int, default=80)
     parser.add_argument("--eta", type=float, default=0.9)
 
-    parser.add_argument("--use_prefetcher", type=bool, default=False)
+    #prefetcher settings
+#    parser.set_defaults(use_prefetcher=False)
+    parser.add_argument("--prefetcher", dest="use_prefetcher", action="store_true")
+    parser.add_argument("--no_prefetcher", dest="use_prefetcher", action="store_false")
+    parser.set_defaults(use_prefetcher=False)
 
     # game settings
     parser.add_argument("--game", type=str, default="boxing")
@@ -89,6 +93,7 @@ if __name__ == "__main__":
     sys.stderr = common_utils.Logger(os.path.join(args.save_dir, "train.err"))
 
     num_action = create_atari.get_num_action(args.game)
+    print (args)
     if args.algo == "r2d2":
         net_cons = lambda device: AtariLSTMNet(device, num_action)
         agent = R2D2Agent(
