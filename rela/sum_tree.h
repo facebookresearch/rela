@@ -71,7 +71,8 @@ class SumTree {
     for (int i = 0; i < batchsize; i++) {
       float weight;
       int idx;
-      const auto& sample = find_(values[i], &weight, &idx);
+      float v = std::min(values[i], tree_[0]);
+      const auto& sample = find_(v, &weight, &idx);
       indices[i] = idx;
       weightAccessor[i] = weight;
       samples.push_back(sample);
