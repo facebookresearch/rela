@@ -151,7 +151,7 @@ class R2D2Actor : public Actor {
       : batchsize_(batchsize)
       , modelLocker_(std::move(modelLocker))
       , r2d2Buffer_(batchsize, multiStep, seqLen, burnin)
-      , multiStepBuffer_(multiStep, batchsize, gamma)
+      , multiStepBuffer_(multiStep, batchsize, gamma, 0)
       , replayBuffer_(std::move(replayBuffer))
       , hidden_(getH0(batchsize))
       , numAct_(0) {
@@ -161,7 +161,7 @@ class R2D2Actor : public Actor {
       : batchsize_(1)
       , modelLocker_(std::move(modelLocker))
       , r2d2Buffer_(1, 1, 1, 0)
-      , multiStepBuffer_(1, 1, 1)
+      , multiStepBuffer_(1, 1, 1, 0)
       , replayBuffer_(nullptr)
       , hidden_(getH0(1))
       , numAct_(0) {

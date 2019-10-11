@@ -88,6 +88,7 @@ PYBIND11_MODULE(rela, m) {
                     int,                                      // multiStep
                     int,                                      // batchsize
                     float,                                    // gamma
+                    int,                                      // gameNumber
                     std::shared_ptr<FFPrioritizedReplay>>())  // replayBuffer
       .def(py::init<std::shared_ptr<ModelLocker>>())          // evaluation mode
       .def("num_act", &DQNActor::numAct);

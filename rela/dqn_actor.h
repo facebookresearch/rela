@@ -12,10 +12,11 @@ namespace rela {
 
 class MultiStepTransitionBuffer {
  public:
-  MultiStepTransitionBuffer(int multiStep, int batchsize, float gamma)
+  MultiStepTransitionBuffer(int multiStep, int batchsize, float gamma, int gameNum)
       : multiStep_(multiStep)
       , batchsize_(batchsize)
-      , gamma_(gamma) {
+      , gamma_(gamma)
+      , gameNum_(gameNum) {
   }
 
   void pushObsAndAction(TensorDict& obs, TensorDict& action) {
@@ -66,10 +67,10 @@ class MultiStepTransitionBuffer {
     auto bootstrapAccessor = bootstrap.accessor<float, 1>();
 
     std::vector<int> nextObsIndices(batchsize_);
-    // calculate bootstrap and nextState indices
+    // calculate bootstrap and nextState indice
     for (int i = 0; i < batchsize_; i++) {
       for (int step = 0; step < multiStep_; step++) {
-        // next state is step (shouldn't be used anyways)
+        // next state is step (shouldn't be useCd anyways)
         if (terminalHistory_[step][i].item<bool>()) {
           bootstrapAccessor[i] = 0.0;
           nextObsIndices[i] = step;
@@ -100,7 +101,11 @@ class MultiStepTransitionBuffer {
     actionHistory_.pop_front();
     rewardHistory_.pop_front();
     terminalHistory_.pop_front();
-    return FFTransition(obs, action, reward, terminal, bootstrap, nextObs);
+
+    auto gameNum = torch::tensor(std::vector<int> {gameNum_});
+    std::cout << "game num tensor is: " << gameNum << " " << gameNum_ << std::endl;
+    return FFTransition(obs, action, reward, terminal, bootstrap, nextObs, gameNum);
+
   }
 
   void clear() {
@@ -114,6 +119,7 @@ class MultiStepTransitionBuffer {
   const int multiStep_;
   const int batchsize_;
   const float gamma_;
+  const int gameNum_;
 
   std::deque<TensorDict> obsHistory_;
   std::deque<TensorDict> actionHistory_;
@@ -127,10 +133,11 @@ class DQNActor : public Actor {
            int multiStep,
            int batchsize,
            float gamma,
+           int gameNum,
            std::shared_ptr<FFPrioritizedReplay> replayBuffer)
       : batchsize_(batchsize)
       , modelLocker_(std::move(modelLocker))
-      , transitionBuffer_(multiStep, batchsize, gamma)
+      , transitionBuffer_(multiStep, batchsize, gamma, gameNum)
       , replayBuffer_(replayBuffer)
       , numAct_(0) {
   }
@@ -139,7 +146,7 @@ class DQNActor : public Actor {
   DQNActor(std::shared_ptr<ModelLocker> modelLocker)
       : batchsize_(1)
       , modelLocker_(std::move(modelLocker))
-      , transitionBuffer_(1, 1, 1)
+      , transitionBuffer_(1, 1, 1, 0)
       , replayBuffer_(nullptr)
       , numAct_(0) {
   }

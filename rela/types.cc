@@ -10,6 +10,7 @@ FFTransition FFTransition::makeBatch(std::vector<FFTransition> transitions) {
   std::vector<torch::Tensor> terminalVec;
   std::vector<torch::Tensor> bootstrapVec;
   TensorVecDict nextObsVec;
+  std::vector<torch::Tensor> gameNumVec;
 
   for (size_t i = 0; i < transitions.size(); i++) {
     utils::tensorVecDictAppend(obsVec, transitions[i].obs);
@@ -18,6 +19,7 @@ FFTransition FFTransition::makeBatch(std::vector<FFTransition> transitions) {
     terminalVec.push_back(transitions[i].terminal);
     bootstrapVec.push_back(transitions[i].bootstrap);
     utils::tensorVecDictAppend(nextObsVec, transitions[i].nextObs);
+    gameNumVec.push_back(transitions[i].gameNum);
   }
 
   FFTransition batch;
@@ -27,6 +29,7 @@ FFTransition FFTransition::makeBatch(std::vector<FFTransition> transitions) {
   batch.terminal = torch::stack(terminalVec, 0);
   batch.bootstrap = torch::stack(bootstrapVec, 0);
   batch.nextObs = utils::tensorDictJoin(nextObsVec, 0);
+  batch.gameNum = torch::stack(gameNumVec, 0);
   return batch;
 }
 
