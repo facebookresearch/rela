@@ -1,0 +1,2906 @@
+R2D2Agent(
+  (online_net): AtariLSTMNet(
+    (net): _ConstSequential(
+      (0): WeakScriptModuleProxy()
+      (1): WeakScriptModuleProxy()
+      (2): WeakScriptModuleProxy()
+      (3): WeakScriptModuleProxy()
+      (4): WeakScriptModuleProxy()
+      (5): WeakScriptModuleProxy()
+      (6): WeakScriptModuleProxy()
+      (7): WeakScriptModuleProxy()
+    )
+    (linear): Sequential(
+      (0): Linear(in_features=1600, out_features=512, bias=True)
+      (1): ReLU()
+    )
+    (lstm): WeakScriptModuleProxy()
+    (fc_v): WeakScriptModuleProxy()
+    (fc_a): WeakScriptModuleProxy()
+  )
+  (target_net): AtariLSTMNet(
+    (net): _ConstSequential(
+      (0): WeakScriptModuleProxy()
+      (1): WeakScriptModuleProxy()
+      (2): WeakScriptModuleProxy()
+      (3): WeakScriptModuleProxy()
+      (4): WeakScriptModuleProxy()
+      (5): WeakScriptModuleProxy()
+      (6): WeakScriptModuleProxy()
+      (7): WeakScriptModuleProxy()
+    )
+    (linear): Sequential(
+      (0): Linear(in_features=1600, out_features=512, bias=True)
+      (1): ReLU()
+    )
+    (lstm): WeakScriptModuleProxy()
+    (fc_v): WeakScriptModuleProxy()
+    (fc_a): WeakScriptModuleProxy()
+  )
+)
+creating train env
+Finished creating environments with 1600 games
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 0
+warming up replay buffer: 20
+warming up replay buffer: 60
+warming up replay buffer: 120
+warming up replay buffer: 160
+warming up replay buffer: 180
+warming up replay buffer: 180
+warming up replay buffer: 240
+warming up replay buffer: 360
+warming up replay buffer: 540
+warming up replay buffer: 980
+warming up replay buffer: 1280
+warming up replay buffer: 1360
+warming up replay buffer: 1540
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1600
+warming up replay buffer: 1620
+warming up replay buffer: 1640
+warming up replay buffer: 1720
+warming up replay buffer: 1760
+warming up replay buffer: 1780
+warming up replay buffer: 1800
+warming up replay buffer: 1900
+warming up replay buffer: 2020
+warming up replay buffer: 2260
+warming up replay buffer: 2560
+warming up replay buffer: 2880
+warming up replay buffer: 3020
+warming up replay buffer: 3180
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3200
+warming up replay buffer: 3220
+warming up replay buffer: 3220
+warming up replay buffer: 3240
+warming up replay buffer: 3320
+warming up replay buffer: 3340
+warming up replay buffer: 3360
+warming up replay buffer: 3400
+warming up replay buffer: 3480
+warming up replay buffer: 3600
+warming up replay buffer: 3780
+Beginning of Epoch 0
+Mem usage: available: 467.897 GB, used: 32.629 GB, free: 457.934 GB
+epoch: 0, time: 169.4s, total time(train): 0H 02M 49S
+Speed: train: 75.6, act: 6711.0, buffer_add: 76.3, buffer_size: 12920
+Total Sample: train: 12.8K, act: 1.137M
+@@@Time
+	sync and updating: 1 MS, 0.16%
+	sample data      : 253 MS, 29.96%
+	device conversion: 44 MS, 5.20%
+	calculating loss : 340 MS, 40.22%
+	backprop & update: 206 MS, 24.44%
+	updating priority: 0 MS, 0.01%
+@@@total time per iter: 846.83 ms
+epoch 0, eval score: 30.000000
+[0] Time spent = 187.68 s
+0:eval_score  [   1]: avg:  30.0000, min:  30.0000[   0], max:  30.0000[   0]
+0:grad_norm   [ 200]: avg:   0.3347, min:   0.0092[ 198], max:   2.1521[  12]
+0:loss        [ 200]: avg:   0.1321, min:   0.0378[  65], max:   0.2606[ 148]
+****************************************
+Beginning of Epoch 1
+Mem usage: available: 438.140 GB, used: 62.385 GB, free: 428.140 GB
+epoch: 1, time: 172.0s, total time(train): 0H 05M 41S
+Speed: train: 74.4, act: 4372.2, buffer_add: 55.1, buffer_size: 22400
+Total Sample: train: 25.6K, act: 1.889M
+@@@Time
+	sync and updating: 1 MS, 0.18%
+	sample data      : 276 MS, 32.19%
+	device conversion: 43 MS, 5.02%
+	calculating loss : 334 MS, 38.89%
+	backprop & update: 203 MS, 23.71%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 859.70 ms
+epoch 1, eval score: 30.000000
+[1] Time spent = 190.18 s
+1:eval_score  [   1]: avg:  30.0000, min:  30.0000[   0], max:  30.0000[   0]
+1:grad_norm   [ 200]: avg:   0.0763, min:   0.0087[ 127], max:   0.3766[  69]
+1:loss        [ 200]: avg:   0.1590, min:   0.0629[  59], max:   0.2921[ 181]
+****************************************
+Beginning of Epoch 2
+Mem usage: available: 407.095 GB, used: 93.430 GB, free: 397.095 GB
+epoch: 2, time: 170.7s, total time(train): 0H 08M 32S
+Speed: train: 75.0, act: 4439.4, buffer_add: 56.2, buffer_size: 32000
+Total Sample: train: 38.4K, act: 2.646M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 269 MS, 31.59%
+	device conversion: 42 MS, 4.95%
+	calculating loss : 335 MS, 39.34%
+	backprop & update: 204 MS, 23.92%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 853.44 ms
+epoch 2, eval score: 30.000000
+[2] Time spent = 189.48 s
+2:eval_score  [   1]: avg:  30.0000, min:  30.0000[   0], max:  30.0000[   0]
+2:grad_norm   [ 200]: avg:   0.0875, min:   0.0090[  62], max:   0.4086[ 114]
+2:loss        [ 200]: avg:   0.1772, min:   0.0205[ 194], max:   0.3198[  29]
+****************************************
+Beginning of Epoch 3
+Mem usage: available: 375.919 GB, used: 124.606 GB, free: 365.920 GB
+epoch: 3, time: 168.9s, total time(train): 0H 11M 20S
+Speed: train: 75.8, act: 4547.4, buffer_add: 57.0, buffer_size: 41635
+Total Sample: train: 51.2K, act: 3.415M
+@@@Time
+	sync and updating: 1 MS, 0.18%
+	sample data      : 265 MS, 31.43%
+	device conversion: 41 MS, 4.94%
+	calculating loss : 331 MS, 39.29%
+	backprop & update: 204 MS, 24.15%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 844.67 ms
+epoch 3, eval score: 30.000000
+[3] Time spent = 186.60 s
+3:eval_score  [   1]: avg:  30.0000, min:  30.0000[   0], max:  30.0000[   0]
+3:grad_norm   [ 200]: avg:   0.1403, min:   0.0151[ 188], max:   1.5203[  13]
+3:loss        [ 200]: avg:   0.1993, min:   0.0441[ 174], max:   0.3492[  13]
+****************************************
+Beginning of Epoch 4
+Mem usage: available: 344.659 GB, used: 155.866 GB, free: 334.659 GB
+epoch: 4, time: 169.1s, total time(train): 0H 14M 10S
+Speed: train: 75.7, act: 4739.1, buffer_add: 64.7, buffer_size: 52566
+Total Sample: train: 64K, act: 4.216M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 266 MS, 31.56%
+	device conversion: 40 MS, 4.80%
+	calculating loss : 332 MS, 39.30%
+	backprop & update: 203 MS, 24.11%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 845.27 ms
+epoch 4, eval score: 27.000000
+[4] Time spent = 342.52 s
+4:eval_score  [   1]: avg:  27.0000, min:  27.0000[   0], max:  27.0000[   0]
+4:grad_norm   [ 200]: avg:   0.7129, min:   0.0133[  15], max:   4.0754[  76]
+4:loss        [ 200]: avg:   0.1489, min:   0.0470[ 188], max:   0.3139[  19]
+****************************************
+Beginning of Epoch 5
+Mem usage: available: 307.080 GB, used: 193.445 GB, free: 297.080 GB
+epoch: 5, time: 169.2s, total time(train): 0H 16M 59S
+Speed: train: 75.6, act: 4748.3, buffer_add: 59.7, buffer_size: 62670
+Total Sample: train: 76.8K, act: 5.02M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 270 MS, 31.97%
+	device conversion: 39 MS, 4.71%
+	calculating loss : 330 MS, 39.09%
+	backprop & update: 203 MS, 24.00%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 846.16 ms
+epoch 5, eval score: 27.000000
+[5] Time spent = 186.88 s
+5:eval_score  [   1]: avg:  27.0000, min:  27.0000[   0], max:  27.0000[   0]
+5:grad_norm   [ 200]: avg:   0.7574, min:   0.1089[  28], max:   4.5402[  50]
+5:loss        [ 200]: avg:   0.0786, min:   0.0240[ 122], max:   0.1630[ 132]
+****************************************
+Beginning of Epoch 6
+Mem usage: available: 274.018 GB, used: 226.506 GB, free: 264.019 GB
+epoch: 6, time: 168.0s, total time(train): 0H 19M 47S
+Speed: train: 76.2, act: 4724.9, buffer_add: 58.8, buffer_size: 65536
+Total Sample: train: 89.6K, act: 5.813M
+@@@Time
+	sync and updating: 1 MS, 0.18%
+	sample data      : 262 MS, 31.21%
+	device conversion: 41 MS, 4.90%
+	calculating loss : 331 MS, 39.48%
+	backprop & update: 203 MS, 24.21%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 840.04 ms
+epoch 6, eval score: 1.400000
+[6] Time spent = 185.25 s
+6:eval_score  [   1]: avg:   1.4000, min:   1.4000[   0], max:   1.4000[   0]
+6:grad_norm   [ 200]: avg:   0.6712, min:   0.0779[ 142], max:   3.6028[  62]
+6:loss        [ 200]: avg:   0.0834, min:   0.0372[  31], max:   0.1563[  59]
+****************************************
+Beginning of Epoch 7
+Mem usage: available: 260.171 GB, used: 240.354 GB, free: 250.171 GB
+epoch: 7, time: 165.7s, total time(train): 0H 22M 33S
+Speed: train: 77.3, act: 4786.9, buffer_add: 59.9, buffer_size: 65536
+Total Sample: train: 102.4K, act: 6.607M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 250 MS, 30.27%
+	device conversion: 43 MS, 5.19%
+	calculating loss : 330 MS, 39.86%
+	backprop & update: 202 MS, 24.46%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 828.34 ms
+epoch 7, eval score: 30.000000
+[7] Time spent = 183.80 s
+7:eval_score  [   1]: avg:  30.0000, min:  30.0000[   0], max:  30.0000[   0]
+7:grad_norm   [ 200]: avg:   0.6424, min:   0.1116[ 101], max:   2.1645[ 122]
+7:loss        [ 200]: avg:   0.0788, min:   0.0422[ 154], max:   0.1313[  44]
+****************************************
+Beginning of Epoch 8
+Mem usage: available: 258.505 GB, used: 242.020 GB, free: 248.505 GB
+epoch: 8, time: 165.5s, total time(train): 0H 25M 18S
+Speed: train: 77.4, act: 4715.2, buffer_add: 63.8, buffer_size: 65536
+Total Sample: train: 115.2K, act: 7.387M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 245 MS, 29.65%
+	device conversion: 43 MS, 5.30%
+	calculating loss : 332 MS, 40.16%
+	backprop & update: 204 MS, 24.67%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 827.20 ms
+epoch 8, eval score: 0.900000
+[8] Time spent = 182.54 s
+8:eval_score  [   1]: avg:   0.9000, min:   0.9000[   0], max:   0.9000[   0]
+8:grad_norm   [ 200]: avg:   0.6164, min:   0.1070[  15], max:   1.7284[ 132]
+8:loss        [ 200]: avg:   0.0758, min:   0.0445[ 193], max:   0.1228[ 146]
+****************************************
+Beginning of Epoch 9
+Mem usage: available: 256.779 GB, used: 243.746 GB, free: 246.779 GB
+epoch: 9, time: 163.0s, total time(train): 0H 28M 01S
+Speed: train: 78.5, act: 4747.4, buffer_add: 59.5, buffer_size: 65536
+Total Sample: train: 128K, act: 8.161M
+@@@Time
+	sync and updating: 1 MS, 0.18%
+	sample data      : 236 MS, 28.97%
+	device conversion: 44 MS, 5.41%
+	calculating loss : 329 MS, 40.46%
+	backprop & update: 203 MS, 24.97%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 815.10 ms
+epoch 9, eval score: 1.400000
+[9] Time spent = 179.68 s
+9:eval_score  [   1]: avg:   1.4000, min:   1.4000[   0], max:   1.4000[   0]
+9:grad_norm   [ 200]: avg:   1.0505, min:   0.1401[ 184], max:   6.7972[ 102]
+9:loss        [ 200]: avg:   0.0863, min:   0.0289[  69], max:   0.1492[  92]
+****************************************
+Beginning of Epoch 10
+Mem usage: available: 256.517 GB, used: 244.007 GB, free: 246.517 GB
+epoch: 10, time: 159.8s, total time(train): 0H 30M 41S
+Speed: train: 80.1, act: 4717.1, buffer_add: 59.3, buffer_size: 65536
+Total Sample: train: 140.8K, act: 8.914M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 217 MS, 27.23%
+	device conversion: 44 MS, 5.61%
+	calculating loss : 331 MS, 41.45%
+	backprop & update: 203 MS, 25.49%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 798.82 ms
+epoch 10, eval score: 27.000000
+[10] Time spent = 330.53 s
+10:eval_score [   1]: avg:  27.0000, min:  27.0000[   0], max:  27.0000[   0]
+10:grad_norm  [ 200]: avg:   0.6200, min:   0.1307[ 136], max:   1.6684[ 158]
+10:loss       [ 200]: avg:   0.0838, min:   0.0412[ 185], max:   0.1220[  35]
+****************************************
+Beginning of Epoch 11
+Mem usage: available: 256.022 GB, used: 244.503 GB, free: 246.022 GB
+epoch: 11, time: 170.5s, total time(train): 0H 33M 31S
+Speed: train: 75.1, act: 4707.1, buffer_add: 58.4, buffer_size: 65536
+Total Sample: train: 153.6K, act: 9.717M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 274 MS, 32.21%
+	device conversion: 43 MS, 5.13%
+	calculating loss : 329 MS, 38.71%
+	backprop & update: 202 MS, 23.73%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 852.36 ms
+epoch 11, eval score: 27.000000
+[11] Time spent = 343.31 s
+11:eval_score [   1]: avg:  27.0000, min:  27.0000[   0], max:  27.0000[   0]
+11:grad_norm  [ 200]: avg:   0.5604, min:   0.1215[ 130], max:   1.4114[ 187]
+11:loss       [ 200]: avg:   0.0860, min:   0.0395[ 137], max:   0.1650[ 158]
+****************************************
+Beginning of Epoch 12
+Mem usage: available: 255.354 GB, used: 245.171 GB, free: 245.354 GB
+epoch: 12, time: 172.9s, total time(train): 0H 36M 24S
+Speed: train: 74.0, act: 4637.6, buffer_add: 61.2, buffer_size: 65536
+Total Sample: train: 166.4K, act: 10.519M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 286 MS, 33.17%
+	device conversion: 43 MS, 5.01%
+	calculating loss : 330 MS, 38.22%
+	backprop & update: 202 MS, 23.38%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 864.61 ms
+epoch 12, eval score: 30.000000
+[12] Time spent = 191.10 s
+12:eval_score [   1]: avg:  30.0000, min:  30.0000[   0], max:  30.0000[   0]
+12:grad_norm  [ 200]: avg:   0.6211, min:   0.1299[  91], max:   1.8655[ 117]
+12:loss       [ 200]: avg:   0.1062, min:   0.0335[  89], max:   0.2698[ 107]
+****************************************
+Beginning of Epoch 13
+Mem usage: available: 254.535 GB, used: 245.990 GB, free: 244.534 GB
+epoch: 13, time: 160.7s, total time(train): 0H 39M 05S
+Speed: train: 79.7, act: 4746.2, buffer_add: 61.5, buffer_size: 65536
+Total Sample: train: 179.2K, act: 11.282M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 226 MS, 28.21%
+	device conversion: 41 MS, 5.22%
+	calculating loss : 330 MS, 41.13%
+	backprop & update: 202 MS, 25.21%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 803.40 ms
+epoch 13, eval score: 17.700000
+[13] Time spent = 179.44 s
+13:eval_score [   1]: avg:  17.7000, min:  17.7000[   0], max:  17.7000[   0]
+13:grad_norm  [ 200]: avg:   0.5936, min:   0.1547[  82], max:   1.8866[ 197]
+13:loss       [ 200]: avg:   0.0777, min:   0.0377[ 155], max:   0.1359[  33]
+****************************************
+Beginning of Epoch 14
+Mem usage: available: 250.114 GB, used: 250.411 GB, free: 240.114 GB
+epoch: 14, time: 157.6s, total time(train): 0H 41M 43S
+Speed: train: 81.2, act: 4791.7, buffer_add: 60.3, buffer_size: 65536
+Total Sample: train: 192K, act: 12.037M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 212 MS, 27.01%
+	device conversion: 40 MS, 5.20%
+	calculating loss : 329 MS, 41.86%
+	backprop & update: 202 MS, 25.73%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 787.99 ms
+epoch 14, eval score: 9.000000
+[14] Time spent = 344.45 s
+14:eval_score [   1]: avg:   9.0000, min:   9.0000[   0], max:   9.0000[   0]
+14:grad_norm  [ 200]: avg:   0.7437, min:   0.1788[ 181], max:   3.9496[  86]
+14:loss       [ 200]: avg:   0.0642, min:   0.0177[ 137], max:   0.1440[  84]
+****************************************
+Beginning of Epoch 15
+Mem usage: available: 246.933 GB, used: 253.592 GB, free: 236.933 GB
+epoch: 15, time: 173.6s, total time(train): 0H 44M 36S
+Speed: train: 73.7, act: 4630.7, buffer_add: 57.2, buffer_size: 65536
+Total Sample: train: 204.8K, act: 12.841M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 292 MS, 33.69%
+	device conversion: 41 MS, 4.76%
+	calculating loss : 330 MS, 38.09%
+	backprop & update: 201 MS, 23.25%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 867.74 ms
+epoch 15, eval score: 23.100000
+[15] Time spent = 344.90 s
+15:eval_score [   1]: avg:  23.1000, min:  23.1000[   0], max:  23.1000[   0]
+15:grad_norm  [ 200]: avg:   0.7750, min:   0.1413[ 188], max:   3.3186[  73]
+15:loss       [ 200]: avg:   0.0615, min:   0.0291[  23], max:   0.1171[ 166]
+****************************************
+Beginning of Epoch 16
+Mem usage: available: 244.099 GB, used: 256.426 GB, free: 234.098 GB
+epoch: 16, time: 173.2s, total time(train): 0H 47M 29S
+Speed: train: 73.9, act: 4658.6, buffer_add: 59.0, buffer_size: 65536
+Total Sample: train: 217.6K, act: 13.648M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 289 MS, 33.40%
+	device conversion: 42 MS, 4.90%
+	calculating loss : 331 MS, 38.25%
+	backprop & update: 201 MS, 23.25%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 866.07 ms
+epoch 16, eval score: 15.000000
+[16] Time spent = 355.05 s
+16:eval_score [   1]: avg:  15.0000, min:  15.0000[   0], max:  15.0000[   0]
+16:grad_norm  [ 200]: avg:   0.7466, min:   0.1764[ 136], max:   3.0421[ 196]
+16:loss       [ 200]: avg:   0.0581, min:   0.0349[ 123], max:   0.1212[  32]
+****************************************
+Beginning of Epoch 17
+Mem usage: available: 242.847 GB, used: 257.677 GB, free: 232.847 GB
+epoch: 17, time: 174.1s, total time(train): 0H 50M 23S
+Speed: train: 73.5, act: 4634.6, buffer_add: 59.5, buffer_size: 65536
+Total Sample: train: 230.4K, act: 14.455M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 294 MS, 33.78%
+	device conversion: 42 MS, 4.83%
+	calculating loss : 330 MS, 37.99%
+	backprop & update: 201 MS, 23.18%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 870.60 ms
+epoch 17, eval score: 15.200000
+[17] Time spent = 355.58 s
+17:eval_score [   1]: avg:  15.2000, min:  15.2000[   0], max:  15.2000[   0]
+17:grad_norm  [ 200]: avg:   0.8574, min:   0.1264[  29], max:   4.5285[  45]
+17:loss       [ 200]: avg:   0.0554, min:   0.0113[  29], max:   0.1079[  44]
+****************************************
+Beginning of Epoch 18
+Mem usage: available: 242.061 GB, used: 258.464 GB, free: 232.060 GB
+epoch: 18, time: 171.7s, total time(train): 0H 53M 15S
+Speed: train: 74.6, act: 4673.2, buffer_add: 59.0, buffer_size: 65536
+Total Sample: train: 243.2K, act: 15.257M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 283 MS, 33.07%
+	device conversion: 42 MS, 4.93%
+	calculating loss : 329 MS, 38.36%
+	backprop & update: 201 MS, 23.43%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 858.29 ms
+epoch 18, eval score: 15.800000
+[18] Time spent = 363.15 s
+18:eval_score [   1]: avg:  15.8000, min:  15.8000[   0], max:  15.8000[   0]
+18:grad_norm  [ 200]: avg:   0.8208, min:   0.2145[ 162], max:   4.3845[ 196]
+18:loss       [ 200]: avg:   0.0536, min:   0.0273[ 108], max:   0.0918[  66]
+****************************************
+Beginning of Epoch 19
+Mem usage: available: 241.654 GB, used: 258.871 GB, free: 231.653 GB
+epoch: 19, time: 171.0s, total time(train): 0H 56M 06S
+Speed: train: 74.9, act: 4694.9, buffer_add: 58.9, buffer_size: 65536
+Total Sample: train: 256K, act: 16.06M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 276 MS, 32.38%
+	device conversion: 42 MS, 4.98%
+	calculating loss : 331 MS, 38.75%
+	backprop & update: 202 MS, 23.66%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 854.78 ms
+epoch 19, eval score: 7.400000
+[19] Time spent = 349.31 s
+19:eval_score [   1]: avg:   7.4000, min:   7.4000[   0], max:   7.4000[   0]
+19:grad_norm  [ 200]: avg:   1.0506, min:   0.0789[  44], max:   7.7746[ 199]
+19:loss       [ 200]: avg:   0.0489, min:   0.0070[  85], max:   0.0957[ 199]
+****************************************
+Beginning of Epoch 20
+Mem usage: available: 240.889 GB, used: 259.635 GB, free: 230.889 GB
+epoch: 20, time: 169.5s, total time(train): 0H 58M 56S
+Speed: train: 75.5, act: 4689.5, buffer_add: 58.7, buffer_size: 65536
+Total Sample: train: 268.8K, act: 16.854M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 272 MS, 32.16%
+	device conversion: 41 MS, 4.95%
+	calculating loss : 329 MS, 38.88%
+	backprop & update: 201 MS, 23.79%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 847.37 ms
+epoch 20, eval score: 12.500000
+[20] Time spent = 187.75 s
+20:eval_score [   1]: avg:  12.5000, min:  12.5000[   0], max:  12.5000[   0]
+20:grad_norm  [ 200]: avg:   0.8737, min:   0.1386[  89], max:   3.3985[ 113]
+20:loss       [ 200]: avg:   0.0447, min:   0.0076[   0], max:   0.0874[   4]
+****************************************
+Beginning of Epoch 21
+Mem usage: available: 238.316 GB, used: 262.209 GB, free: 228.315 GB
+epoch: 21, time: 159.6s, total time(train): 1H 01M 35S
+Speed: train: 80.2, act: 4773.9, buffer_add: 61.4, buffer_size: 65536
+Total Sample: train: 281.6K, act: 17.617M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 221 MS, 27.76%
+	device conversion: 41 MS, 5.22%
+	calculating loss : 330 MS, 41.41%
+	backprop & update: 202 MS, 25.39%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 798.15 ms
+epoch 21, eval score: 22.400000
+[21] Time spent = 328.51 s
+21:eval_score [   1]: avg:  22.4000, min:  22.4000[   0], max:  22.4000[   0]
+21:grad_norm  [ 200]: avg:   0.9648, min:   0.1320[  96], max:   5.0530[ 137]
+21:loss       [ 200]: avg:   0.0405, min:   0.0063[ 127], max:   0.0746[   0]
+****************************************
+Beginning of Epoch 22
+Mem usage: available: 235.809 GB, used: 264.716 GB, free: 225.808 GB
+epoch: 22, time: 166.4s, total time(train): 1H 04M 22S
+Speed: train: 76.9, act: 4726.0, buffer_add: 60.1, buffer_size: 65536
+Total Sample: train: 294.4K, act: 18.403M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 254 MS, 30.55%
+	device conversion: 42 MS, 5.16%
+	calculating loss : 330 MS, 39.67%
+	backprop & update: 202 MS, 24.38%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 831.91 ms
+epoch 22, eval score: 1.300000
+[22] Time spent = 183.49 s
+22:eval_score [   1]: avg:   1.3000, min:   1.3000[   0], max:   1.3000[   0]
+22:grad_norm  [ 200]: avg:   0.9187, min:   0.0876[ 194], max:   3.3957[  35]
+22:loss       [ 200]: avg:   0.0361, min:   0.0048[ 102], max:   0.0692[  92]
+****************************************
+Beginning of Epoch 23
+Mem usage: available: 234.890 GB, used: 265.635 GB, free: 224.889 GB
+epoch: 23, time: 160.0s, total time(train): 1H 07M 02S
+Speed: train: 80.0, act: 4771.0, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 307.2K, act: 19.166M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 220 MS, 27.52%
+	device conversion: 43 MS, 5.44%
+	calculating loss : 331 MS, 41.48%
+	backprop & update: 202 MS, 25.37%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 799.88 ms
+epoch 23, eval score: 20.800000
+[23] Time spent = 335.80 s
+23:eval_score [   1]: avg:  20.8000, min:  20.8000[   0], max:  20.8000[   0]
+23:grad_norm  [ 200]: avg:   0.9042, min:   0.0518[  58], max:   3.1787[  15]
+23:loss       [ 200]: avg:   0.0364, min:   0.0041[ 102], max:   0.0876[ 160]
+****************************************
+Beginning of Epoch 24
+Mem usage: available: 234.280 GB, used: 266.244 GB, free: 224.279 GB
+epoch: 24, time: 166.5s, total time(train): 1H 09M 48S
+Speed: train: 76.9, act: 4722.1, buffer_add: 59.7, buffer_size: 65536
+Total Sample: train: 320K, act: 19.953M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 255 MS, 30.67%
+	device conversion: 43 MS, 5.19%
+	calculating loss : 330 MS, 39.73%
+	backprop & update: 201 MS, 24.19%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 832.41 ms
+epoch 24, eval score: 1.900000
+[24] Time spent = 184.26 s
+24:eval_score [   1]: avg:   1.9000, min:   1.9000[   0], max:   1.9000[   0]
+24:grad_norm  [ 200]: avg:   0.8302, min:   0.1009[ 158], max:   3.6633[  28]
+24:loss       [ 200]: avg:   0.0378, min:   0.0059[ 158], max:   0.0873[  33]
+****************************************
+Beginning of Epoch 25
+Mem usage: available: 233.395 GB, used: 267.130 GB, free: 223.394 GB
+epoch: 25, time: 158.5s, total time(train): 1H 12M 27S
+Speed: train: 80.7, act: 4783.0, buffer_add: 61.0, buffer_size: 65536
+Total Sample: train: 332.8K, act: 20.711M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 215 MS, 27.19%
+	device conversion: 42 MS, 5.39%
+	calculating loss : 329 MS, 41.61%
+	backprop & update: 202 MS, 25.59%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 792.58 ms
+epoch 25, eval score: 19.800000
+[25] Time spent = 176.75 s
+25:eval_score [   1]: avg:  19.8000, min:  19.8000[   0], max:  19.8000[   0]
+25:grad_norm  [ 200]: avg:   1.5574, min:   0.2917[ 188], max:   6.2630[  64]
+25:loss       [ 200]: avg:   0.0774, min:   0.0187[ 188], max:   0.2368[   0]
+****************************************
+Beginning of Epoch 26
+Mem usage: available: 233.004 GB, used: 267.521 GB, free: 223.002 GB
+epoch: 26, time: 158.9s, total time(train): 1H 15M 06S
+Speed: train: 80.5, act: 4770.7, buffer_add: 60.9, buffer_size: 65536
+Total Sample: train: 345.6K, act: 21.469M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 215 MS, 27.14%
+	device conversion: 43 MS, 5.54%
+	calculating loss : 330 MS, 41.60%
+	backprop & update: 202 MS, 25.51%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 794.58 ms
+epoch 26, eval score: 30.000000
+[26] Time spent = 176.63 s
+26:eval_score [   1]: avg:  30.0000, min:  30.0000[   0], max:  30.0000[   0]
+26:grad_norm  [ 200]: avg:   1.4530, min:   0.0883[ 156], max:   6.0082[ 195]
+26:loss       [ 200]: avg:   0.0571, min:   0.0061[ 156], max:   0.1120[ 117]
+****************************************
+Beginning of Epoch 27
+Mem usage: available: 232.787 GB, used: 267.738 GB, free: 222.786 GB
+epoch: 27, time: 158.1s, total time(train): 1H 17M 44S
+Speed: train: 80.9, act: 4768.6, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 358.4K, act: 22.223M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 210 MS, 26.67%
+	device conversion: 44 MS, 5.61%
+	calculating loss : 331 MS, 41.88%
+	backprop & update: 202 MS, 25.61%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 790.55 ms
+epoch 27, eval score: 1.300000
+[27] Time spent = 175.85 s
+27:eval_score [   1]: avg:   1.3000, min:   1.3000[   0], max:   1.3000[   0]
+27:grad_norm  [ 200]: avg:   1.1824, min:   0.1859[  44], max:   4.4649[  13]
+27:loss       [ 200]: avg:   0.0538, min:   0.0097[ 197], max:   0.1324[ 157]
+****************************************
+Beginning of Epoch 28
+Mem usage: available: 232.497 GB, used: 268.028 GB, free: 222.495 GB
+epoch: 28, time: 156.4s, total time(train): 1H 20M 20S
+Speed: train: 81.8, act: 4770.3, buffer_add: 60.2, buffer_size: 65536
+Total Sample: train: 371.2K, act: 22.969M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 202 MS, 25.92%
+	device conversion: 44 MS, 5.67%
+	calculating loss : 330 MS, 42.24%
+	backprop & update: 203 MS, 25.96%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 782.00 ms
+epoch 28, eval score: 15.000000
+[28] Time spent = 174.06 s
+28:eval_score [   1]: avg:  15.0000, min:  15.0000[   0], max:  15.0000[   0]
+28:grad_norm  [ 200]: avg:   1.2145, min:   0.3285[  28], max:   4.8459[   9]
+28:loss       [ 200]: avg:   0.0527, min:   0.0169[  28], max:   0.1095[ 123]
+****************************************
+Beginning of Epoch 29
+Mem usage: available: 232.117 GB, used: 268.407 GB, free: 222.116 GB
+epoch: 29, time: 154.0s, total time(train): 1H 22M 54S
+Speed: train: 83.1, act: 4774.8, buffer_add: 60.5, buffer_size: 65536
+Total Sample: train: 384K, act: 23.705M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 192 MS, 24.94%
+	device conversion: 43 MS, 5.65%
+	calculating loss : 329 MS, 42.84%
+	backprop & update: 202 MS, 26.34%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 770.02 ms
+epoch 29, eval score: 25.500000
+[29] Time spent = 172.66 s
+29:eval_score [   1]: avg:  25.5000, min:  25.5000[   0], max:  25.5000[   0]
+29:grad_norm  [ 200]: avg:   0.9805, min:   0.1397[  24], max:   2.9884[ 159]
+29:loss       [ 200]: avg:   0.0440, min:   0.0122[  24], max:   0.1079[ 114]
+****************************************
+Beginning of Epoch 30
+Mem usage: available: 231.679 GB, used: 268.846 GB, free: 221.677 GB
+epoch: 30, time: 154.5s, total time(train): 1H 25M 29S
+Speed: train: 82.9, act: 4774.4, buffer_add: 61.2, buffer_size: 65536
+Total Sample: train: 396.8K, act: 24.442M
+@@@Time
+	sync and updating: 1 MS, 0.23%
+	sample data      : 191 MS, 24.81%
+	device conversion: 45 MS, 5.83%
+	calculating loss : 330 MS, 42.83%
+	backprop & update: 202 MS, 26.28%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 772.27 ms
+epoch 30, eval score: 12.000000
+[30] Time spent = 172.57 s
+30:eval_score [   1]: avg:  12.0000, min:  12.0000[   0], max:  12.0000[   0]
+30:grad_norm  [ 200]: avg:   0.8324, min:   0.2448[   1], max:   2.2105[   8]
+30:loss       [ 200]: avg:   0.0413, min:   0.0150[   6], max:   0.0831[ 127]
+****************************************
+Beginning of Epoch 31
+Mem usage: available: 231.542 GB, used: 268.983 GB, free: 221.540 GB
+epoch: 31, time: 154.7s, total time(train): 1H 28M 03S
+Speed: train: 82.7, act: 4775.3, buffer_add: 61.0, buffer_size: 65536
+Total Sample: train: 409.6K, act: 25.181M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 194 MS, 25.11%
+	device conversion: 44 MS, 5.75%
+	calculating loss : 329 MS, 42.66%
+	backprop & update: 203 MS, 26.26%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 773.52 ms
+epoch 31, eval score: 9.000000
+[31] Time spent = 342.16 s
+31:eval_score [   1]: avg:   9.0000, min:   9.0000[   0], max:   9.0000[   0]
+31:grad_norm  [ 200]: avg:   0.8117, min:   0.1804[  24], max:   2.1358[  79]
+31:loss       [ 200]: avg:   0.0365, min:   0.0135[ 153], max:   0.0733[ 177]
+****************************************
+Beginning of Epoch 32
+Mem usage: available: 231.213 GB, used: 269.311 GB, free: 221.212 GB
+epoch: 32, time: 171.5s, total time(train): 1H 30M 55S
+Speed: train: 74.6, act: 4660.5, buffer_add: 59.1, buffer_size: 65536
+Total Sample: train: 422.4K, act: 25.98M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 280 MS, 32.67%
+	device conversion: 43 MS, 5.05%
+	calculating loss : 330 MS, 38.58%
+	backprop & update: 201 MS, 23.49%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 857.61 ms
+epoch 32, eval score: 6.000000
+[32] Time spent = 361.49 s
+32:eval_score [   1]: avg:   6.0000, min:   6.0000[   0], max:   6.0000[   0]
+32:grad_norm  [ 200]: avg:   0.7312, min:   0.2284[ 180], max:   2.0316[  44]
+32:loss       [ 200]: avg:   0.0313, min:   0.0075[  75], max:   0.0669[  36]
+****************************************
+Beginning of Epoch 33
+Mem usage: available: 230.888 GB, used: 269.637 GB, free: 220.886 GB
+epoch: 33, time: 169.6s, total time(train): 1H 33M 44S
+Speed: train: 75.5, act: 4706.2, buffer_add: 59.7, buffer_size: 65536
+Total Sample: train: 435.2K, act: 26.779M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 270 MS, 31.90%
+	device conversion: 43 MS, 5.08%
+	calculating loss : 330 MS, 38.95%
+	backprop & update: 202 MS, 23.85%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 847.97 ms
+epoch 33, eval score: 27.900000
+[33] Time spent = 188.28 s
+33:eval_score [   1]: avg:  27.9000, min:  27.9000[   0], max:  27.9000[   0]
+33:grad_norm  [ 200]: avg:   0.8019, min:   0.1679[  59], max:   3.3230[ 121]
+33:loss       [ 200]: avg:   0.0308, min:   0.0096[  99], max:   0.0655[   2]
+****************************************
+Beginning of Epoch 34
+Mem usage: available: 230.648 GB, used: 269.877 GB, free: 220.646 GB
+epoch: 34, time: 164.0s, total time(train): 1H 36M 29S
+Speed: train: 78.0, act: 4761.4, buffer_add: 60.7, buffer_size: 65536
+Total Sample: train: 448K, act: 27.56M
+@@@Time
+	sync and updating: 1 MS, 0.18%
+	sample data      : 240 MS, 29.31%
+	device conversion: 43 MS, 5.33%
+	calculating loss : 331 MS, 40.37%
+	backprop & update: 203 MS, 24.79%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 820.11 ms
+epoch 34, eval score: 41.700000
+[34] Time spent = 182.23 s
+34:eval_score [   1]: avg:  41.7000, min:  41.7000[   0], max:  41.7000[   0]
+34:grad_norm  [ 200]: avg:   0.7694, min:   0.1312[  46], max:   2.5444[   2]
+34:loss       [ 200]: avg:   0.0268, min:   0.0086[ 127], max:   0.0597[ 171]
+****************************************
+Beginning of Epoch 35
+Mem usage: available: 230.346 GB, used: 270.178 GB, free: 220.345 GB
+epoch: 35, time: 160.7s, total time(train): 1H 39M 09S
+Speed: train: 79.6, act: 4780.6, buffer_add: 61.3, buffer_size: 65536
+Total Sample: train: 460.8K, act: 28.328M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 224 MS, 27.99%
+	device conversion: 43 MS, 5.44%
+	calculating loss : 331 MS, 41.20%
+	backprop & update: 202 MS, 25.15%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 803.57 ms
+epoch 35, eval score: 6.000000
+[35] Time spent = 181.04 s
+35:eval_score [   1]: avg:   6.0000, min:   6.0000[   0], max:   6.0000[   0]
+35:grad_norm  [ 200]: avg:   0.9430, min:   0.1997[ 197], max:   3.3458[  67]
+35:loss       [ 200]: avg:   0.0283, min:   0.0080[ 128], max:   0.0604[  95]
+****************************************
+Beginning of Epoch 36
+Mem usage: available: 230.102 GB, used: 270.423 GB, free: 220.099 GB
+epoch: 36, time: 156.6s, total time(train): 1H 41M 46S
+Speed: train: 81.8, act: 4787.0, buffer_add: 60.9, buffer_size: 65536
+Total Sample: train: 473.6K, act: 29.078M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 204 MS, 26.13%
+	device conversion: 43 MS, 5.54%
+	calculating loss : 329 MS, 42.14%
+	backprop & update: 203 MS, 25.98%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 782.70 ms
+epoch 36, eval score: 30.000000
+[36] Time spent = 174.14 s
+36:eval_score [   1]: avg:  30.0000, min:  30.0000[   0], max:  30.0000[   0]
+36:grad_norm  [ 200]: avg:   1.0520, min:   0.2730[  30], max:   3.8021[ 179]
+36:loss       [ 200]: avg:   0.0313, min:   0.0075[ 141], max:   0.0734[  18]
+****************************************
+Beginning of Epoch 37
+Mem usage: available: 230.056 GB, used: 270.468 GB, free: 220.054 GB
+epoch: 37, time: 156.8s, total time(train): 1H 44M 23S
+Speed: train: 81.6, act: 4780.0, buffer_add: 60.8, buffer_size: 65536
+Total Sample: train: 486.4K, act: 29.827M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 204 MS, 26.06%
+	device conversion: 44 MS, 5.63%
+	calculating loss : 331 MS, 42.24%
+	backprop & update: 202 MS, 25.84%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 783.79 ms
+epoch 37, eval score: 6.000000
+[37] Time spent = 348.56 s
+37:eval_score [   1]: avg:   6.0000, min:   6.0000[   0], max:   6.0000[   0]
+37:grad_norm  [ 200]: avg:   1.3935, min:   0.2189[  83], max:   3.8829[ 132]
+37:loss       [ 200]: avg:   0.0510, min:   0.0073[  32], max:   0.2517[ 101]
+****************************************
+Beginning of Epoch 38
+Mem usage: available: 229.990 GB, used: 270.534 GB, free: 219.988 GB
+epoch: 38, time: 168.3s, total time(train): 1H 47M 11S
+Speed: train: 76.0, act: 4721.3, buffer_add: 59.7, buffer_size: 65536
+Total Sample: train: 499.2K, act: 30.622M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 265 MS, 31.49%
+	device conversion: 43 MS, 5.15%
+	calculating loss : 330 MS, 39.25%
+	backprop & update: 200 MS, 23.88%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 841.52 ms
+epoch 38, eval score: 30.300000
+[38] Time spent = 187.02 s
+38:eval_score [   1]: avg:  30.3000, min:  30.3000[   0], max:  30.3000[   0]
+38:grad_norm  [ 200]: avg:   1.0286, min:   0.1696[  38], max:   3.3729[   1]
+38:loss       [ 200]: avg:   0.0371, min:   0.0136[  59], max:   0.0703[ 141]
+****************************************
+Beginning of Epoch 39
+Mem usage: available: 229.791 GB, used: 270.734 GB, free: 219.788 GB
+epoch: 39, time: 161.0s, total time(train): 1H 49M 52S
+Speed: train: 79.5, act: 4768.2, buffer_add: 61.3, buffer_size: 65536
+Total Sample: train: 512K, act: 31.389M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 227 MS, 28.22%
+	device conversion: 43 MS, 5.45%
+	calculating loss : 329 MS, 41.00%
+	backprop & update: 202 MS, 25.11%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 804.72 ms
+epoch 39, eval score: 7.300000
+[39] Time spent = 351.28 s
+39:eval_score [   1]: avg:   7.3000, min:   7.3000[   0], max:   7.3000[   0]
+39:grad_norm  [ 200]: avg:   0.8193, min:   0.1160[  95], max:   2.3599[ 192]
+39:loss       [ 200]: avg:   0.0330, min:   0.0068[  95], max:   0.0794[  62]
+****************************************
+Beginning of Epoch 40
+Mem usage: available: 229.630 GB, used: 270.895 GB, free: 219.628 GB
+epoch: 40, time: 168.8s, total time(train): 1H 52M 41S
+Speed: train: 75.8, act: 4722.5, buffer_add: 60.1, buffer_size: 65536
+Total Sample: train: 524.8K, act: 32.186M
+@@@Time
+	sync and updating: 1 MS, 0.24%
+	sample data      : 263 MS, 31.24%
+	device conversion: 43 MS, 5.15%
+	calculating loss : 331 MS, 39.32%
+	backprop & update: 202 MS, 24.03%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 843.71 ms
+epoch 40, eval score: 12.100000
+[40] Time spent = 187.93 s
+40:eval_score [   1]: avg:  12.1000, min:  12.1000[   0], max:  12.1000[   0]
+40:grad_norm  [ 200]: avg:   0.7839, min:   0.1837[  97], max:   2.7886[ 195]
+40:loss       [ 200]: avg:   0.0359, min:   0.0131[  26], max:   0.0760[ 154]
+****************************************
+Beginning of Epoch 41
+Mem usage: available: 229.470 GB, used: 271.054 GB, free: 219.468 GB
+epoch: 41, time: 160.4s, total time(train): 1H 55M 21S
+Speed: train: 79.8, act: 4780.2, buffer_add: 60.5, buffer_size: 65536
+Total Sample: train: 537.6K, act: 32.953M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 225 MS, 28.14%
+	device conversion: 42 MS, 5.35%
+	calculating loss : 329 MS, 41.02%
+	backprop & update: 202 MS, 25.27%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 802.05 ms
+epoch 41, eval score: 0.600000
+[41] Time spent = 354.74 s
+41:eval_score [   1]: avg:   0.6000, min:   0.6000[   0], max:   0.6000[   0]
+41:grad_norm  [ 200]: avg:   0.8846, min:   0.1458[ 183], max:   3.5214[  66]
+41:loss       [ 200]: avg:   0.0425, min:   0.0103[ 183], max:   0.0760[ 179]
+****************************************
+Beginning of Epoch 42
+Mem usage: available: 229.231 GB, used: 271.294 GB, free: 219.228 GB
+epoch: 42, time: 166.8s, total time(train): 1H 58M 08S
+Speed: train: 76.7, act: 4753.4, buffer_add: 60.4, buffer_size: 65536
+Total Sample: train: 550.4K, act: 33.746M
+@@@Time
+	sync and updating: 1 MS, 0.22%
+	sample data      : 256 MS, 30.74%
+	device conversion: 43 MS, 5.17%
+	calculating loss : 330 MS, 39.58%
+	backprop & update: 202 MS, 24.28%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 833.95 ms
+epoch 42, eval score: 0.700000
+[42] Time spent = 363.17 s
+42:eval_score [   1]: avg:   0.7000, min:   0.7000[   0], max:   0.7000[   0]
+42:grad_norm  [ 200]: avg:   0.9862, min:   0.2652[ 128], max:   3.7882[ 196]
+42:loss       [ 200]: avg:   0.0497, min:   0.0187[ 185], max:   0.1007[ 161]
+****************************************
+Beginning of Epoch 43
+Mem usage: available: 228.970 GB, used: 271.555 GB, free: 218.967 GB
+epoch: 43, time: 167.9s, total time(train): 2H 00M 56S
+Speed: train: 76.3, act: 4718.9, buffer_add: 60.2, buffer_size: 65536
+Total Sample: train: 563.2K, act: 34.538M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 262 MS, 31.26%
+	device conversion: 43 MS, 5.17%
+	calculating loss : 329 MS, 39.30%
+	backprop & update: 201 MS, 24.06%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 839.20 ms
+epoch 43, eval score: 23.000000
+[43] Time spent = 187.09 s
+43:eval_score [   1]: avg:  23.0000, min:  23.0000[   0], max:  23.0000[   0]
+43:grad_norm  [ 200]: avg:   0.9374, min:   0.2564[ 125], max:   2.9586[ 178]
+43:loss       [ 200]: avg:   0.0518, min:   0.0256[  53], max:   0.0944[ 133]
+****************************************
+Beginning of Epoch 44
+Mem usage: available: 228.892 GB, used: 271.633 GB, free: 218.890 GB
+epoch: 44, time: 159.6s, total time(train): 2H 03M 35S
+Speed: train: 80.2, act: 4785.2, buffer_add: 61.1, buffer_size: 65536
+Total Sample: train: 576K, act: 35.302M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 220 MS, 27.62%
+	device conversion: 44 MS, 5.52%
+	calculating loss : 329 MS, 41.28%
+	backprop & update: 202 MS, 25.35%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 798.01 ms
+epoch 44, eval score: 1.000000
+[44] Time spent = 334.02 s
+44:eval_score [   1]: avg:   1.0000, min:   1.0000[   0], max:   1.0000[   0]
+44:grad_norm  [ 200]: avg:   1.1669, min:   0.3376[ 113], max:   3.2272[  85]
+44:loss       [ 200]: avg:   0.0566, min:   0.0299[   3], max:   0.0948[  88]
+****************************************
+Beginning of Epoch 45
+Mem usage: available: 228.866 GB, used: 271.659 GB, free: 218.864 GB
+epoch: 45, time: 168.1s, total time(train): 2H 06M 23S
+Speed: train: 76.2, act: 4708.0, buffer_add: 59.7, buffer_size: 65536
+Total Sample: train: 588.8K, act: 36.093M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 261 MS, 31.14%
+	device conversion: 44 MS, 5.28%
+	calculating loss : 330 MS, 39.28%
+	backprop & update: 202 MS, 24.08%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 840.35 ms
+epoch 45, eval score: 0.300000
+[45] Time spent = 363.92 s
+45:eval_score [   1]: avg:   0.3000, min:   0.3000[   0], max:   0.3000[   0]
+45:grad_norm  [ 200]: avg:   1.0680, min:   0.2267[ 101], max:   2.5263[  78]
+45:loss       [ 200]: avg:   0.0577, min:   0.0155[ 101], max:   0.1084[ 125]
+****************************************
+Beginning of Epoch 46
+Mem usage: available: 228.696 GB, used: 271.829 GB, free: 218.693 GB
+epoch: 46, time: 167.9s, total time(train): 2H 09M 11S
+Speed: train: 76.2, act: 4714.2, buffer_add: 59.9, buffer_size: 65536
+Total Sample: train: 601.6K, act: 36.885M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 262 MS, 31.25%
+	device conversion: 44 MS, 5.26%
+	calculating loss : 329 MS, 39.26%
+	backprop & update: 201 MS, 24.01%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 839.54 ms
+epoch 46, eval score: 1.100000
+[46] Time spent = 347.91 s
+46:eval_score [   1]: avg:   1.1000, min:   1.1000[   0], max:   1.1000[   0]
+46:grad_norm  [ 200]: avg:   1.1444, min:   0.3270[  78], max:   3.1661[ 160]
+46:loss       [ 200]: avg:   0.0566, min:   0.0241[ 166], max:   0.0954[ 160]
+****************************************
+Beginning of Epoch 47
+Mem usage: available: 228.583 GB, used: 271.942 GB, free: 218.580 GB
+epoch: 47, time: 167.9s, total time(train): 2H 11M 59S
+Speed: train: 76.2, act: 4727.6, buffer_add: 59.9, buffer_size: 65536
+Total Sample: train: 614.4K, act: 37.678M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 260 MS, 31.01%
+	device conversion: 43 MS, 5.21%
+	calculating loss : 331 MS, 39.45%
+	backprop & update: 202 MS, 24.12%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 839.43 ms
+epoch 47, eval score: 0.000000
+[47] Time spent = 362.27 s
+47:eval_score [   1]: avg:   0.0000, min:   0.0000[   0], max:   0.0000[   0]
+47:grad_norm  [ 200]: avg:   1.1348, min:   0.4076[ 152], max:   4.7142[  84]
+47:loss       [ 200]: avg:   0.0554, min:   0.0226[ 143], max:   0.0947[  87]
+****************************************
+Beginning of Epoch 48
+Mem usage: available: 228.476 GB, used: 272.049 GB, free: 218.473 GB
+epoch: 48, time: 168.2s, total time(train): 2H 14M 47S
+Speed: train: 76.1, act: 4718.7, buffer_add: 60.4, buffer_size: 65536
+Total Sample: train: 627.2K, act: 38.472M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 262 MS, 31.24%
+	device conversion: 43 MS, 5.21%
+	calculating loss : 330 MS, 39.26%
+	backprop & update: 202 MS, 24.06%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 840.82 ms
+epoch 48, eval score: 0.000000
+[48] Time spent = 362.55 s
+48:eval_score [   1]: avg:   0.0000, min:   0.0000[   0], max:   0.0000[   0]
+48:grad_norm  [ 200]: avg:   1.0269, min:   0.2745[  78], max:   2.5478[ 191]
+48:loss       [ 200]: avg:   0.0482, min:   0.0230[ 162], max:   0.0899[  81]
+****************************************
+Beginning of Epoch 49
+Mem usage: available: 228.298 GB, used: 272.227 GB, free: 218.295 GB
+epoch: 49, time: 166.1s, total time(train): 2H 17M 34S
+Speed: train: 77.1, act: 4725.1, buffer_add: 60.0, buffer_size: 65536
+Total Sample: train: 640K, act: 39.257M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 252 MS, 30.39%
+	device conversion: 44 MS, 5.30%
+	calculating loss : 330 MS, 39.77%
+	backprop & update: 201 MS, 24.32%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 830.33 ms
+epoch 49, eval score: 0.600000
+[49] Time spent = 361.90 s
+49:eval_score [   1]: avg:   0.6000, min:   0.6000[   0], max:   0.6000[   0]
+49:grad_norm  [ 200]: avg:   1.0663, min:   0.2801[ 181], max:   2.7591[   6]
+49:loss       [ 200]: avg:   0.0401, min:   0.0125[  33], max:   0.0845[ 159]
+****************************************
+Beginning of Epoch 50
+Mem usage: available: 228.214 GB, used: 272.311 GB, free: 218.211 GB
+epoch: 50, time: 166.8s, total time(train): 2H 20M 20S
+Speed: train: 76.8, act: 4738.4, buffer_add: 60.0, buffer_size: 65536
+Total Sample: train: 652.8K, act: 40.047M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 255 MS, 30.62%
+	device conversion: 44 MS, 5.31%
+	calculating loss : 330 MS, 39.63%
+	backprop & update: 202 MS, 24.23%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 833.69 ms
+epoch 50, eval score: 1.600000
+[50] Time spent = 356.15 s
+50:eval_score [   1]: avg:   1.6000, min:   1.6000[   0], max:   1.6000[   0]
+50:grad_norm  [ 200]: avg:   0.8694, min:   0.2132[  68], max:   2.1422[   1]
+50:loss       [ 200]: avg:   0.0386, min:   0.0181[  92], max:   0.1000[   0]
+****************************************
+Beginning of Epoch 51
+Mem usage: available: 228.172 GB, used: 272.353 GB, free: 218.169 GB
+epoch: 51, time: 168.2s, total time(train): 2H 23M 08S
+Speed: train: 76.1, act: 4723.8, buffer_add: 59.9, buffer_size: 65536
+Total Sample: train: 665.6K, act: 40.842M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 263 MS, 31.29%
+	device conversion: 43 MS, 5.22%
+	calculating loss : 330 MS, 39.31%
+	backprop & update: 201 MS, 23.95%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 841.14 ms
+epoch 51, eval score: 2.500000
+[51] Time spent = 360.55 s
+51:eval_score [   1]: avg:   2.5000, min:   2.5000[   0], max:   2.5000[   0]
+51:grad_norm  [ 200]: avg:   0.6965, min:   0.1530[  68], max:   2.2049[ 166]
+51:loss       [ 200]: avg:   0.0320, min:   0.0127[ 173], max:   0.0567[  19]
+****************************************
+Beginning of Epoch 52
+Mem usage: available: 228.084 GB, used: 272.441 GB, free: 218.081 GB
+epoch: 52, time: 167.4s, total time(train): 2H 25M 56S
+Speed: train: 76.5, act: 4738.1, buffer_add: 60.9, buffer_size: 65536
+Total Sample: train: 678.4K, act: 41.635M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 256 MS, 30.67%
+	device conversion: 44 MS, 5.32%
+	calculating loss : 331 MS, 39.56%
+	backprop & update: 202 MS, 24.24%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 836.85 ms
+epoch 52, eval score: 0.900000
+[52] Time spent = 361.74 s
+52:eval_score [   1]: avg:   0.9000, min:   0.9000[   0], max:   0.9000[   0]
+52:grad_norm  [ 200]: avg:   0.4926, min:   0.1652[ 167], max:   1.1354[  63]
+52:loss       [ 200]: avg:   0.0274, min:   0.0076[ 163], max:   0.0534[  73]
+****************************************
+Beginning of Epoch 53
+Mem usage: available: 227.960 GB, used: 272.564 GB, free: 217.957 GB
+epoch: 53, time: 166.6s, total time(train): 2H 28M 42S
+Speed: train: 76.9, act: 4738.9, buffer_add: 60.1, buffer_size: 65536
+Total Sample: train: 691.2K, act: 42.424M
+@@@Time
+	sync and updating: 1 MS, 0.23%
+	sample data      : 254 MS, 30.60%
+	device conversion: 43 MS, 5.22%
+	calculating loss : 330 MS, 39.64%
+	backprop & update: 202 MS, 24.30%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 832.71 ms
+epoch 53, eval score: 3.400000
+[53] Time spent = 359.91 s
+53:eval_score [   1]: avg:   3.4000, min:   3.4000[   0], max:   3.4000[   0]
+53:grad_norm  [ 200]: avg:   0.6474, min:   0.1862[ 186], max:   2.3281[  57]
+53:loss       [ 200]: avg:   0.0298, min:   0.0111[ 122], max:   0.0732[  57]
+****************************************
+Beginning of Epoch 54
+Mem usage: available: 227.848 GB, used: 272.676 GB, free: 217.845 GB
+epoch: 54, time: 167.6s, total time(train): 2H 31M 30S
+Speed: train: 76.4, act: 4725.4, buffer_add: 60.1, buffer_size: 65536
+Total Sample: train: 704K, act: 43.216M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 257 MS, 30.78%
+	device conversion: 44 MS, 5.30%
+	calculating loss : 331 MS, 39.52%
+	backprop & update: 202 MS, 24.18%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 837.96 ms
+epoch 54, eval score: 21.000000
+[54] Time spent = 343.40 s
+54:eval_score [   1]: avg:  21.0000, min:  21.0000[   0], max:  21.0000[   0]
+54:grad_norm  [ 200]: avg:   0.4985, min:   0.1652[  73], max:   1.1551[ 143]
+54:loss       [ 200]: avg:   0.0274, min:   0.0135[  73], max:   0.0474[ 160]
+****************************************
+Beginning of Epoch 55
+Mem usage: available: 227.711 GB, used: 272.814 GB, free: 217.707 GB
+epoch: 55, time: 165.9s, total time(train): 2H 34M 16S
+Speed: train: 77.2, act: 4742.5, buffer_add: 59.8, buffer_size: 65536
+Total Sample: train: 716.8K, act: 44.003M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 250 MS, 30.19%
+	device conversion: 44 MS, 5.38%
+	calculating loss : 330 MS, 39.86%
+	backprop & update: 201 MS, 24.35%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 829.45 ms
+epoch 55, eval score: 1.500000
+[55] Time spent = 356.22 s
+55:eval_score [   1]: avg:   1.5000, min:   1.5000[   0], max:   1.5000[   0]
+55:grad_norm  [ 200]: avg:   0.5144, min:   0.1805[  46], max:   1.1477[   0]
+55:loss       [ 200]: avg:   0.0302, min:   0.0114[ 117], max:   0.0628[  64]
+****************************************
+Beginning of Epoch 56
+Mem usage: available: 227.667 GB, used: 272.858 GB, free: 217.664 GB
+epoch: 56, time: 165.7s, total time(train): 2H 37M 02S
+Speed: train: 77.3, act: 4737.8, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 729.6K, act: 44.788M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 247 MS, 29.89%
+	device conversion: 44 MS, 5.41%
+	calculating loss : 331 MS, 40.03%
+	backprop & update: 202 MS, 24.45%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 828.34 ms
+epoch 56, eval score: 5.400000
+[56] Time spent = 360.68 s
+56:eval_score [   1]: avg:   5.4000, min:   5.4000[   0], max:   5.4000[   0]
+56:grad_norm  [ 200]: avg:   0.6790, min:   0.1823[ 162], max:   2.1625[  79]
+56:loss       [ 200]: avg:   0.0352, min:   0.0128[  73], max:   0.0961[ 156]
+****************************************
+Beginning of Epoch 57
+Mem usage: available: 227.609 GB, used: 272.915 GB, free: 217.606 GB
+epoch: 57, time: 165.9s, total time(train): 2H 39M 48S
+Speed: train: 77.2, act: 4726.9, buffer_add: 60.7, buffer_size: 65536
+Total Sample: train: 742.4K, act: 45.572M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 251 MS, 30.31%
+	device conversion: 44 MS, 5.34%
+	calculating loss : 330 MS, 39.84%
+	backprop & update: 201 MS, 24.29%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 829.38 ms
+epoch 57, eval score: 6.400000
+[57] Time spent = 361.70 s
+57:eval_score [   1]: avg:   6.4000, min:   6.4000[   0], max:   6.4000[   0]
+57:grad_norm  [ 200]: avg:   0.5396, min:   0.1842[ 191], max:   1.2587[  52]
+57:loss       [ 200]: avg:   0.0339, min:   0.0149[  36], max:   0.0589[ 161]
+****************************************
+Beginning of Epoch 58
+Mem usage: available: 227.612 GB, used: 272.913 GB, free: 217.608 GB
+epoch: 58, time: 167.6s, total time(train): 2H 42M 35S
+Speed: train: 76.4, act: 4734.0, buffer_add: 59.9, buffer_size: 65536
+Total Sample: train: 755.2K, act: 46.365M
+@@@Time
+	sync and updating: 1 MS, 0.22%
+	sample data      : 258 MS, 30.85%
+	device conversion: 44 MS, 5.33%
+	calculating loss : 330 MS, 39.47%
+	backprop & update: 202 MS, 24.11%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 837.99 ms
+epoch 58, eval score: 3.900000
+[58] Time spent = 185.23 s
+58:eval_score [   1]: avg:   3.9000, min:   3.9000[   0], max:   3.9000[   0]
+58:grad_norm  [ 200]: avg:   0.5867, min:   0.2251[ 142], max:   1.4863[ 195]
+58:loss       [ 200]: avg:   0.0387, min:   0.0153[ 123], max:   0.0782[ 177]
+****************************************
+Beginning of Epoch 59
+Mem usage: available: 227.538 GB, used: 272.986 GB, free: 217.534 GB
+epoch: 59, time: 157.8s, total time(train): 2H 45M 13S
+Speed: train: 81.1, act: 4783.6, buffer_add: 60.8, buffer_size: 65536
+Total Sample: train: 768K, act: 47.12M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 210 MS, 26.68%
+	device conversion: 44 MS, 5.63%
+	calculating loss : 329 MS, 41.81%
+	backprop & update: 202 MS, 25.65%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 788.79 ms
+epoch 59, eval score: 44.200000
+[59] Time spent = 175.94 s
+59:eval_score [   1]: avg:  44.2000, min:  44.2000[   0], max:  44.2000[   0]
+59:grad_norm  [ 200]: avg:   0.5999, min:   0.2071[  69], max:   1.4349[ 182]
+59:loss       [ 200]: avg:   0.0407, min:   0.0146[  69], max:   0.1450[  50]
+****************************************
+Beginning of Epoch 60
+Mem usage: available: 227.499 GB, used: 273.026 GB, free: 217.495 GB
+epoch: 60, time: 156.7s, total time(train): 2H 47M 50S
+Speed: train: 81.7, act: 4751.1, buffer_add: 60.3, buffer_size: 65536
+Total Sample: train: 780.8K, act: 47.865M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 202 MS, 25.81%
+	device conversion: 45 MS, 5.87%
+	calculating loss : 330 MS, 42.20%
+	backprop & update: 203 MS, 25.91%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 783.44 ms
+epoch 60, eval score: 0.300000
+[60] Time spent = 174.30 s
+60:eval_score [   1]: avg:   0.3000, min:   0.3000[   0], max:   0.3000[   0]
+60:grad_norm  [ 200]: avg:   0.5381, min:   0.1715[ 171], max:   1.2520[  74]
+60:loss       [ 200]: avg:   0.0414, min:   0.0152[  64], max:   0.0871[ 174]
+****************************************
+Beginning of Epoch 61
+Mem usage: available: 227.487 GB, used: 273.038 GB, free: 217.483 GB
+epoch: 61, time: 153.6s, total time(train): 2H 50M 23S
+Speed: train: 83.3, act: 4772.7, buffer_add: 61.2, buffer_size: 65536
+Total Sample: train: 793.6K, act: 48.598M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 188 MS, 24.52%
+	device conversion: 46 MS, 6.02%
+	calculating loss : 329 MS, 42.92%
+	backprop & update: 202 MS, 26.34%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 768.00 ms
+epoch 61, eval score: 1.400000
+[61] Time spent = 171.22 s
+61:eval_score [   1]: avg:   1.4000, min:   1.4000[   0], max:   1.4000[   0]
+61:grad_norm  [ 200]: avg:   0.5462, min:   0.1987[ 100], max:   1.3511[ 138]
+61:loss       [ 200]: avg:   0.0421, min:   0.0176[ 140], max:   0.0891[ 199]
+****************************************
+Beginning of Epoch 62
+Mem usage: available: 227.411 GB, used: 273.114 GB, free: 217.407 GB
+epoch: 62, time: 154.3s, total time(train): 2H 52M 58S
+Speed: train: 82.9, act: 4780.7, buffer_add: 61.0, buffer_size: 65536
+Total Sample: train: 806.4K, act: 49.336M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 191 MS, 24.86%
+	device conversion: 46 MS, 5.97%
+	calculating loss : 328 MS, 42.64%
+	backprop & update: 203 MS, 26.32%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 771.54 ms
+epoch 62, eval score: 10.800000
+[62] Time spent = 338.75 s
+62:eval_score [   1]: avg:  10.8000, min:  10.8000[   0], max:  10.8000[   0]
+62:grad_norm  [ 200]: avg:   0.8021, min:   0.1733[  13], max:   6.2032[ 103]
+62:loss       [ 200]: avg:   0.0534, min:   0.0209[  85], max:   0.1559[ 108]
+****************************************
+Beginning of Epoch 63
+Mem usage: available: 227.390 GB, used: 273.135 GB, free: 217.385 GB
+epoch: 63, time: 166.9s, total time(train): 2H 55M 44S
+Speed: train: 76.7, act: 4721.6, buffer_add: 59.9, buffer_size: 65536
+Total Sample: train: 819.2K, act: 50.124M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 255 MS, 30.61%
+	device conversion: 44 MS, 5.37%
+	calculating loss : 330 MS, 39.55%
+	backprop & update: 202 MS, 24.25%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 834.48 ms
+epoch 63, eval score: 0.600000
+[63] Time spent = 361.25 s
+63:eval_score [   1]: avg:   0.6000, min:   0.6000[   0], max:   0.6000[   0]
+63:grad_norm  [ 200]: avg:   0.8134, min:   0.2263[ 149], max:   5.5836[ 154]
+63:loss       [ 200]: avg:   0.0506, min:   0.0209[ 149], max:   0.1040[ 154]
+****************************************
+Beginning of Epoch 64
+Mem usage: available: 227.390 GB, used: 273.135 GB, free: 217.386 GB
+epoch: 64, time: 167.8s, total time(train): 2H 58M 32S
+Speed: train: 76.3, act: 4721.0, buffer_add: 59.8, buffer_size: 65536
+Total Sample: train: 832K, act: 50.916M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 258 MS, 30.85%
+	device conversion: 44 MS, 5.27%
+	calculating loss : 331 MS, 39.48%
+	backprop & update: 202 MS, 24.17%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 838.80 ms
+epoch 64, eval score: 6.200000
+[64] Time spent = 186.40 s
+64:eval_score [   1]: avg:   6.2000, min:   6.2000[   0], max:   6.2000[   0]
+64:grad_norm  [ 200]: avg:   0.5021, min:   0.1917[ 116], max:   1.5939[ 127]
+64:loss       [ 200]: avg:   0.0505, min:   0.0209[  37], max:   0.0941[  13]
+****************************************
+Beginning of Epoch 65
+Mem usage: available: 227.376 GB, used: 273.149 GB, free: 217.371 GB
+epoch: 65, time: 162.7s, total time(train): 3H 01M 15S
+Speed: train: 78.7, act: 4762.8, buffer_add: 60.8, buffer_size: 65536
+Total Sample: train: 844.8K, act: 51.691M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 230 MS, 28.41%
+	device conversion: 45 MS, 5.59%
+	calculating loss : 331 MS, 40.76%
+	backprop & update: 203 MS, 25.03%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 813.20 ms
+epoch 65, eval score: 13.000000
+[65] Time spent = 345.07 s
+65:eval_score [   1]: avg:  13.0000, min:  13.0000[   0], max:  13.0000[   0]
+65:grad_norm  [ 200]: avg:   0.5339, min:   0.1614[  49], max:   1.1038[ 186]
+65:loss       [ 200]: avg:   0.0486, min:   0.0236[  49], max:   0.1130[ 195]
+****************************************
+Beginning of Epoch 66
+Mem usage: available: 227.353 GB, used: 273.172 GB, free: 217.349 GB
+epoch: 66, time: 170.2s, total time(train): 3H 04M 05S
+Speed: train: 75.2, act: 4700.9, buffer_add: 59.8, buffer_size: 65536
+Total Sample: train: 857.6K, act: 52.491M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 270 MS, 31.74%
+	device conversion: 44 MS, 5.26%
+	calculating loss : 331 MS, 38.96%
+	backprop & update: 202 MS, 23.82%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 851.07 ms
+epoch 66, eval score: 0.700000
+[66] Time spent = 188.91 s
+66:eval_score [   1]: avg:   0.7000, min:   0.7000[   0], max:   0.7000[   0]
+66:grad_norm  [ 200]: avg:   0.6954, min:   0.1789[  46], max:   1.8244[ 100]
+66:loss       [ 200]: avg:   0.0499, min:   0.0261[  46], max:   0.0848[ 195]
+****************************************
+Beginning of Epoch 67
+Mem usage: available: 227.307 GB, used: 273.217 GB, free: 217.303 GB
+epoch: 67, time: 161.6s, total time(train): 3H 06M 47S
+Speed: train: 79.2, act: 4756.9, buffer_add: 60.3, buffer_size: 65536
+Total Sample: train: 870.4K, act: 53.259M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 228 MS, 28.24%
+	device conversion: 44 MS, 5.49%
+	calculating loss : 330 MS, 40.93%
+	backprop & update: 202 MS, 25.12%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 807.74 ms
+epoch 67, eval score: 1.500000
+[67] Time spent = 358.40 s
+67:eval_score [   1]: avg:   1.5000, min:   1.5000[   0], max:   1.5000[   0]
+67:grad_norm  [ 200]: avg:   0.5138, min:   0.1638[ 171], max:   1.3378[ 108]
+67:loss       [ 200]: avg:   0.0489, min:   0.0276[ 158], max:   0.0861[ 100]
+****************************************
+Beginning of Epoch 68
+Mem usage: available: 227.280 GB, used: 273.245 GB, free: 217.275 GB
+epoch: 68, time: 166.6s, total time(train): 3H 09M 33S
+Speed: train: 76.8, act: 4726.0, buffer_add: 59.5, buffer_size: 65536
+Total Sample: train: 883.2K, act: 54.046M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 255 MS, 30.70%
+	device conversion: 44 MS, 5.33%
+	calculating loss : 329 MS, 39.54%
+	backprop & update: 201 MS, 24.21%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 832.77 ms
+epoch 68, eval score: 1.800000
+[68] Time spent = 360.39 s
+68:eval_score [   1]: avg:   1.8000, min:   1.8000[   0], max:   1.8000[   0]
+68:grad_norm  [ 200]: avg:   0.6121, min:   0.2092[ 196], max:   1.6026[ 103]
+68:loss       [ 200]: avg:   0.0471, min:   0.0213[ 118], max:   0.0759[ 181]
+****************************************
+Beginning of Epoch 69
+Mem usage: available: 227.222 GB, used: 273.303 GB, free: 217.217 GB
+epoch: 69, time: 167.6s, total time(train): 3H 12M 21S
+Speed: train: 76.4, act: 4736.6, buffer_add: 60.3, buffer_size: 65536
+Total Sample: train: 896K, act: 54.841M
+@@@Time
+	sync and updating: 1 MS, 0.18%
+	sample data      : 257 MS, 30.78%
+	device conversion: 44 MS, 5.32%
+	calculating loss : 331 MS, 39.54%
+	backprop & update: 202 MS, 24.16%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 838.14 ms
+epoch 69, eval score: 1.200000
+[69] Time spent = 361.45 s
+69:eval_score [   1]: avg:   1.2000, min:   1.2000[   0], max:   1.2000[   0]
+69:grad_norm  [ 200]: avg:   0.4950, min:   0.1320[  15], max:   1.6197[  87]
+69:loss       [ 200]: avg:   0.0461, min:   0.0152[ 157], max:   0.0783[   1]
+****************************************
+Beginning of Epoch 70
+Mem usage: available: 227.202 GB, used: 273.323 GB, free: 217.197 GB
+epoch: 70, time: 168.0s, total time(train): 3H 15M 09S
+Speed: train: 76.2, act: 4712.3, buffer_add: 60.7, buffer_size: 65536
+Total Sample: train: 908.8K, act: 55.632M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 260 MS, 30.98%
+	device conversion: 44 MS, 5.35%
+	calculating loss : 330 MS, 39.33%
+	backprop & update: 202 MS, 24.12%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 839.90 ms
+epoch 70, eval score: 11.000000
+[70] Time spent = 363.85 s
+70:eval_score [   1]: avg:  11.0000, min:  11.0000[   0], max:  11.0000[   0]
+70:grad_norm  [ 200]: avg:   0.4334, min:   0.1490[ 132], max:   1.0219[ 185]
+70:loss       [ 200]: avg:   0.0448, min:   0.0230[ 179], max:   0.0910[  13]
+****************************************
+Beginning of Epoch 71
+Mem usage: available: 227.263 GB, used: 273.262 GB, free: 217.258 GB
+epoch: 71, time: 167.2s, total time(train): 3H 17M 56S
+Speed: train: 76.5, act: 4728.6, buffer_add: 59.9, buffer_size: 65536
+Total Sample: train: 921.6K, act: 56.423M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 256 MS, 30.74%
+	device conversion: 44 MS, 5.32%
+	calculating loss : 330 MS, 39.54%
+	backprop & update: 202 MS, 24.19%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 836.03 ms
+epoch 71, eval score: 29.200000
+[71] Time spent = 185.34 s
+71:eval_score [   1]: avg:  29.2000, min:  29.2000[   0], max:  29.2000[   0]
+71:grad_norm  [ 200]: avg:   0.4525, min:   0.1287[ 170], max:   1.1042[  93]
+71:loss       [ 200]: avg:   0.0445, min:   0.0222[ 148], max:   0.0817[  85]
+****************************************
+Beginning of Epoch 72
+Mem usage: available: 227.205 GB, used: 273.320 GB, free: 217.200 GB
+epoch: 72, time: 162.5s, total time(train): 3H 20M 39S
+Speed: train: 78.8, act: 4721.8, buffer_add: 59.9, buffer_size: 65536
+Total Sample: train: 934.4K, act: 57.19M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 229 MS, 28.28%
+	device conversion: 46 MS, 5.67%
+	calculating loss : 332 MS, 40.94%
+	backprop & update: 202 MS, 24.90%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 812.41 ms
+epoch 72, eval score: 0.100000
+[72] Time spent = 343.44 s
+72:eval_score [   1]: avg:   0.1000, min:   0.1000[   0], max:   0.1000[   0]
+72:grad_norm  [ 200]: avg:   0.4674, min:   0.1425[  61], max:   1.9253[ 127]
+72:loss       [ 200]: avg:   0.0463, min:   0.0175[ 121], max:   0.0810[  87]
+****************************************
+Beginning of Epoch 73
+Mem usage: available: 227.147 GB, used: 273.378 GB, free: 217.142 GB
+epoch: 73, time: 168.4s, total time(train): 3H 23M 27S
+Speed: train: 76.0, act: 4698.8, buffer_add: 59.7, buffer_size: 65536
+Total Sample: train: 947.2K, act: 57.981M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 262 MS, 31.13%
+	device conversion: 45 MS, 5.36%
+	calculating loss : 329 MS, 39.16%
+	backprop & update: 203 MS, 24.13%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 841.96 ms
+epoch 73, eval score: 15.300000
+[73] Time spent = 358.86 s
+73:eval_score [   1]: avg:  15.3000, min:  15.3000[   0], max:  15.3000[   0]
+73:grad_norm  [ 200]: avg:   0.5100, min:   0.1486[  48], max:   1.1691[  65]
+73:loss       [ 200]: avg:   0.0441, min:   0.0130[  62], max:   0.0779[  44]
+****************************************
+Beginning of Epoch 74
+Mem usage: available: 227.120 GB, used: 273.405 GB, free: 217.115 GB
+epoch: 74, time: 167.5s, total time(train): 3H 26M 15S
+Speed: train: 76.4, act: 4742.1, buffer_add: 60.2, buffer_size: 65536
+Total Sample: train: 960K, act: 58.776M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 258 MS, 30.87%
+	device conversion: 44 MS, 5.37%
+	calculating loss : 329 MS, 39.36%
+	backprop & update: 202 MS, 24.18%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 837.45 ms
+epoch 74, eval score: 1.000000
+[74] Time spent = 363.37 s
+74:eval_score [   1]: avg:   1.0000, min:   1.0000[   0], max:   1.0000[   0]
+74:grad_norm  [ 200]: avg:   0.5453, min:   0.1647[ 128], max:   1.3202[  60]
+74:loss       [ 200]: avg:   0.0445, min:   0.0176[ 128], max:   0.0780[  67]
+****************************************
+Beginning of Epoch 75
+Mem usage: available: 227.068 GB, used: 273.456 GB, free: 217.064 GB
+epoch: 75, time: 167.4s, total time(train): 3H 29M 02S
+Speed: train: 76.5, act: 4717.9, buffer_add: 60.4, buffer_size: 65536
+Total Sample: train: 972.8K, act: 59.566M
+@@@Time
+	sync and updating: 1 MS, 0.22%
+	sample data      : 256 MS, 30.62%
+	device conversion: 45 MS, 5.43%
+	calculating loss : 330 MS, 39.55%
+	backprop & update: 202 MS, 24.17%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 836.94 ms
+epoch 75, eval score: 2.800000
+[75] Time spent = 359.78 s
+75:eval_score [   1]: avg:   2.8000, min:   2.8000[   0], max:   2.8000[   0]
+75:grad_norm  [ 200]: avg:   0.6654, min:   0.2238[  68], max:   2.7361[   6]
+75:loss       [ 200]: avg:   0.0537, min:   0.0241[ 141], max:   0.1278[   0]
+****************************************
+Beginning of Epoch 76
+Mem usage: available: 227.208 GB, used: 273.317 GB, free: 217.213 GB
+epoch: 76, time: 167.6s, total time(train): 3H 31M 50S
+Speed: train: 76.4, act: 4721.7, buffer_add: 59.8, buffer_size: 65536
+Total Sample: train: 985.6K, act: 60.357M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 258 MS, 30.89%
+	device conversion: 45 MS, 5.39%
+	calculating loss : 329 MS, 39.38%
+	backprop & update: 202 MS, 24.12%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 837.76 ms
+epoch 76, eval score: 1.000000
+[76] Time spent = 185.46 s
+76:eval_score [   1]: avg:   1.0000, min:   1.0000[   0], max:   1.0000[   0]
+76:grad_norm  [ 200]: avg:   0.5541, min:   0.1403[ 183], max:   1.3848[  92]
+76:loss       [ 200]: avg:   0.0482, min:   0.0171[  22], max:   0.0840[ 124]
+****************************************
+Beginning of Epoch 77
+Mem usage: available: 227.244 GB, used: 273.281 GB, free: 217.249 GB
+epoch: 77, time: 160.6s, total time(train): 3H 34M 30S
+Speed: train: 79.7, act: 4777.7, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 998.4K, act: 61.124M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 224 MS, 27.94%
+	device conversion: 45 MS, 5.61%
+	calculating loss : 329 MS, 41.01%
+	backprop & update: 202 MS, 25.23%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 802.92 ms
+epoch 77, eval score: 29.500000
+[77] Time spent = 178.85 s
+77:eval_score [   1]: avg:  29.5000, min:  29.5000[   0], max:  29.5000[   0]
+77:grad_norm  [ 200]: avg:   0.5986, min:   0.2011[   6], max:   1.3770[ 145]
+77:loss       [ 200]: avg:   0.0485, min:   0.0206[  37], max:   0.0958[  70]
+****************************************
+Beginning of Epoch 78
+Mem usage: available: 227.335 GB, used: 273.190 GB, free: 217.340 GB
+epoch: 78, time: 159.0s, total time(train): 3H 37M 09S
+Speed: train: 80.5, act: 4740.5, buffer_add: 60.9, buffer_size: 65536
+Total Sample: train: 1.011M, act: 61.878M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 214 MS, 27.02%
+	device conversion: 45 MS, 5.72%
+	calculating loss : 330 MS, 41.52%
+	backprop & update: 202 MS, 25.51%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 794.98 ms
+epoch 78, eval score: 63.000000
+[78] Time spent = 335.34 s
+78:eval_score [   1]: avg:  63.0000, min:  63.0000[   0], max:  63.0000[   0]
+78:grad_norm  [ 200]: avg:   0.4919, min:   0.1731[ 165], max:   1.2806[  52]
+78:loss       [ 200]: avg:   0.0460, min:   0.0203[  18], max:   0.0784[ 112]
+****************************************
+Beginning of Epoch 79
+Mem usage: available: 227.330 GB, used: 273.194 GB, free: 217.335 GB
+epoch: 79, time: 167.7s, total time(train): 3H 39M 57S
+Speed: train: 76.3, act: 4725.5, buffer_add: 59.9, buffer_size: 65536
+Total Sample: train: 1.024M, act: 62.671M
+@@@Time
+	sync and updating: 1 MS, 0.22%
+	sample data      : 260 MS, 31.06%
+	device conversion: 44 MS, 5.33%
+	calculating loss : 329 MS, 39.33%
+	backprop & update: 201 MS, 24.05%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 838.58 ms
+epoch 79, eval score: 1.600000
+[79] Time spent = 185.38 s
+79:eval_score [   1]: avg:   1.6000, min:   1.6000[   0], max:   1.6000[   0]
+79:grad_norm  [ 200]: avg:   0.5233, min:   0.1137[ 176], max:   1.8658[  10]
+79:loss       [ 200]: avg:   0.0445, min:   0.0146[  84], max:   0.0801[  10]
+****************************************
+Beginning of Epoch 80
+Mem usage: available: 227.298 GB, used: 273.227 GB, free: 217.303 GB
+epoch: 80, time: 160.8s, total time(train): 3H 42M 38S
+Speed: train: 79.6, act: 4742.2, buffer_add: 60.1, buffer_size: 65536
+Total Sample: train: 1.037M, act: 63.433M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 223 MS, 27.78%
+	device conversion: 45 MS, 5.67%
+	calculating loss : 330 MS, 41.16%
+	backprop & update: 202 MS, 25.18%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 804.12 ms
+epoch 80, eval score: 2.000000
+[80] Time spent = 178.92 s
+80:eval_score [   1]: avg:   2.0000, min:   2.0000[   0], max:   2.0000[   0]
+80:grad_norm  [ 200]: avg:   0.5277, min:   0.1969[  36], max:   1.6207[ 190]
+80:loss       [ 200]: avg:   0.0461, min:   0.0200[ 135], max:   0.0935[ 190]
+****************************************
+Beginning of Epoch 81
+Mem usage: available: 227.301 GB, used: 273.224 GB, free: 217.305 GB
+epoch: 81, time: 157.3s, total time(train): 3H 45M 15S
+Speed: train: 81.4, act: 4751.2, buffer_add: 60.2, buffer_size: 65536
+Total Sample: train: 1.05M, act: 64.181M
+@@@Time
+	sync and updating: 1 MS, 0.18%
+	sample data      : 206 MS, 26.24%
+	device conversion: 45 MS, 5.81%
+	calculating loss : 329 MS, 41.95%
+	backprop & update: 202 MS, 25.80%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 786.44 ms
+epoch 81, eval score: 1.900000
+[81] Time spent = 174.03 s
+81:eval_score [   1]: avg:   1.9000, min:   1.9000[   0], max:   1.9000[   0]
+81:grad_norm  [ 200]: avg:   0.5582, min:   0.1717[   3], max:   1.7357[ 113]
+81:loss       [ 200]: avg:   0.0458, min:   0.0157[  44], max:   0.0879[ 194]
+****************************************
+Beginning of Epoch 82
+Mem usage: available: 227.310 GB, used: 273.215 GB, free: 217.314 GB
+epoch: 82, time: 155.8s, total time(train): 3H 47M 51S
+Speed: train: 82.1, act: 4761.7, buffer_add: 60.8, buffer_size: 65536
+Total Sample: train: 1.062M, act: 64.923M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 198 MS, 25.46%
+	device conversion: 46 MS, 5.91%
+	calculating loss : 330 MS, 42.41%
+	backprop & update: 202 MS, 26.01%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 779.13 ms
+epoch 82, eval score: 30.000000
+[82] Time spent = 173.44 s
+82:eval_score [   1]: avg:  30.0000, min:  30.0000[   0], max:  30.0000[   0]
+82:grad_norm  [ 200]: avg:   0.3816, min:   0.1333[  61], max:   0.8300[ 124]
+82:loss       [ 200]: avg:   0.0450, min:   0.0245[  35], max:   0.0929[  23]
+****************************************
+Beginning of Epoch 83
+Mem usage: available: 227.311 GB, used: 273.214 GB, free: 217.315 GB
+epoch: 83, time: 154.0s, total time(train): 3H 50M 25S
+Speed: train: 83.1, act: 4768.7, buffer_add: 61.0, buffer_size: 65536
+Total Sample: train: 1.075M, act: 65.657M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 188 MS, 24.49%
+	device conversion: 46 MS, 6.01%
+	calculating loss : 330 MS, 42.98%
+	backprop & update: 202 MS, 26.30%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 769.76 ms
+epoch 83, eval score: 18.000000
+[83] Time spent = 333.30 s
+83:eval_score [   1]: avg:  18.0000, min:  18.0000[   0], max:  18.0000[   0]
+83:grad_norm  [ 200]: avg:   0.3883, min:   0.0903[ 108], max:   0.8317[ 175]
+83:loss       [ 200]: avg:   0.0439, min:   0.0067[ 108], max:   0.1220[ 175]
+****************************************
+Beginning of Epoch 84
+Mem usage: available: 227.298 GB, used: 273.227 GB, free: 217.302 GB
+epoch: 84, time: 168.0s, total time(train): 3H 53M 13S
+Speed: train: 76.2, act: 4716.7, buffer_add: 60.0, buffer_size: 65536
+Total Sample: train: 1.088M, act: 66.449M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 261 MS, 31.17%
+	device conversion: 45 MS, 5.36%
+	calculating loss : 329 MS, 39.25%
+	backprop & update: 201 MS, 24.01%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 839.73 ms
+epoch 84, eval score: 1.200000
+[84] Time spent = 366.34 s
+84:eval_score [   1]: avg:   1.2000, min:   1.2000[   0], max:   1.2000[   0]
+84:grad_norm  [ 200]: avg:   0.4400, min:   0.1559[ 182], max:   1.0866[ 150]
+84:loss       [ 200]: avg:   0.0437, min:   0.0238[  98], max:   0.0814[  51]
+****************************************
+Beginning of Epoch 85
+Mem usage: available: 227.294 GB, used: 273.231 GB, free: 217.299 GB
+epoch: 85, time: 168.4s, total time(train): 3H 56M 01S
+Speed: train: 76.0, act: 4707.7, buffer_add: 59.6, buffer_size: 65536
+Total Sample: train: 1.101M, act: 67.242M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 263 MS, 31.28%
+	device conversion: 45 MS, 5.36%
+	calculating loss : 330 MS, 39.20%
+	backprop & update: 201 MS, 23.93%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 842.16 ms
+epoch 85, eval score: 29.800000
+[85] Time spent = 186.73 s
+85:eval_score [   1]: avg:  29.8000, min:  29.8000[   0], max:  29.8000[   0]
+85:grad_norm  [ 200]: avg:   0.6567, min:   0.1424[ 134], max:   9.0531[  22]
+85:loss       [ 200]: avg:   0.0476, min:   0.0178[ 199], max:   0.1602[  22]
+****************************************
+Beginning of Epoch 86
+Mem usage: available: 227.256 GB, used: 273.269 GB, free: 217.260 GB
+epoch: 86, time: 163.0s, total time(train): 3H 58M 44S
+Speed: train: 78.5, act: 4757.6, buffer_add: 60.5, buffer_size: 65536
+Total Sample: train: 1.114M, act: 68.018M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 233 MS, 28.63%
+	device conversion: 45 MS, 5.62%
+	calculating loss : 331 MS, 40.63%
+	backprop & update: 203 MS, 24.92%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 815.15 ms
+epoch 86, eval score: 15.000000
+[86] Time spent = 344.87 s
+86:eval_score [   1]: avg:  15.0000, min:  15.0000[   0], max:  15.0000[   0]
+86:grad_norm  [ 200]: avg:   0.3944, min:   0.1340[ 121], max:   1.3657[  73]
+86:loss       [ 200]: avg:   0.0449, min:   0.0179[ 121], max:   0.0933[  66]
+****************************************
+Beginning of Epoch 87
+Mem usage: available: 227.251 GB, used: 273.274 GB, free: 217.255 GB
+epoch: 87, time: 168.9s, total time(train): 4H 01M 33S
+Speed: train: 75.8, act: 4700.8, buffer_add: 60.3, buffer_size: 65536
+Total Sample: train: 1.126M, act: 68.812M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 266 MS, 31.56%
+	device conversion: 44 MS, 5.28%
+	calculating loss : 329 MS, 39.00%
+	backprop & update: 202 MS, 23.95%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 844.24 ms
+epoch 87, eval score: 29.500000
+[87] Time spent = 187.53 s
+87:eval_score [   1]: avg:  29.5000, min:  29.5000[   0], max:  29.5000[   0]
+87:grad_norm  [ 200]: avg:   0.8021, min:   0.1522[  64], max:  17.1144[ 163]
+87:loss       [ 200]: avg:   0.0524, min:   0.0172[  15], max:   0.1295[ 109]
+****************************************
+Beginning of Epoch 88
+Mem usage: available: 227.284 GB, used: 273.240 GB, free: 217.289 GB
+epoch: 88, time: 161.2s, total time(train): 4H 04M 14S
+Speed: train: 79.4, act: 4773.5, buffer_add: 60.8, buffer_size: 65536
+Total Sample: train: 1.139M, act: 69.581M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 225 MS, 28.04%
+	device conversion: 45 MS, 5.63%
+	calculating loss : 330 MS, 41.01%
+	backprop & update: 202 MS, 25.09%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 806.09 ms
+epoch 88, eval score: 46.500000
+[88] Time spent = 179.35 s
+88:eval_score [   1]: avg:  46.5000, min:  46.5000[   0], max:  46.5000[   0]
+88:grad_norm  [ 200]: avg:   0.5498, min:   0.1043[ 111], max:  23.9066[  48]
+88:loss       [ 200]: avg:   0.0485, min:   0.0192[ 162], max:   0.3116[  48]
+****************************************
+Beginning of Epoch 89
+Mem usage: available: 227.343 GB, used: 273.182 GB, free: 217.347 GB
+epoch: 89, time: 158.8s, total time(train): 4H 06M 53S
+Speed: train: 80.6, act: 4784.8, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 1.152M, act: 70.341M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 212 MS, 26.78%
+	device conversion: 45 MS, 5.76%
+	calculating loss : 330 MS, 41.67%
+	backprop & update: 203 MS, 25.58%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 794.07 ms
+epoch 89, eval score: 23.100000
+[89] Time spent = 340.19 s
+89:eval_score [   1]: avg:  23.1000, min:  23.1000[   0], max:  23.1000[   0]
+89:grad_norm  [ 200]: avg:   0.2975, min:   0.1122[  88], max:   0.6391[  63]
+89:loss       [ 200]: avg:   0.0432, min:   0.0190[  14], max:   0.0883[   4]
+****************************************
+Beginning of Epoch 90
+Mem usage: available: 227.483 GB, used: 273.042 GB, free: 217.487 GB
+epoch: 90, time: 168.2s, total time(train): 4H 09M 41S
+Speed: train: 76.1, act: 4719.4, buffer_add: 59.8, buffer_size: 65536
+Total Sample: train: 1.165M, act: 71.135M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 262 MS, 31.25%
+	device conversion: 43 MS, 5.22%
+	calculating loss : 329 MS, 39.23%
+	backprop & update: 202 MS, 24.09%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 840.77 ms
+epoch 90, eval score: 35.400000
+[90] Time spent = 349.60 s
+90:eval_score [   1]: avg:  35.4000, min:  35.4000[   0], max:  35.4000[   0]
+90:grad_norm  [ 200]: avg:   0.5815, min:   0.1297[ 193], max:   6.1092[  46]
+90:loss       [ 200]: avg:   0.0444, min:   0.0196[  15], max:   0.1146[  44]
+****************************************
+Beginning of Epoch 91
+Mem usage: available: 227.513 GB, used: 273.012 GB, free: 217.517 GB
+epoch: 91, time: 169.8s, total time(train): 4H 12M 31S
+Speed: train: 75.4, act: 4721.0, buffer_add: 60.5, buffer_size: 65536
+Total Sample: train: 1.178M, act: 71.936M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 269 MS, 31.75%
+	device conversion: 45 MS, 5.35%
+	calculating loss : 330 MS, 38.91%
+	backprop & update: 201 MS, 23.77%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 848.70 ms
+epoch 91, eval score: 12.000000
+[91] Time spent = 187.44 s
+91:eval_score [   1]: avg:  12.0000, min:  12.0000[   0], max:  12.0000[   0]
+91:grad_norm  [ 200]: avg:   0.3993, min:   0.0939[  17], max:   1.9964[ 160]
+91:loss       [ 200]: avg:   0.0405, min:   0.0103[  17], max:   0.0762[  24]
+****************************************
+Beginning of Epoch 92
+Mem usage: available: 227.489 GB, used: 273.036 GB, free: 217.493 GB
+epoch: 92, time: 162.6s, total time(train): 4H 15M 14S
+Speed: train: 78.7, act: 4755.7, buffer_add: 60.5, buffer_size: 65536
+Total Sample: train: 1.19M, act: 72.71M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 231 MS, 28.51%
+	device conversion: 45 MS, 5.58%
+	calculating loss : 330 MS, 40.69%
+	backprop & update: 203 MS, 25.00%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 813.08 ms
+epoch 92, eval score: 28.800000
+[92] Time spent = 181.34 s
+92:eval_score [   1]: avg:  28.8000, min:  28.8000[   0], max:  28.8000[   0]
+92:grad_norm  [ 200]: avg:   0.3332, min:   0.1100[ 122], max:   0.7722[ 172]
+92:loss       [ 200]: avg:   0.0387, min:   0.0134[ 122], max:   0.0674[ 124]
+****************************************
+Beginning of Epoch 93
+Mem usage: available: 227.464 GB, used: 273.061 GB, free: 217.467 GB
+epoch: 93, time: 159.4s, total time(train): 4H 17M 53S
+Speed: train: 80.3, act: 4766.4, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 1.203M, act: 73.47M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 216 MS, 27.13%
+	device conversion: 45 MS, 5.75%
+	calculating loss : 330 MS, 41.48%
+	backprop & update: 202 MS, 25.43%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 796.87 ms
+epoch 93, eval score: 28.500000
+[93] Time spent = 178.02 s
+93:eval_score [   1]: avg:  28.5000, min:  28.5000[   0], max:  28.5000[   0]
+93:grad_norm  [ 200]: avg:   0.4069, min:   0.1479[ 140], max:   1.0774[ 109]
+93:loss       [ 200]: avg:   0.0401, min:   0.0148[ 117], max:   0.0760[ 130]
+****************************************
+Beginning of Epoch 94
+Mem usage: available: 227.539 GB, used: 272.985 GB, free: 217.543 GB
+epoch: 94, time: 156.8s, total time(train): 4H 20M 30S
+Speed: train: 81.6, act: 4776.2, buffer_add: 60.4, buffer_size: 65536
+Total Sample: train: 1.216M, act: 74.218M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 203 MS, 26.00%
+	device conversion: 45 MS, 5.84%
+	calculating loss : 329 MS, 42.09%
+	backprop & update: 202 MS, 25.86%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 783.94 ms
+epoch 94, eval score: 4.800000
+[94] Time spent = 352.66 s
+94:eval_score [   1]: avg:   4.8000, min:   4.8000[   0], max:   4.8000[   0]
+94:grad_norm  [ 200]: avg:   0.5012, min:   0.1540[  93], max:   2.5300[ 167]
+94:loss       [ 200]: avg:   0.0417, min:   0.0169[ 143], max:   0.0750[ 187]
+****************************************
+Beginning of Epoch 95
+Mem usage: available: 227.557 GB, used: 272.968 GB, free: 217.560 GB
+epoch: 95, time: 167.6s, total time(train): 4H 23M 18S
+Speed: train: 76.4, act: 4726.7, buffer_add: 60.3, buffer_size: 65536
+Total Sample: train: 1.229M, act: 75.011M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 259 MS, 30.94%
+	device conversion: 44 MS, 5.32%
+	calculating loss : 330 MS, 39.40%
+	backprop & update: 202 MS, 24.11%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 838.11 ms
+epoch 95, eval score: 21.000000
+[95] Time spent = 185.77 s
+95:eval_score [   1]: avg:  21.0000, min:  21.0000[   0], max:  21.0000[   0]
+95:grad_norm  [ 200]: avg:   0.4003, min:   0.1418[  50], max:   1.2811[   5]
+95:loss       [ 200]: avg:   0.0403, min:   0.0190[ 127], max:   0.0730[  98]
+****************************************
+Beginning of Epoch 96
+Mem usage: available: 227.639 GB, used: 272.886 GB, free: 217.642 GB
+epoch: 96, time: 162.1s, total time(train): 4H 26M 00S
+Speed: train: 79.0, act: 4748.3, buffer_add: 60.5, buffer_size: 65536
+Total Sample: train: 1.242M, act: 75.781M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 229 MS, 28.33%
+	device conversion: 45 MS, 5.56%
+	calculating loss : 330 MS, 40.84%
+	backprop & update: 203 MS, 25.05%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 810.44 ms
+epoch 96, eval score: 40.400000
+[96] Time spent = 180.84 s
+96:eval_score [   1]: avg:  40.4000, min:  40.4000[   0], max:  40.4000[   0]
+96:grad_norm  [ 200]: avg:   0.4358, min:   0.1797[ 149], max:   1.1961[ 115]
+96:loss       [ 200]: avg:   0.0451, min:   0.0188[  75], max:   0.0862[ 193]
+****************************************
+Beginning of Epoch 97
+Mem usage: available: 227.790 GB, used: 272.734 GB, free: 217.794 GB
+epoch: 97, time: 157.7s, total time(train): 4H 28M 37S
+Speed: train: 81.2, act: 4754.4, buffer_add: 60.4, buffer_size: 65536
+Total Sample: train: 1.254M, act: 76.53M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 205 MS, 26.04%
+	device conversion: 46 MS, 5.87%
+	calculating loss : 331 MS, 42.01%
+	backprop & update: 203 MS, 25.86%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 788.20 ms
+epoch 97, eval score: 41.800000
+[97] Time spent = 176.46 s
+97:eval_score [   1]: avg:  41.8000, min:  41.8000[   0], max:  41.8000[   0]
+97:grad_norm  [ 200]: avg:   0.6262, min:   0.1827[ 188], max:   4.2654[  45]
+97:loss       [ 200]: avg:   0.0483, min:   0.0199[ 144], max:   0.1164[  45]
+****************************************
+Beginning of Epoch 98
+Mem usage: available: 227.836 GB, used: 272.688 GB, free: 217.840 GB
+epoch: 98, time: 157.4s, total time(train): 4H 31M 15S
+Speed: train: 81.3, act: 4774.1, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 1.267M, act: 77.282M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 204 MS, 26.03%
+	device conversion: 46 MS, 5.90%
+	calculating loss : 331 MS, 42.07%
+	backprop & update: 202 MS, 25.78%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 787.04 ms
+epoch 98, eval score: 36.800000
+[98] Time spent = 176.05 s
+98:eval_score [   1]: avg:  36.8000, min:  36.8000[   0], max:  36.8000[   0]
+98:grad_norm  [ 200]: avg:   0.4140, min:   0.1014[  87], max:   1.1202[   2]
+98:loss       [ 200]: avg:   0.0456, min:   0.0215[  87], max:   0.0851[   2]
+****************************************
+Beginning of Epoch 99
+Mem usage: available: 227.828 GB, used: 272.697 GB, free: 217.831 GB
+epoch: 99, time: 156.8s, total time(train): 4H 33M 52S
+Speed: train: 81.7, act: 4766.0, buffer_add: 60.7, buffer_size: 65536
+Total Sample: train: 1.28M, act: 78.029M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 202 MS, 25.87%
+	device conversion: 45 MS, 5.87%
+	calculating loss : 330 MS, 42.16%
+	backprop & update: 202 MS, 25.90%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 783.72 ms
+epoch 99, eval score: 22.800000
+[99] Time spent = 340.12 s
+99:eval_score [   1]: avg:  22.8000, min:  22.8000[   0], max:  22.8000[   0]
+99:grad_norm  [ 200]: avg:   0.4352, min:   0.1795[ 122], max:   1.0289[ 150]
+99:loss       [ 200]: avg:   0.0443, min:   0.0176[ 138], max:   0.0787[ 169]
+****************************************
+Beginning of Epoch 100
+Mem usage: available: 227.801 GB, used: 272.724 GB, free: 217.804 GB
+epoch: 100, time: 168.7s, total time(train): 4H 36M 40S
+Speed: train: 75.9, act: 4724.5, buffer_add: 60.3, buffer_size: 65536
+Total Sample: train: 1.293M, act: 78.826M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 264 MS, 31.38%
+	device conversion: 44 MS, 5.32%
+	calculating loss : 329 MS, 39.12%
+	backprop & update: 202 MS, 23.97%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 843.38 ms
+epoch 100, eval score: 2.700000
+[100] Time spent = 363.66 s
+100:eval_score[   1]: avg:   2.7000, min:   2.7000[   0], max:   2.7000[   0]
+100:grad_norm [ 200]: avg:   0.6507, min:   0.2153[ 130], max:   3.3641[   9]
+100:loss      [ 200]: avg:   0.0497, min:   0.0192[ 181], max:   0.1717[   0]
+****************************************
+Beginning of Epoch 101
+Mem usage: available: 227.907 GB, used: 272.618 GB, free: 217.910 GB
+epoch: 101, time: 169.7s, total time(train): 4H 39M 30S
+Speed: train: 75.4, act: 4710.2, buffer_add: 59.7, buffer_size: 65536
+Total Sample: train: 1.306M, act: 79.625M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 269 MS, 31.81%
+	device conversion: 45 MS, 5.33%
+	calculating loss : 329 MS, 38.84%
+	backprop & update: 201 MS, 23.81%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 848.33 ms
+epoch 101, eval score: 0.900000
+[101] Time spent = 363.11 s
+101:eval_score[   1]: avg:   0.9000, min:   0.9000[   0], max:   0.9000[   0]
+101:grad_norm [ 200]: avg:   0.4999, min:   0.1381[  41], max:   1.6993[ 158]
+101:loss      [ 200]: avg:   0.0450, min:   0.0208[ 141], max:   0.0797[ 161]
+****************************************
+Beginning of Epoch 102
+Mem usage: available: 227.896 GB, used: 272.629 GB, free: 217.899 GB
+epoch: 102, time: 167.4s, total time(train): 4H 42M 17S
+Speed: train: 76.5, act: 4711.4, buffer_add: 59.9, buffer_size: 65536
+Total Sample: train: 1.318M, act: 80.414M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 257 MS, 30.76%
+	device conversion: 45 MS, 5.44%
+	calculating loss : 329 MS, 39.40%
+	backprop & update: 202 MS, 24.19%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 836.86 ms
+epoch 102, eval score: 1.800000
+[102] Time spent = 184.58 s
+102:eval_score[   1]: avg:   1.8000, min:   1.8000[   0], max:   1.8000[   0]
+102:grad_norm [ 200]: avg:   0.5238, min:   0.1769[ 176], max:   3.1326[  67]
+102:loss      [ 200]: avg:   0.0469, min:   0.0209[   2], max:   0.0832[  86]
+****************************************
+Beginning of Epoch 103
+Mem usage: available: 227.923 GB, used: 272.602 GB, free: 217.926 GB
+epoch: 103, time: 161.2s, total time(train): 4H 44M 59S
+Speed: train: 79.4, act: 4777.6, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 1.331M, act: 81.184M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 226 MS, 28.06%
+	device conversion: 45 MS, 5.62%
+	calculating loss : 329 MS, 40.93%
+	backprop & update: 202 MS, 25.18%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 806.03 ms
+epoch 103, eval score: 1.500000
+[103] Time spent = 179.38 s
+103:eval_score[   1]: avg:   1.5000, min:   1.5000[   0], max:   1.5000[   0]
+103:grad_norm [ 200]: avg:   0.4608, min:   0.1754[  64], max:   0.9805[  12]
+103:loss      [ 200]: avg:   0.0454, min:   0.0220[ 136], max:   0.0832[ 100]
+****************************************
+Beginning of Epoch 104
+Mem usage: available: 227.897 GB, used: 272.628 GB, free: 217.900 GB
+epoch: 104, time: 158.5s, total time(train): 4H 47M 37S
+Speed: train: 80.8, act: 4777.8, buffer_add: 61.1, buffer_size: 65536
+Total Sample: train: 1.344M, act: 81.941M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 212 MS, 26.83%
+	device conversion: 45 MS, 5.69%
+	calculating loss : 330 MS, 41.65%
+	backprop & update: 202 MS, 25.62%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 792.35 ms
+epoch 104, eval score: 1.600000
+[104] Time spent = 355.26 s
+104:eval_score[   1]: avg:   1.6000, min:   1.6000[   0], max:   1.6000[   0]
+104:grad_norm [ 200]: avg:   0.5792, min:   0.2029[  46], max:   1.4944[ 103]
+104:loss      [ 200]: avg:   0.0471, min:   0.0235[ 191], max:   0.0766[ 126]
+****************************************
+Beginning of Epoch 105
+Mem usage: available: 227.961 GB, used: 272.563 GB, free: 217.964 GB
+epoch: 105, time: 168.1s, total time(train): 4H 50M 25S
+Speed: train: 76.2, act: 4722.5, buffer_add: 60.1, buffer_size: 65536
+Total Sample: train: 1.357M, act: 82.735M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 261 MS, 31.15%
+	device conversion: 44 MS, 5.28%
+	calculating loss : 329 MS, 39.27%
+	backprop & update: 202 MS, 24.09%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 840.20 ms
+epoch 105, eval score: 1.200000
+[105] Time spent = 364.00 s
+105:eval_score[   1]: avg:   1.2000, min:   1.2000[   0], max:   1.2000[   0]
+105:grad_norm [ 200]: avg:   0.4590, min:   0.1487[   9], max:   1.8339[ 174]
+105:loss      [ 200]: avg:   0.0458, min:   0.0228[   9], max:   0.0949[ 128]
+****************************************
+Beginning of Epoch 106
+Mem usage: available: 227.927 GB, used: 272.597 GB, free: 217.930 GB
+epoch: 106, time: 168.0s, total time(train): 4H 53M 13S
+Speed: train: 76.2, act: 4729.2, buffer_add: 60.0, buffer_size: 65536
+Total Sample: train: 1.37M, act: 83.529M
+@@@Time
+	sync and updating: 1 MS, 0.22%
+	sample data      : 261 MS, 31.09%
+	device conversion: 44 MS, 5.33%
+	calculating loss : 329 MS, 39.28%
+	backprop & update: 201 MS, 24.06%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 839.69 ms
+epoch 106, eval score: 30.000000
+[106] Time spent = 186.62 s
+106:eval_score[   1]: avg:  30.0000, min:  30.0000[   0], max:  30.0000[   0]
+106:grad_norm [ 200]: avg:   0.4358, min:   0.1594[ 124], max:   1.4155[ 184]
+106:loss      [ 200]: avg:   0.0480, min:   0.0180[ 120], max:   0.0856[  92]
+****************************************
+Beginning of Epoch 107
+Mem usage: available: 227.933 GB, used: 272.591 GB, free: 217.936 GB
+epoch: 107, time: 161.4s, total time(train): 4H 55M 54S
+Speed: train: 79.3, act: 4762.9, buffer_add: 60.4, buffer_size: 65536
+Total Sample: train: 1.382M, act: 84.298M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 224 MS, 27.87%
+	device conversion: 45 MS, 5.65%
+	calculating loss : 331 MS, 41.06%
+	backprop & update: 203 MS, 25.21%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 806.82 ms
+epoch 107, eval score: 0.900000
+[107] Time spent = 179.08 s
+107:eval_score[   1]: avg:   0.9000, min:   0.9000[   0], max:   0.9000[   0]
+107:grad_norm [ 200]: avg:   0.5330, min:   0.1762[  83], max:   1.3670[   4]
+107:loss      [ 200]: avg:   0.0534, min:   0.0292[  34], max:   0.0925[ 111]
+****************************************
+Beginning of Epoch 108
+Mem usage: available: 228.038 GB, used: 272.487 GB, free: 218.041 GB
+epoch: 108, time: 156.6s, total time(train): 4H 58M 31S
+Speed: train: 81.7, act: 4778.9, buffer_add: 61.1, buffer_size: 65536
+Total Sample: train: 1.395M, act: 85.046M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 204 MS, 26.08%
+	device conversion: 45 MS, 5.81%
+	calculating loss : 328 MS, 42.00%
+	backprop & update: 202 MS, 25.89%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 782.89 ms
+epoch 108, eval score: 17.900000
+[108] Time spent = 351.89 s
+108:eval_score[   1]: avg:  17.9000, min:  17.9000[   0], max:  17.9000[   0]
+108:grad_norm [ 200]: avg:   0.5168, min:   0.1978[ 176], max:   1.1114[ 143]
+108:loss      [ 200]: avg:   0.0556, min:   0.0283[ 172], max:   0.0886[ 179]
+****************************************
+Beginning of Epoch 109
+Mem usage: available: 228.035 GB, used: 272.490 GB, free: 218.037 GB
+epoch: 109, time: 168.7s, total time(train): 5H 01M 20S
+Speed: train: 75.9, act: 4683.1, buffer_add: 59.7, buffer_size: 65536
+Total Sample: train: 1.408M, act: 85.836M
+@@@Time
+	sync and updating: 1 MS, 0.22%
+	sample data      : 261 MS, 31.05%
+	device conversion: 45 MS, 5.39%
+	calculating loss : 331 MS, 39.29%
+	backprop & update: 202 MS, 24.04%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 843.35 ms
+epoch 109, eval score: 15.200000
+[109] Time spent = 186.28 s
+109:eval_score[   1]: avg:  15.2000, min:  15.2000[   0], max:  15.2000[   0]
+109:grad_norm [ 200]: avg:   0.4667, min:   0.1881[  89], max:   1.1461[ 170]
+109:loss      [ 200]: avg:   0.0535, min:   0.0221[   1], max:   0.0995[ 119]
+****************************************
+Beginning of Epoch 110
+Mem usage: available: 228.034 GB, used: 272.491 GB, free: 218.037 GB
+epoch: 110, time: 160.9s, total time(train): 5H 04M 01S
+Speed: train: 79.6, act: 4765.0, buffer_add: 60.7, buffer_size: 65536
+Total Sample: train: 1.421M, act: 86.603M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 224 MS, 27.96%
+	device conversion: 45 MS, 5.61%
+	calculating loss : 330 MS, 41.07%
+	backprop & update: 202 MS, 25.15%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 804.34 ms
+epoch 110, eval score: 30.000000
+[110] Time spent = 179.05 s
+110:eval_score[   1]: avg:  30.0000, min:  30.0000[   0], max:  30.0000[   0]
+110:grad_norm [ 200]: avg:   1.0744, min:   0.1542[  34], max:  22.2950[ 176]
+110:loss      [ 200]: avg:   0.0681, min:   0.0252[  70], max:   0.5256[ 176]
+****************************************
+Beginning of Epoch 111
+Mem usage: available: 228.037 GB, used: 272.488 GB, free: 218.040 GB
+epoch: 111, time: 157.7s, total time(train): 5H 06M 38S
+Speed: train: 81.2, act: 4758.6, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 1.434M, act: 87.353M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 207 MS, 26.29%
+	device conversion: 45 MS, 5.77%
+	calculating loss : 331 MS, 41.99%
+	backprop & update: 202 MS, 25.72%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 788.52 ms
+epoch 111, eval score: 1.800000
+[111] Time spent = 352.56 s
+111:eval_score[   1]: avg:   1.8000, min:   1.8000[   0], max:   1.8000[   0]
+111:grad_norm [ 200]: avg:   0.7099, min:   0.2167[ 182], max:   2.2936[   1]
+111:loss      [ 200]: avg:   0.0588, min:   0.0226[ 182], max:   0.1023[ 120]
+****************************************
+Beginning of Epoch 112
+Mem usage: available: 228.051 GB, used: 272.474 GB, free: 218.053 GB
+epoch: 112, time: 169.0s, total time(train): 5H 09M 27S
+Speed: train: 75.8, act: 4709.4, buffer_add: 59.9, buffer_size: 65536
+Total Sample: train: 1.446M, act: 88.149M
+@@@Time
+	sync and updating: 1 MS, 0.22%
+	sample data      : 265 MS, 31.46%
+	device conversion: 44 MS, 5.30%
+	calculating loss : 330 MS, 39.10%
+	backprop & update: 201 MS, 23.90%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 844.70 ms
+epoch 112, eval score: 0.600000
+[112] Time spent = 186.57 s
+112:eval_score[   1]: avg:   0.6000, min:   0.6000[   0], max:   0.6000[   0]
+112:grad_norm [ 200]: avg:   0.6036, min:   0.1837[  90], max:   2.6285[ 103]
+112:loss      [ 200]: avg:   0.0605, min:   0.0250[  26], max:   0.1810[ 100]
+****************************************
+Beginning of Epoch 113
+Mem usage: available: 228.015 GB, used: 272.509 GB, free: 218.018 GB
+epoch: 113, time: 161.6s, total time(train): 5H 12M 09S
+Speed: train: 79.2, act: 4767.7, buffer_add: 61.1, buffer_size: 65536
+Total Sample: train: 1.459M, act: 88.919M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 228 MS, 28.25%
+	device conversion: 45 MS, 5.69%
+	calculating loss : 329 MS, 40.78%
+	backprop & update: 202 MS, 25.08%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 807.94 ms
+epoch 113, eval score: 1.800000
+[113] Time spent = 180.33 s
+113:eval_score[   1]: avg:   1.8000, min:   1.8000[   0], max:   1.8000[   0]
+113:grad_norm [ 200]: avg:   0.4572, min:   0.1632[ 119], max:   1.0919[ 186]
+113:loss      [ 200]: avg:   0.0537, min:   0.0229[  65], max:   0.0873[  91]
+****************************************
+Beginning of Epoch 114
+Mem usage: available: 227.991 GB, used: 272.534 GB, free: 217.994 GB
+epoch: 114, time: 158.4s, total time(train): 5H 14M 47S
+Speed: train: 80.8, act: 4771.1, buffer_add: 60.3, buffer_size: 65536
+Total Sample: train: 1.472M, act: 89.675M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 213 MS, 26.98%
+	device conversion: 45 MS, 5.69%
+	calculating loss : 329 MS, 41.58%
+	backprop & update: 202 MS, 25.54%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 792.14 ms
+epoch 114, eval score: 30.000000
+[114] Time spent = 176.53 s
+114:eval_score[   1]: avg:  30.0000, min:  30.0000[   0], max:  30.0000[   0]
+114:grad_norm [ 200]: avg:   0.4364, min:   0.1560[ 163], max:   1.5258[ 162]
+114:loss      [ 200]: avg:   0.0495, min:   0.0190[ 158], max:   0.0865[ 104]
+****************************************
+Beginning of Epoch 115
+Mem usage: available: 227.986 GB, used: 272.538 GB, free: 217.989 GB
+epoch: 115, time: 157.5s, total time(train): 5H 17M 25S
+Speed: train: 81.3, act: 4768.0, buffer_add: 60.5, buffer_size: 65536
+Total Sample: train: 1.485M, act: 90.426M
+@@@Time
+	sync and updating: 1 MS, 0.22%
+	sample data      : 206 MS, 26.25%
+	device conversion: 45 MS, 5.79%
+	calculating loss : 330 MS, 41.95%
+	backprop & update: 202 MS, 25.78%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 787.26 ms
+epoch 115, eval score: 3.300000
+[115] Time spent = 175.23 s
+115:eval_score[   1]: avg:   3.3000, min:   3.3000[   0], max:   3.3000[   0]
+115:grad_norm [ 200]: avg:   0.4785, min:   0.1507[  76], max:   1.1502[ 188]
+115:loss      [ 200]: avg:   0.0492, min:   0.0245[  84], max:   0.0818[ 126]
+****************************************
+Beginning of Epoch 116
+Mem usage: available: 228.101 GB, used: 272.423 GB, free: 218.104 GB
+epoch: 116, time: 157.1s, total time(train): 5H 20M 02S
+Speed: train: 81.5, act: 4763.4, buffer_add: 60.8, buffer_size: 65536
+Total Sample: train: 1.498M, act: 91.174M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 204 MS, 25.98%
+	device conversion: 45 MS, 5.83%
+	calculating loss : 330 MS, 42.13%
+	backprop & update: 202 MS, 25.84%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 785.43 ms
+epoch 116, eval score: 2.000000
+[116] Time spent = 350.93 s
+116:eval_score[   1]: avg:   2.0000, min:   2.0000[   0], max:   2.0000[   0]
+116:grad_norm [ 200]: avg:   0.5267, min:   0.2317[  63], max:   1.0603[ 129]
+116:loss      [ 200]: avg:   0.0453, min:   0.0217[   6], max:   0.0725[ 125]
+****************************************
+Beginning of Epoch 117
+Mem usage: available: 228.097 GB, used: 272.427 GB, free: 218.100 GB
+epoch: 117, time: 168.5s, total time(train): 5H 22M 50S
+Speed: train: 76.0, act: 4726.1, buffer_add: 60.0, buffer_size: 65536
+Total Sample: train: 1.51M, act: 91.971M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 262 MS, 31.20%
+	device conversion: 45 MS, 5.38%
+	calculating loss : 330 MS, 39.21%
+	backprop & update: 202 MS, 24.00%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 842.57 ms
+epoch 117, eval score: 0.900000
+[117] Time spent = 334.82 s
+117:eval_score[   1]: avg:   0.9000, min:   0.9000[   0], max:   0.9000[   0]
+117:grad_norm [ 200]: avg:   0.4141, min:   0.1453[ 143], max:   1.2205[ 198]
+117:loss      [ 200]: avg:   0.0427, min:   0.0230[  73], max:   0.0691[ 165]
+****************************************
+Beginning of Epoch 118
+Mem usage: available: 228.149 GB, used: 272.376 GB, free: 218.151 GB
+epoch: 118, time: 168.1s, total time(train): 5H 25M 39S
+Speed: train: 76.1, act: 4722.7, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 1.523M, act: 92.765M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 262 MS, 31.19%
+	device conversion: 44 MS, 5.30%
+	calculating loss : 329 MS, 39.25%
+	backprop & update: 202 MS, 24.05%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 840.62 ms
+epoch 118, eval score: 10.800000
+[118] Time spent = 186.33 s
+118:eval_score[   1]: avg:  10.8000, min:  10.8000[   0], max:  10.8000[   0]
+118:grad_norm [ 200]: avg:   0.4349, min:   0.1235[ 144], max:   1.2113[   0]
+118:loss      [ 200]: avg:   0.0416, min:   0.0198[  36], max:   0.0827[ 126]
+****************************************
+Beginning of Epoch 119
+Mem usage: available: 228.204 GB, used: 272.321 GB, free: 218.207 GB
+epoch: 119, time: 160.1s, total time(train): 5H 28M 19S
+Speed: train: 79.9, act: 4777.0, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 1.536M, act: 93.53M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 220 MS, 27.56%
+	device conversion: 45 MS, 5.66%
+	calculating loss : 330 MS, 41.22%
+	backprop & update: 202 MS, 25.33%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 800.59 ms
+epoch 119, eval score: 1.200000
+[119] Time spent = 178.25 s
+119:eval_score[   1]: avg:   1.2000, min:   1.2000[   0], max:   1.2000[   0]
+119:grad_norm [ 200]: avg:   0.4137, min:   0.1465[  29], max:   1.3773[ 148]
+119:loss      [ 200]: avg:   0.0377, min:   0.0176[  29], max:   0.0720[ 156]
+****************************************
+Beginning of Epoch 120
+Mem usage: available: 228.210 GB, used: 272.315 GB, free: 218.213 GB
+epoch: 120, time: 157.7s, total time(train): 5H 30M 56S
+Speed: train: 81.2, act: 4765.8, buffer_add: 60.5, buffer_size: 65536
+Total Sample: train: 1.549M, act: 94.281M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 206 MS, 26.23%
+	device conversion: 46 MS, 5.89%
+	calculating loss : 330 MS, 41.91%
+	backprop & update: 203 MS, 25.75%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 788.42 ms
+epoch 120, eval score: 4.700000
+[120] Time spent = 174.83 s
+120:eval_score[   1]: avg:   4.7000, min:   4.7000[   0], max:   4.7000[   0]
+120:grad_norm [ 200]: avg:   0.4945, min:   0.1857[   9], max:   1.1988[  63]
+120:loss      [ 200]: avg:   0.0395, min:   0.0221[ 186], max:   0.0782[ 198]
+****************************************
+Beginning of Epoch 121
+Mem usage: available: 228.183 GB, used: 272.342 GB, free: 218.185 GB
+epoch: 121, time: 156.0s, total time(train): 5H 33M 32S
+Speed: train: 82.1, act: 4766.4, buffer_add: 61.0, buffer_size: 65536
+Total Sample: train: 1.562M, act: 95.025M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 198 MS, 25.41%
+	device conversion: 46 MS, 5.91%
+	calculating loss : 331 MS, 42.46%
+	backprop & update: 202 MS, 26.02%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 779.88 ms
+epoch 121, eval score: 1.800000
+[121] Time spent = 172.74 s
+121:eval_score[   1]: avg:   1.8000, min:   1.8000[   0], max:   1.8000[   0]
+121:grad_norm [ 200]: avg:   0.4849, min:   0.1714[  50], max:   2.3428[ 138]
+121:loss      [ 200]: avg:   0.0416, min:   0.0193[  97], max:   0.1054[ 156]
+****************************************
+Beginning of Epoch 122
+Mem usage: available: 228.266 GB, used: 272.259 GB, free: 218.268 GB
+epoch: 122, time: 153.7s, total time(train): 5H 36M 06S
+Speed: train: 83.3, act: 4750.9, buffer_add: 60.5, buffer_size: 65536
+Total Sample: train: 1.574M, act: 95.755M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 187 MS, 24.39%
+	device conversion: 46 MS, 6.05%
+	calculating loss : 329 MS, 42.94%
+	backprop & update: 202 MS, 26.40%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 768.51 ms
+epoch 122, eval score: 6.400000
+[122] Time spent = 170.82 s
+122:eval_score[   1]: avg:   6.4000, min:   6.4000[   0], max:   6.4000[   0]
+122:grad_norm [ 200]: avg:   0.4625, min:   0.1593[ 178], max:   1.1192[ 115]
+122:loss      [ 200]: avg:   0.0403, min:   0.0136[ 163], max:   0.0770[ 158]
+****************************************
+Beginning of Epoch 123
+Mem usage: available: 228.298 GB, used: 272.226 GB, free: 218.301 GB
+epoch: 123, time: 153.3s, total time(train): 5H 38M 39S
+Speed: train: 83.5, act: 4769.2, buffer_add: 61.0, buffer_size: 65536
+Total Sample: train: 1.587M, act: 96.486M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 185 MS, 24.25%
+	device conversion: 46 MS, 6.01%
+	calculating loss : 330 MS, 43.09%
+	backprop & update: 202 MS, 26.43%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 766.38 ms
+epoch 123, eval score: 15.500000
+[123] Time spent = 170.93 s
+123:eval_score[   1]: avg:  15.5000, min:  15.5000[   0], max:  15.5000[   0]
+123:grad_norm [ 200]: avg:   0.4788, min:   0.1849[   5], max:   1.2547[ 116]
+123:loss      [ 200]: avg:   0.0419, min:   0.0199[   8], max:   0.0762[ 169]
+****************************************
+Beginning of Epoch 124
+Mem usage: available: 228.328 GB, used: 272.197 GB, free: 218.330 GB
+epoch: 124, time: 154.9s, total time(train): 5H 41M 14S
+Speed: train: 82.6, act: 4766.7, buffer_add: 60.7, buffer_size: 65536
+Total Sample: train: 1.6M, act: 97.225M
+@@@Time
+	sync and updating: 1 MS, 0.22%
+	sample data      : 191 MS, 24.79%
+	device conversion: 47 MS, 6.11%
+	calculating loss : 330 MS, 42.65%
+	backprop & update: 203 MS, 26.22%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 774.46 ms
+epoch 124, eval score: 47.400000
+[124] Time spent = 172.49 s
+124:eval_score[   1]: avg:  47.4000, min:  47.4000[   0], max:  47.4000[   0]
+124:grad_norm [ 200]: avg:   0.4671, min:   0.1439[  53], max:   1.1232[ 172]
+124:loss      [ 200]: avg:   0.0416, min:   0.0227[ 180], max:   0.0776[ 102]
+****************************************
+Beginning of Epoch 125
+Mem usage: available: 228.361 GB, used: 272.164 GB, free: 218.363 GB
+epoch: 125, time: 155.5s, total time(train): 5H 43M 50S
+Speed: train: 82.3, act: 4758.2, buffer_add: 60.0, buffer_size: 65536
+Total Sample: train: 1.613M, act: 97.964M
+@@@Time
+	sync and updating: 1 MS, 0.22%
+	sample data      : 196 MS, 25.23%
+	device conversion: 46 MS, 5.94%
+	calculating loss : 330 MS, 42.48%
+	backprop & update: 202 MS, 26.12%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 777.21 ms
+epoch 125, eval score: 0.900000
+[125] Time spent = 173.19 s
+125:eval_score[   1]: avg:   0.9000, min:   0.9000[   0], max:   0.9000[   0]
+125:grad_norm [ 200]: avg:   0.7157, min:   0.1936[ 193], max:   2.6292[   2]
+125:loss      [ 200]: avg:   0.0536, min:   0.0270[ 130], max:   0.1229[   2]
+****************************************
+Beginning of Epoch 126
+Mem usage: available: 228.460 GB, used: 272.065 GB, free: 218.462 GB
+epoch: 126, time: 155.0s, total time(train): 5H 46M 25S
+Speed: train: 82.6, act: 4754.9, buffer_add: 60.9, buffer_size: 65536
+Total Sample: train: 1.626M, act: 98.702M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 193 MS, 24.93%
+	device conversion: 46 MS, 6.00%
+	calculating loss : 330 MS, 42.62%
+	backprop & update: 203 MS, 26.23%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 775.04 ms
+epoch 126, eval score: 3.100000
+[126] Time spent = 172.17 s
+126:eval_score[   1]: avg:   3.1000, min:   3.1000[   0], max:   3.1000[   0]
+126:grad_norm [ 200]: avg:   0.6203, min:   0.1834[ 162], max:   2.0446[  41]
+126:loss      [ 200]: avg:   0.0492, min:   0.0254[ 162], max:   0.0869[ 177]
+****************************************
+Beginning of Epoch 127
+Mem usage: available: 228.444 GB, used: 272.081 GB, free: 218.446 GB
+epoch: 127, time: 156.0s, total time(train): 5H 49M 01S
+Speed: train: 82.1, act: 4771.9, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 1.638M, act: 99.446M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 198 MS, 25.44%
+	device conversion: 46 MS, 5.94%
+	calculating loss : 330 MS, 42.32%
+	backprop & update: 203 MS, 26.09%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 779.82 ms
+epoch 127, eval score: 16.800000
+[127] Time spent = 174.20 s
+127:eval_score[   1]: avg:  16.8000, min:  16.8000[   0], max:  16.8000[   0]
+127:grad_norm [ 200]: avg:   0.5206, min:   0.1706[ 134], max:   1.3000[  10]
+127:loss      [ 200]: avg:   0.0489, min:   0.0226[  68], max:   0.0919[   3]
+****************************************
+Beginning of Epoch 128
+Mem usage: available: 228.440 GB, used: 272.085 GB, free: 218.442 GB
+epoch: 128, time: 156.8s, total time(train): 5H 51M 38S
+Speed: train: 81.6, act: 4754.1, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 1.651M, act: 100.192M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 201 MS, 25.68%
+	device conversion: 46 MS, 5.94%
+	calculating loss : 331 MS, 42.24%
+	backprop & update: 203 MS, 25.91%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 784.17 ms
+epoch 128, eval score: 6.700000
+[128] Time spent = 174.43 s
+128:eval_score[   1]: avg:   6.7000, min:   6.7000[   0], max:   6.7000[   0]
+128:grad_norm [ 200]: avg:   0.5128, min:   0.1673[ 146], max:   1.3193[ 191]
+128:loss      [ 200]: avg:   0.0476, min:   0.0211[ 153], max:   0.0924[  10]
+****************************************
+Beginning of Epoch 129
+Mem usage: available: 228.481 GB, used: 272.044 GB, free: 218.483 GB
+epoch: 129, time: 154.7s, total time(train): 5H 54M 12S
+Speed: train: 82.8, act: 4753.2, buffer_add: 60.2, buffer_size: 65536
+Total Sample: train: 1.664M, act: 100.927M
+@@@Time
+	sync and updating: 1 MS, 0.22%
+	sample data      : 191 MS, 24.74%
+	device conversion: 46 MS, 5.97%
+	calculating loss : 330 MS, 42.78%
+	backprop & update: 203 MS, 26.28%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 773.32 ms
+epoch 129, eval score: 50.300000
+[129] Time spent = 328.14 s
+129:eval_score[   1]: avg:  50.3000, min:  50.3000[   0], max:  50.3000[   0]
+129:grad_norm [ 200]: avg:   0.4535, min:   0.1965[  60], max:   1.1892[   5]
+129:loss      [ 200]: avg:   0.0451, min:   0.0229[ 135], max:   0.0833[  99]
+****************************************
+Beginning of Epoch 130
+Mem usage: available: 228.562 GB, used: 271.962 GB, free: 218.564 GB
+epoch: 130, time: 169.9s, total time(train): 5H 57M 02S
+Speed: train: 75.4, act: 4699.8, buffer_add: 60.3, buffer_size: 65536
+Total Sample: train: 1.677M, act: 101.725M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 268 MS, 31.64%
+	device conversion: 45 MS, 5.39%
+	calculating loss : 330 MS, 38.90%
+	backprop & update: 202 MS, 23.84%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 849.19 ms
+epoch 130, eval score: 6.700000
+[130] Time spent = 187.51 s
+130:eval_score[   1]: avg:   6.7000, min:   6.7000[   0], max:   6.7000[   0]
+130:grad_norm [ 200]: avg:   0.4047, min:   0.1912[  83], max:   0.9676[ 198]
+130:loss      [ 200]: avg:   0.0465, min:   0.0224[  83], max:   0.0842[ 107]
+****************************************
+Beginning of Epoch 131
+Mem usage: available: 228.582 GB, used: 271.943 GB, free: 218.584 GB
+epoch: 131, time: 162.0s, total time(train): 5H 59M 44S
+Speed: train: 79.0, act: 4771.4, buffer_add: 61.1, buffer_size: 65536
+Total Sample: train: 1.69M, act: 102.498M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 228 MS, 28.24%
+	device conversion: 45 MS, 5.68%
+	calculating loss : 330 MS, 40.80%
+	backprop & update: 203 MS, 25.08%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 809.76 ms
+epoch 131, eval score: 27.700000
+[131] Time spent = 179.55 s
+131:eval_score[   1]: avg:  27.7000, min:  27.7000[   0], max:  27.7000[   0]
+131:grad_norm [ 200]: avg:   0.5057, min:   0.1670[  64], max:   1.2392[ 166]
+131:loss      [ 200]: avg:   0.0468, min:   0.0215[ 119], max:   0.0880[  60]
+****************************************
+Beginning of Epoch 132
+Mem usage: available: 228.607 GB, used: 271.918 GB, free: 218.608 GB
+epoch: 132, time: 158.3s, total time(train): 6H 02M 22S
+Speed: train: 80.8, act: 4746.9, buffer_add: 60.2, buffer_size: 65536
+Total Sample: train: 1.702M, act: 103.25M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 209 MS, 26.49%
+	device conversion: 46 MS, 5.84%
+	calculating loss : 330 MS, 41.74%
+	backprop & update: 203 MS, 25.71%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 791.64 ms
+epoch 132, eval score: 19.300000
+[132] Time spent = 345.66 s
+132:eval_score[   1]: avg:  19.3000, min:  19.3000[   0], max:  19.3000[   0]
+132:grad_norm [ 200]: avg:   0.4762, min:   0.1843[ 183], max:   1.3886[  60]
+132:loss      [ 200]: avg:   0.0484, min:   0.0260[  53], max:   0.0935[ 178]
+****************************************
+Beginning of Epoch 133
+Mem usage: available: 228.662 GB, used: 271.863 GB, free: 218.663 GB
+epoch: 133, time: 171.0s, total time(train): 6H 05M 13S
+Speed: train: 74.8, act: 4684.8, buffer_add: 59.8, buffer_size: 65536
+Total Sample: train: 1.715M, act: 104.051M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 275 MS, 32.22%
+	device conversion: 45 MS, 5.29%
+	calculating loss : 330 MS, 38.66%
+	backprop & update: 201 MS, 23.62%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 855.05 ms
+epoch 133, eval score: 0.100000
+[133] Time spent = 189.29 s
+133:eval_score[   1]: avg:   0.1000, min:   0.1000[   0], max:   0.1000[   0]
+133:grad_norm [ 200]: avg:   0.4508, min:   0.2152[ 125], max:   1.0336[  75]
+133:loss      [ 200]: avg:   0.0479, min:   0.0252[ 191], max:   0.1017[  75]
+****************************************
+Beginning of Epoch 134
+Mem usage: available: 228.663 GB, used: 271.862 GB, free: 218.664 GB
+epoch: 134, time: 163.2s, total time(train): 6H 07M 57S
+Speed: train: 78.4, act: 4761.7, buffer_add: 61.0, buffer_size: 65536
+Total Sample: train: 1.728M, act: 104.828M
+@@@Time
+	sync and updating: 1 MS, 0.18%
+	sample data      : 236 MS, 28.98%
+	device conversion: 45 MS, 5.60%
+	calculating loss : 330 MS, 40.45%
+	backprop & update: 202 MS, 24.77%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 815.79 ms
+epoch 134, eval score: 38.300000
+[134] Time spent = 340.98 s
+134:eval_score[   1]: avg:  38.3000, min:  38.3000[   0], max:  38.3000[   0]
+134:grad_norm [ 200]: avg:   0.5203, min:   0.2003[  65], max:   1.1512[ 171]
+134:loss      [ 200]: avg:   0.0485, min:   0.0271[ 129], max:   0.0978[  22]
+****************************************
+Beginning of Epoch 135
+Mem usage: available: 228.734 GB, used: 271.791 GB, free: 218.726 GB
+epoch: 135, time: 169.8s, total time(train): 6H 10M 46S
+Speed: train: 75.4, act: 4721.0, buffer_add: 60.6, buffer_size: 65536
+Total Sample: train: 1.741M, act: 105.629M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 268 MS, 31.66%
+	device conversion: 44 MS, 5.29%
+	calculating loss : 331 MS, 39.03%
+	backprop & update: 202 MS, 23.80%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 848.83 ms
+epoch 135, eval score: 0.600000
+[135] Time spent = 187.43 s
+135:eval_score[   1]: avg:   0.6000, min:   0.6000[   0], max:   0.6000[   0]
+135:grad_norm [ 200]: avg:   0.5511, min:   0.1737[ 118], max:   1.3093[  82]
+135:loss      [ 200]: avg:   0.0473, min:   0.0255[ 171], max:   0.0856[ 177]
+****************************************
+Beginning of Epoch 136
+Mem usage: available: 228.796 GB, used: 271.728 GB, free: 218.788 GB
+epoch: 136, time: 161.9s, total time(train): 6H 13M 28S
+Speed: train: 79.1, act: 4753.6, buffer_add: 60.8, buffer_size: 65536
+Total Sample: train: 1.754M, act: 106.399M
+@@@Time
+	sync and updating: 1 MS, 0.20%
+	sample data      : 227 MS, 28.16%
+	device conversion: 46 MS, 5.71%
+	calculating loss : 330 MS, 40.83%
+	backprop & update: 202 MS, 25.08%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 809.43 ms
+epoch 136, eval score: 0.100000
+[136] Time spent = 358.38 s
+136:eval_score[   1]: avg:   0.1000, min:   0.1000[   0], max:   0.1000[   0]
+136:grad_norm [ 200]: avg:   0.5640, min:   0.2203[ 177], max:   1.4656[  27]
+136:loss      [ 200]: avg:   0.0487, min:   0.0193[  56], max:   0.1127[  27]
+****************************************
+Beginning of Epoch 137
+Mem usage: available: 228.889 GB, used: 271.635 GB, free: 218.881 GB
+epoch: 137, time: 168.4s, total time(train): 6H 16M 17S
+Speed: train: 76.0, act: 4719.8, buffer_add: 60.1, buffer_size: 65536
+Total Sample: train: 1.766M, act: 107.194M
+@@@Time
+	sync and updating: 1 MS, 0.22%
+	sample data      : 264 MS, 31.40%
+	device conversion: 44 MS, 5.34%
+	calculating loss : 329 MS, 39.08%
+	backprop & update: 201 MS, 23.95%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 842.15 ms
+epoch 137, eval score: 0.100000
+[137] Time spent = 185.59 s
+137:eval_score[   1]: avg:   0.1000, min:   0.1000[   0], max:   0.1000[   0]
+137:grad_norm [ 200]: avg:   0.6328, min:   0.1695[  11], max:   2.1078[ 100]
+137:loss      [ 200]: avg:   0.0524, min:   0.0249[  12], max:   0.1367[ 100]
+****************************************
+Beginning of Epoch 138
+Mem usage: available: 228.914 GB, used: 271.611 GB, free: 218.906 GB
+epoch: 138, time: 160.9s, total time(train): 6H 18M 58S
+Speed: train: 79.5, act: 4750.9, buffer_add: 60.4, buffer_size: 65536
+Total Sample: train: 1.779M, act: 107.959M
+@@@Time
+	sync and updating: 1 MS, 0.22%
+	sample data      : 223 MS, 27.82%
+	device conversion: 46 MS, 5.74%
+	calculating loss : 330 MS, 41.02%
+	backprop & update: 202 MS, 25.19%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 804.63 ms
+epoch 138, eval score: 0.100000
+[138] Time spent = 352.59 s
+138:eval_score[   1]: avg:   0.1000, min:   0.1000[   0], max:   0.1000[   0]
+138:grad_norm [ 200]: avg:   1.0045, min:   0.2229[  19], max:  15.6068[  62]
+138:loss      [ 200]: avg:   0.0561, min:   0.0280[ 118], max:   0.1241[  56]
+****************************************
+Beginning of Epoch 139
+Mem usage: available: 229.018 GB, used: 271.507 GB, free: 219.009 GB
+epoch: 139, time: 170.5s, total time(train): 6H 21M 48S
+Speed: train: 75.1, act: 4695.0, buffer_add: 60.1, buffer_size: 65536
+Total Sample: train: 1.792M, act: 108.759M
+@@@Time
+	sync and updating: 1 MS, 0.21%
+	sample data      : 272 MS, 32.02%
+	device conversion: 45 MS, 5.30%
+	calculating loss : 330 MS, 38.72%
+	backprop & update: 202 MS, 23.73%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 852.49 ms
+epoch 139, eval score: 28.800000
+[139] Time spent = 188.66 s
+139:eval_score[   1]: avg:  28.8000, min:  28.8000[   0], max:  28.8000[   0]
+139:grad_norm [ 200]: avg:   0.6200, min:   0.2200[ 139], max:   1.8406[  72]
+139:loss      [ 200]: avg:   0.0534, min:   0.0281[ 118], max:   0.0967[  65]
+****************************************
+Beginning of Epoch 140
+Mem usage: available: 228.990 GB, used: 271.535 GB, free: 218.981 GB
+epoch: 140, time: 162.7s, total time(train): 6H 24M 31S
+Speed: train: 78.7, act: 4723.7, buffer_add: 60.1, buffer_size: 65536
+Total Sample: train: 1.805M, act: 109.527M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 230 MS, 28.38%
+	device conversion: 45 MS, 5.60%
+	calculating loss : 331 MS, 40.75%
+	backprop & update: 203 MS, 25.06%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 813.23 ms
+epoch 140, eval score: 21.800000
+[140] Time spent = 180.26 s
+140:eval_score[   1]: avg:  21.8000, min:  21.8000[   0], max:  21.8000[   0]
+140:grad_norm [ 200]: avg:   0.5891, min:   0.2465[  89], max:   1.1703[  35]
+140:loss      [ 200]: avg:   0.0536, min:   0.0287[  31], max:   0.0843[ 104]
+****************************************
+Beginning of Epoch 141
+Mem usage: available: 228.972 GB, used: 271.553 GB, free: 218.963 GB
+epoch: 141, time: 157.2s, total time(train): 6H 27M 08S
+Speed: train: 81.4, act: 4771.9, buffer_add: 60.9, buffer_size: 65536
+Total Sample: train: 1.818M, act: 110.278M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 206 MS, 26.23%
+	device conversion: 45 MS, 5.85%
+	calculating loss : 329 MS, 41.89%
+	backprop & update: 202 MS, 25.82%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 786.08 ms
+epoch 141, eval score: 0.100000
+[141] Time spent = 352.58 s
+141:eval_score[   1]: avg:   0.1000, min:   0.1000[   0], max:   0.1000[   0]
+141:grad_norm [ 200]: avg:   0.5827, min:   0.2312[  10], max:   1.7343[ 142]
+141:loss      [ 200]: avg:   0.0548, min:   0.0274[ 186], max:   0.0877[ 113]
+****************************************
+Beginning of Epoch 142
+Mem usage: available: 229.131 GB, used: 271.394 GB, free: 219.122 GB
+epoch: 142, time: 170.3s, total time(train): 6H 29M 58S
+Speed: train: 75.2, act: 4704.3, buffer_add: 59.4, buffer_size: 65536
+Total Sample: train: 1.83M, act: 111.079M
+@@@Time
+	sync and updating: 1 MS, 0.23%
+	sample data      : 270 MS, 31.83%
+	device conversion: 45 MS, 5.33%
+	calculating loss : 330 MS, 38.85%
+	backprop & update: 202 MS, 23.75%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 851.29 ms
+epoch 142, eval score: 0.400000
+[142] Time spent = 365.12 s
+142:eval_score[   1]: avg:   0.4000, min:   0.4000[   0], max:   0.4000[   0]
+142:grad_norm [ 200]: avg:   0.5688, min:   0.2101[  44], max:   1.4188[ 136]
+142:loss      [ 200]: avg:   0.0554, min:   0.0301[  14], max:   0.0870[ 136]
+****************************************
+Beginning of Epoch 143
+Mem usage: available: 229.114 GB, used: 271.411 GB, free: 219.105 GB
+epoch: 143, time: 169.0s, total time(train): 6H 32M 47S
+Speed: train: 75.8, act: 4717.1, buffer_add: 60.1, buffer_size: 65536
+Total Sample: train: 1.843M, act: 111.876M
+@@@Time
+	sync and updating: 1 MS, 0.19%
+	sample data      : 265 MS, 31.48%
+	device conversion: 45 MS, 5.41%
+	calculating loss : 329 MS, 38.99%
+	backprop & update: 202 MS, 23.92%
+	updating priority: 0 MS, 0.02%
+@@@total time per iter: 844.76 ms
+epoch 143, eval score: 0.700000
+[143] Time spent = 362.80 s
+143:eval_score[   1]: avg:   0.7000, min:   0.7000[   0], max:   0.7000[   0]
+143:grad_norm [ 200]: avg:   0.6257, min:   0.2196[  65], max:   1.6398[  73]
+143:loss      [ 200]: avg:   0.0551, min:   0.0291[  86], max:   0.1164[ 137]
+****************************************
+Beginning of Epoch 144
+Mem usage: available: 229.147 GB, used: 271.378 GB, free: 219.138 GB

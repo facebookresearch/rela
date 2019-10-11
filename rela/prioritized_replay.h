@@ -41,26 +41,33 @@ class PrioritizedReplay {
     float pTotal = 0;
     int n = 0;
     std::tie(pTotal, n) = sumTree_.total();
-    std::uniform_real_distribution<float> dist(0.0, pTotal);
+    float segment = pTotal / batchsize;
+    std::uniform_real_distribution<float> dist(0.0, segment);
 
     // sample random points to sample from the priority buffer
     std::vector<float> rands(batchsize);
     for (int i = 0; i < batchsize; i++) {
-      rands[i] = dist(rng_);
+      rands[i] = dist(rng_) + i * segment;
     }
 
     torch::Tensor weights;
     DataType samples;
     std::tie(samples, weights, sampledIndices_) = sumTree_.find(rands);
 
+    // std::cout << "before update: weight: " << weights << std::endl;
+
     // convert probs to weights via importance sampling and normalize by max
-    // float n = (float)sumTree_.size();
     auto probs = weights / pTotal;
     {
       // sanity check
-      auto absdiff = std::abs(1 - probs.sum().item<float>());
-      if (absdiff > 1 + 1e-5) {
+      auto p_sum = probs.sum().item<float>();
+      if (p_sum >= 2) {
+        float newPTotal = 0;
+        int newN = 0;
+        std::tie(newPTotal, newN) = sumTree_.total();
         std::cout << "probs sum: " << probs.sum().item<float>() << std::endl;
+        std::cout << "total: " << pTotal << " vs " << newPTotal << std::endl;
+        std::cout << "n: " << n << " vs " << newN << std::endl;
         assert(false);
       }
     }
@@ -72,6 +79,8 @@ class PrioritizedReplay {
   void updatePriority(const torch::Tensor& priority) {
     assert(priority.dim() == 1);
     assert((int)sampledIndices_.size() == priority.size(0));
+
+    // std::cout << "after update: weight: " << torch::pow(priority, alpha_) << std::endl;
 
     sumTree_.update(sampledIndices_, torch::pow(priority, alpha_));
     sampledIndices_.clear();
