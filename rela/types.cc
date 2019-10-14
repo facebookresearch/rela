@@ -21,6 +21,7 @@ FFTransition FFTransition::makeBatch(std::vector<FFTransition> transitions) {
     utils::tensorVecDictAppend(nextObsVec, transitions[i].nextObs);
     gameNumVec.push_back(transitions[i].gameNum);
   }
+    
 
   FFTransition batch;
   batch.obs = utils::tensorDictJoin(obsVec, 0);
@@ -50,6 +51,7 @@ FFTransition FFTransition::index(int i) const {
   for (auto& name2tensor : nextObs) {
     element.nextObs.insert({name2tensor.first, name2tensor.second[i]});
   }
+  element.gameNum = gameNum[i];
 
   return element;
 }
@@ -75,6 +77,7 @@ TorchJitInput FFTransition::toJitInput(const torch::Device& device) const {
   input.push_back(terminal.to(device));
   input.push_back(bootstrap.to(device));
   input.push_back(utils::tensorDictToTorchDict(nextObs, device));
+  input.push_back(gameNum.to(device));
   return input;
 }
 

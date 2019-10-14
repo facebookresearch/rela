@@ -69,7 +69,9 @@ def create_train_env(
     num_game_per_thread,
     actor_creator,
     game_training_proportion,
+    is_heirarchical_multigame,
     *,
+    is_apex = True,
     terminal_on_life_loss=False,
     terminal_signal_on_life_loss=True,
 ):
@@ -87,12 +89,16 @@ def create_train_env(
     actors = []
     for thread_idx in range(num_thread):
         env = rela.VectorEnv()
+        game_index = None
+        thread_game_set = set()
         for game_idx in range(num_game_per_thread):
             if game_training_proportion is not None:
                 game_name = list(game_training_proportion.keys())[0]
+                game_index = list(game_training_proportion.keys()).index(game_name)
                 game_training_proportion[game_name] -= 1
                 if game_training_proportion[game_name] == 0:
                     del game_training_proportion[game_name]
+                thread_game_set.add(game_name)
             game = create_game(
                 game_name,
                 seed + thread_idx * num_game_per_thread + game_idx,
@@ -103,8 +109,17 @@ def create_train_env(
             )
             games.append(game)
             env.append(game)
+        if is_heirarchical_multigame: 
+            if len(thread_game_set) != 1:
+                assert (False, "on a given thread we have to have the same game")
 
-        actor = actor_creator(thread_idx)
+            # making sure the game index is valid to be used in a heirarchical multigame
+            assert (game_index is not None and game_index >= 0) 
+
+        if is_apex:
+            actor = actor_creator(thread_idx, game_index)
+        else:
+            acor = actor_creator(thread_idx)
         thread = rela.BasicThreadLoop(actor, env, False)
         actors.append(actor)
         context.push_env_thread(thread)

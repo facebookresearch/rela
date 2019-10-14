@@ -102,8 +102,12 @@ class MultiStepTransitionBuffer {
     rewardHistory_.pop_front();
     terminalHistory_.pop_front();
 
-    auto gameNum = torch::tensor(std::vector<int> {gameNum_});
-    std::cout << "game num tensor is: " << gameNum << " " << gameNum_ << std::endl;
+    std::vector<int> gameNumVec;
+    for (int i = 0; i < batchsize_; i ++) {
+        gameNumVec.push_back(gameNum_);
+    }
+
+    auto gameNum = torch::tensor(gameNumVec).detach().to(torch::kCPU);
     return FFTransition(obs, action, reward, terminal, bootstrap, nextObs, gameNum);
 
   }

@@ -143,18 +143,16 @@ if __name__ == "__main__":
         )
     elif args.algo == "apex":
         actor_cls = rela.DQNActor
-        actor_creator = lambda i: rela.DQNActor(
+        actor_creator = lambda i, gameNum: rela.DQNActor(
             model_locker,
             args.multi_step,
             args.num_game_per_thread,
             args.gamma,
+            gameNum,
             replay_buffer,
         )
-    
     if args.game_training_proportion is not None:
         args.game_training_proportion = json.loads(args.game_training_proportion)  
-    else:
-        print ("args is none")  
 
     print("creating train env")
     context, games, actors = create_atari.create_train_env(
@@ -166,6 +164,8 @@ if __name__ == "__main__":
         args.num_game_per_thread,
         actor_creator,
         args.game_training_proportion,
+        args.game_training_proportion is not None,
+        is_apex = args.algo == "apex",
     )
 
     context.start()

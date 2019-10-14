@@ -21,7 +21,8 @@ PYBIND11_MODULE(rela, m) {
       .def_readwrite("reward", &FFTransition::reward)
       .def_readwrite("terminal", &FFTransition::terminal)
       .def_readwrite("bootstrap", &FFTransition::bootstrap)
-      .def_readwrite("next_obs", &FFTransition::nextObs);
+      .def_readwrite("next_obs", &FFTransition::nextObs)
+      .def_readwrite("game_num", &FFTransition::gameNum);
 
   py::class_<RNNTransition, std::shared_ptr<RNNTransition>>(m, "RNNTransition")
       .def_readwrite("obs", &RNNTransition::obs)
