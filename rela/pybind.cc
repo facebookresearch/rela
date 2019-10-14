@@ -56,14 +56,20 @@ PYBIND11_MODULE(rela, m) {
       .def("update_priority", &RNNPrioritizedReplay::updatePriority);
 
   py::class_<FFPrefetcher, std::shared_ptr<FFPrefetcher>>(m, "FFPrefetcher")
-      .def(py::init<std::shared_ptr<FFPrioritizedReplay>, int>())
+      .def(py::init<std::shared_ptr<FFPrioritizedReplay>,       //replay buffer
+                    int,                                        //batchsize
+                    int>())                                     //bufferSize
       .def("sample", &FFPrefetcher::sample)
       .def("update_priority", &FFPrefetcher::updatePriority);
+      .def("start", &FFPrefetcher::start);
 
   py::class_<RNNPrefetcher, std::shared_ptr<RNNPrefetcher>>(m, "RNNPrefetcher")
-      .def(py::init<std::shared_ptr<RNNPrioritizedReplay>, int>())
+      .def(py::init<std::shared_ptr<RNNPrioritizedReplay>,       //replay buffer
+                    int,                                         //batchsize
+                    int>())                                      //bufferSize
       .def("sample", &RNNPrefetcher::sample)
       .def("update_priority", &RNNPrefetcher::updatePriority);
+      .def("start", &RNNPrefetcher:start);
 
   py::class_<Env, std::shared_ptr<Env>>(m, "Env");
 

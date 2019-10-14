@@ -30,10 +30,8 @@ def parse_args():
     parser.add_argument("--eta", type=float, default=0.9)
 
     #prefetcher settings
-#    parser.set_defaults(use_prefetcher=False)
-    parser.add_argument("--prefetcher", dest="use_prefetcher", action="store_true")
-    parser.add_argument("--no_prefetcher", dest="use_prefetcher", action="store_false")
-    parser.set_defaults(use_prefetcher=False)
+    parser.add_argument("--use_prefetcher", type=int, default=0)
+    parser.add_argument("--prefetcher_buffer_size", type=int, default=10) 
 
     # game settings
     parser.add_argument("--game", type=str, default="boxing")
@@ -136,7 +134,7 @@ if __name__ == "__main__":
         prefetcher_class = (
             rela.RNNPrefetcher if args.algo == "r2d2" else rela.FFPrefetcher
         )
-        prefetcher = prefetcher_class(replay_buffer, args.batchsize)
+        prefetcher = prefetcher_class(replay_buffer, args.batchsize, args.prefetcher_buffer_size)
 
     explore_eps = utils.generate_eps(
         args.act_base_eps,
@@ -180,6 +178,10 @@ if __name__ == "__main__":
     while replay_buffer.size() < args.burn_in_frames:
         print("warming up replay buffer:", replay_buffer.size())
         time.sleep(1)
+
+    # start prefilling the prefetcher buffer
+    if args.use_prefetcher:
+        prefetcher.start() 
 
     stopwatch = common_utils.Stopwatch()
     stat = common_utils.MultiCounter(args.save_dir)

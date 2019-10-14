@@ -10,31 +10,32 @@
 
 namespace rela {
 
-template <class PrioritizedReplay, class DataType>
+template <class DataType>
 class Prefetcher {
  public:
-  Prefetcher(std::shared_ptr<PrioritizedReplay> replayer, int batchsize)
+  Prefetcher(std::shared_ptr<PrioritizedReplay<DataType>> replayer, int batchsize, int bufferSize)
       : batchsize_(batchsize)
+      , bufferSize_(bufferSize)
       , replayer_(std::move(replayer)) {
-    sampleThr_ = std::thread([this]() { workerThread(); });
     done_ = false;
-    bufferSize_ = 50;
+  }
+
+  void start() {
+    sampleThr_ = std::thread([this]() { workerThread(); });
   }
 
   std::tuple<DataType, torch::Tensor> sample() {
     waitForBufferToFill();
+    std::lock_guard<std::mutex> lk (mBuffer);
 
-    mBuffer_.lock();
     std::tuple<DataType, torch::Tensor> currSample = sampleBuffer_.front();
     sampleBuffer_.pop_front();
-    mBuffer_.unlock();
     return currSample;
   }
 
   void updatePriority(const torch::Tensor& priority) {
     assert(priority.dim() == 1);
-    assert(std::abs((int)sampledIndices_.size() - (int)sampleBuffer_.size()) <
-           3);
+    assert((int)sampledIndices_.size() - (int)sampleBuffer_.size() < 3);
 
     mIndices_.lock();
     std::vector<int> currIndices = sampledIndices_.front();
@@ -66,7 +67,7 @@ class Prefetcher {
   }
 
   void waitToFillBuffer() {
-    std::unique_lock<std::mutex> lg(mBuffer_);
+    std::unique_lock<std::mutex> lk(mBuffer_);
     while ((size_t)sampleBuffer_.size() > bufferSize_ ||
            (size_t)replayer_->size() < 2 * batchsize_) {
       if (done_)
@@ -76,8 +77,9 @@ class Prefetcher {
   }
 
   void waitForBufferToFill() {
-    if ((size_t)replayer_->size() >= 2 * batchsize_)
+    if ((size_t)replayer_->size() >= 2 * batchsize_) {
       cvFillBuffer_.notify_one();
+    }
     std::unique_lock<std::mutex> lg(mBuffer_);
     while (sampleBuffer_.size() == 0) {
       cvBufferEmpty_.wait(lg);
@@ -127,10 +129,10 @@ class Prefetcher {
   std::condition_variable cvFillBuffer_;
   std::condition_variable cvDone_;
 
-  std::shared_ptr<PrioritizedReplay> replayer_;
+  std::shared_ptr<PrioritizedReplay<DataType>> replayer_;
   std::thread sampleThr_;
 };
 
-using FFPrefetcher = Prefetcher<FFPrioritizedReplay, FFTransition>;
-using RNNPrefetcher = Prefetcher<RNNPrioritizedReplay, RNNTransition>;
+using FFPrefetcher = Prefetcher<FFTransition>;
+using RNNPrefetcher = Prefetcher<RNNTransition>;
 }
