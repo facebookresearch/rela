@@ -18,13 +18,13 @@ class Prefetcher {
   Prefetcher(std::shared_ptr<PrioritizedReplay<DataType>> replayer, int batchsize, int bufferSize)
       : batchsize_(batchsize)
       , bufferSize_(bufferSize)
-      , replayer_(std::move(replayer)) {
-    done_ = false;
-    //circular vector initialization
-    sampleInsertIdx_ = 0;
-    sampleSampleIdx_ = 0;
-    indicesSampleIdx_ = 0;
-    indicesInsetIdx_ = 0;
+      , insertIdx_(0)
+      , sampleIdx_(0)
+      , done_(false)
+      , replayer_(std::move(replayer))
+      , sampleIndicator_(bufferSize)
+      , sampledIndices_(bufferSize)
+      , sampleBuffer_(bufferSize) {
   }
 
   void start() {
@@ -35,21 +35,26 @@ class Prefetcher {
     waitForBufferToFill();
     std::lock_guard<std::mutex> lk (mData_);
 
-    std::tuple<DataType, torch::Tensor> currSample = sampleBuffer_.front();
-    sampleBuffer_.pop_front();
-    cvData_.notify_one();
+    std::tuple<DataType, torch::Tensor> currSample = sampleBuffer_[sampleIdx_];
     return currSample;
   }
 
   void updatePriority(const torch::Tensor& priority) {
     assert(priority.dim() == 1);
+    assert(sampleIndicator_[sampleIdx_] == 1);
     {
     std::lock_guard<std::mutex> lk (mData_);
-    assert((int)sampledIndices_.size() - (int)sampleBuffer_.size() < 3);
-    std::vector<int> currIndices = sampledIndices_.front();
-    sampledIndices_.pop_front();
+    std::vector<int> currIndices = sampledIndices_[sampleIdx_];
     replayer_->updatePriority(priority, currIndices);
+
+    //updating the sample indicator 
+    sampleIndicator_[sampleIdx_] = 0;
+    sampleIdx_ ++;
+    if (sampleIdx_ == bufferSize_) {
+        sampleIdx_ = sampleIdx_ % bufferSize_;
     }
+    }
+    cvData_.notify_one();
   }
 
   ~Prefetcher() {
@@ -58,6 +63,7 @@ class Prefetcher {
     sampleThr_.join();
     sampledIndices_.clear();
     sampleBuffer_.clear();
+    sampleIndicator_.clear();
   }
 
  private:
@@ -75,15 +81,15 @@ class Prefetcher {
   void waitToFillBuffer() {
     std::unique_lock<std::mutex> lk(mData_);
     cvData_.wait(lk, [this]{
-        if(done_) return false;
-        return (size_t) sampleBuffer_.size() < bufferSize_;
+        if(done_) return true;
+        return sampleIndicator_[insertIdx_] == 0;
     });
   }
 
   void waitForBufferToFill() {
     std::unique_lock<std::mutex> lk(mData_);
     cvData_.wait(lk, [this]{
-        return sampleBuffer_.size() != 0;
+        return sampleIndicator_[sampleIdx_] == 1;
     });
   }
 
@@ -93,8 +99,14 @@ class Prefetcher {
 
     {
     std::lock_guard<std::mutex> lk(mData_);
-    sampledIndices_.push_back(indices);
-    sampleBuffer_.push_back(batch);
+    sampledIndices_[insertIdx_] = indices;
+    sampleBuffer_[insertIdx_] = batch;
+
+    sampleIndicator_[insertIdx_] = 1;
+    insertIdx_ ++ ;
+    if (insertIdx_ == bufferSize_) {
+        insertIdx_ = insertIdx_ % bufferSize_;
+    }
     }
 
     replayer_->clearSampledIndices();
@@ -113,17 +125,11 @@ class Prefetcher {
     }
   }
 
-  std::deque<std::vector<int>> sampledIndices_;
-  std::deque<std::tuple<DataType, torch::Tensor>> sampleBuffer_;
-
   size_t batchsize_;
   size_t bufferSize_;
 
-  size_t sampleInsertIdx_;
-  size_t sampleSampleIdx_;
-
-  size_t indicesInsetIdx_;
-  size_t indicesSampleIdx_;
+  size_t insertIdx_;
+  size_t sampleIdx_;
 
   bool done_;
 
@@ -134,6 +140,10 @@ class Prefetcher {
 
   std::shared_ptr<PrioritizedReplay<DataType>> replayer_;
   std::thread sampleThr_;
+
+  std::vector<int> sampleIndicator_;
+  std::vector<std::vector<int>> sampledIndices_;
+  std::vector<std::tuple<DataType, torch::Tensor>> sampleBuffer_;
 };
 
 using FFPrefetcher = Prefetcher<FFTransition>;
