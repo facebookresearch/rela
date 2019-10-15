@@ -20,6 +20,11 @@ class Prefetcher {
       , bufferSize_(bufferSize)
       , replayer_(std::move(replayer)) {
     done_ = false;
+    //circular vector initialization
+    sampleInsertIdx_ = 0;
+    sampleSampleIdx_ = 0;
+    indicesSampleIdx_ = 0;
+    indicesInsetIdx_ = 0;
   }
 
   void start() {
@@ -43,7 +48,7 @@ class Prefetcher {
     assert((int)sampledIndices_.size() - (int)sampleBuffer_.size() < 3);
     std::vector<int> currIndices = sampledIndices_.front();
     sampledIndices_.pop_front();
-    replayer_->updatePrefetcherPriority(priority, currIndices);
+    replayer_->updatePriority(priority, currIndices);
     }
   }
 
@@ -113,6 +118,12 @@ class Prefetcher {
 
   size_t batchsize_;
   size_t bufferSize_;
+
+  size_t sampleInsertIdx_;
+  size_t sampleSampleIdx_;
+
+  size_t indicesInsetIdx_;
+  size_t indicesSampleIdx_;
 
   bool done_;
 
