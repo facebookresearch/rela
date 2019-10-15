@@ -6,6 +6,7 @@ cmake-build-debug/
 */__pycache__/*
 .DS_Store
 pyrela/exps
+pyrela/sweep2
 pyrela/scripts/*
 !pyrela/scripts/ref_dev.sh
 !pyrela/scripts/ref_run_apex.sh

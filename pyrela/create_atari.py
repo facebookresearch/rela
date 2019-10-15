@@ -40,7 +40,6 @@ def create_game(
     no_op_start=30,
     height=84,
     width=84,
-    # video=""
 ):
     rom_path = get_rom_path(game_name)
     game = atari.AtariEnv(
@@ -107,7 +106,7 @@ def create_eval_env(
     *,
     eval_eps=0,
     terminal_on_life_loss=False,
-    terminal_signal_on_life_loss=False,
+    terminal_signal_on_life_loss=True,
 ):
     context = rela.Context()
     games = []
