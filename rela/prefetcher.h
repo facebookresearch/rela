@@ -6,6 +6,7 @@
 #include <thread>
 #include <torch/script.h>
 #include <vector>
+#include <numeric>
 
 #include "rela/prioritized_replay.h"
 
@@ -40,9 +41,11 @@ class Prefetcher {
 
   void updatePriority(const torch::Tensor& priority) {
     assert(priority.dim() == 1);
+//    std::vector<int> indices;
     {
       std::lock_guard<std::mutex> lk(mData_);
       assert(sampleIndicator_[sampleIdx_] == 1);
+//      indices = sampledIndices_[sampleIdx_];
       replayBuffer_->updatePriority(priority, sampledIndices_[sampleIdx_]);
 
       // updating the sample indicator
@@ -51,16 +54,15 @@ class Prefetcher {
       if (sampleIdx_ == bufferSize_) {
         sampleIdx_ = sampleIdx_ % bufferSize_;
       }
+//      replayBuffer_->updatePriority(priority, sampledIndices_[sampleIdx_]);
     }
+
     cvData_.notify_one();
   }
 
   ~Prefetcher() {
-    std::cout << "in descructor" << std::endl;
     signalDone();
-    std::cout << "starting to wait" << std::endl;
     wait();
-    std::cout << "done waiting" << std::endl;
     sampleThr_.join();
     sampledIndices_.clear();
     sampleBuffer_.clear();
@@ -84,6 +86,7 @@ class Prefetcher {
     cvData_.wait(lk, [this] {
       if (done_)
         return true;
+//      return (size_t) std::accumulate(sampleIndicator_.begin(), sampleIndicator_.end(), 0) < bufferSize_/2;
       return sampleIndicator_[insertIdx_] == 0;
     });
   }
@@ -94,9 +97,12 @@ class Prefetcher {
   }
 
   void sampleBatch() {
+    if (updateSecondTree_) {
+        
+    }
     std::tuple<DataType, torch::Tensor> batch =
-        replayBuffer_->sample(batchsize_);
-    std::vector<int> indices = replayBuffer_->getSampledIndices();
+        replayBufferSampler_->sample(batchsize_);
+    std::vector<int> indices = replayBufferSampler_->getSampledIndices();
 
     {
       std::lock_guard<std::mutex> lk(mData_);
@@ -110,7 +116,7 @@ class Prefetcher {
       }
     }
 
-    replayBuffer_->clearSampledIndices();
+    replayBufferSampler_->clearSampledIndices();
     cvData_.notify_one();
   }
 
@@ -131,7 +137,8 @@ class Prefetcher {
 
   size_t insertIdx_;
   size_t sampleIdx_;
-
+  
+  bool updateSecondTree_;
   bool done_;
 
   std::mutex mData_;
@@ -140,6 +147,7 @@ class Prefetcher {
   std::condition_variable cvData_;
 
   std::shared_ptr<PrioritizedReplay<DataType>> replayBuffer_;
+  std::shared_ptr<PrioritizedReplay<DataType>> replayBufferSampler_;
   std::thread sampleThr_;
 
   std::vector<int> sampleIndicator_;

@@ -54,8 +54,6 @@ class PrioritizedReplay {
     DataType samples;
     std::tie(samples, weights, sampledIndices_) = sumTree_.find(rands);
 
-    // std::cout << "before update: weight: " << weights << std::endl;
-
     // convert probs to weights via importance sampling and normalize by max
     auto probs = weights / pTotal;
     {
