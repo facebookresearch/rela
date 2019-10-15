@@ -42,7 +42,9 @@ PYBIND11_MODULE(rela, m) {
       .def("size", &FFPrioritizedReplay::size)
       .def("num_add", &FFPrioritizedReplay::numAdd)
       .def("sample", &FFPrioritizedReplay::sample)
-      .def("update_priority", (void (FFPrioritizedReplay::*)(const torch::Tensor&)) &FFPrioritizedReplay::updatePriority);
+      .def("update_priority",
+           (void (FFPrioritizedReplay::*)(const torch::Tensor&)) &
+               FFPrioritizedReplay::updatePriority);
 
   py::class_<RNNPrioritizedReplay, std::shared_ptr<RNNPrioritizedReplay>>(
       m, "RNNPrioritizedReplay")
@@ -53,20 +55,22 @@ PYBIND11_MODULE(rela, m) {
       .def("size", &RNNPrioritizedReplay::size)
       .def("num_add", &RNNPrioritizedReplay::numAdd)
       .def("sample", &RNNPrioritizedReplay::sample)
-      .def("update_priority", (void (RNNPrioritizedReplay::*)(const torch::Tensor&)) &RNNPrioritizedReplay::updatePriority);
+      .def("update_priority",
+           (void (RNNPrioritizedReplay::*)(const torch::Tensor&)) &
+               RNNPrioritizedReplay::updatePriority);
 
   py::class_<FFPrefetcher, std::shared_ptr<FFPrefetcher>>(m, "FFPrefetcher")
-      .def(py::init<std::shared_ptr<FFPrioritizedReplay>,       //replay buffer
-                    int,                                        //batchsize
-                    int>())                                     //bufferSize
+      .def(py::init<std::shared_ptr<FFPrioritizedReplay>,  // replay buffer
+                    int,                                   // batchsize
+                    int>())                                // bufferSize
       .def("sample", &FFPrefetcher::sample)
       .def("update_priority", &FFPrefetcher::updatePriority)
       .def("start", &FFPrefetcher::start);
 
   py::class_<RNNPrefetcher, std::shared_ptr<RNNPrefetcher>>(m, "RNNPrefetcher")
-      .def(py::init<std::shared_ptr<RNNPrioritizedReplay>,       //replay buffer
-                    int,                                         //batchsize
-                    int>())                                      //bufferSize
+      .def(py::init<std::shared_ptr<RNNPrioritizedReplay>,  // replay buffer
+                    int,                                    // batchsize
+                    int>())                                 // bufferSize
       .def("sample", &RNNPrefetcher::sample)
       .def("update_priority", &RNNPrefetcher::updatePriority)
       .def("start", &RNNPrefetcher::start);

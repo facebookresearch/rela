@@ -1,27 +1,28 @@
 #pragma once
 
 #include <atomic>
+#include <chrono>
 #include <memory>
 #include <thread>
 #include <torch/script.h>
 #include <vector>
-#include <chrono>
 
 #include "rela/prioritized_replay.h"
-
 
 namespace rela {
 
 template <class DataType>
 class Prefetcher {
  public:
-  Prefetcher(std::shared_ptr<PrioritizedReplay<DataType>> replayer, int batchsize, int bufferSize)
+  Prefetcher(std::shared_ptr<PrioritizedReplay<DataType>> replayer,
+             int batchsize,
+             int bufferSize)
       : batchsize_(batchsize)
       , bufferSize_(bufferSize)
       , insertIdx_(0)
       , sampleIdx_(0)
       , done_(false)
-      , replayer_(std::move(replayer))
+      , replayBuffer_(std::move(replayer))
       , sampleIndicator_(bufferSize)
       , sampledIndices_(bufferSize)
       , sampleBuffer_(bufferSize) {
@@ -33,33 +34,33 @@ class Prefetcher {
 
   std::tuple<DataType, torch::Tensor> sample() {
     waitForBufferToFill();
-    std::lock_guard<std::mutex> lk (mData_);
-
-    std::tuple<DataType, torch::Tensor> currSample = sampleBuffer_[sampleIdx_];
-    return currSample;
+    std::lock_guard<std::mutex> lk(mData_);
+    return sampleBuffer_[sampleIdx_];
   }
 
   void updatePriority(const torch::Tensor& priority) {
     assert(priority.dim() == 1);
-    assert(sampleIndicator_[sampleIdx_] == 1);
     {
-    std::lock_guard<std::mutex> lk (mData_);
-    std::vector<int> currIndices = sampledIndices_[sampleIdx_];
-    replayer_->updatePriority(priority, currIndices);
+      std::lock_guard<std::mutex> lk(mData_);
+      assert(sampleIndicator_[sampleIdx_] == 1);
+      replayBuffer_->updatePriority(priority, sampledIndices_[sampleIdx_]);
 
-    //updating the sample indicator 
-    sampleIndicator_[sampleIdx_] = 0;
-    sampleIdx_ ++;
-    if (sampleIdx_ == bufferSize_) {
+      // updating the sample indicator
+      sampleIndicator_[sampleIdx_] = 0;
+      sampleIdx_++;
+      if (sampleIdx_ == bufferSize_) {
         sampleIdx_ = sampleIdx_ % bufferSize_;
-    }
+      }
     }
     cvData_.notify_one();
   }
 
   ~Prefetcher() {
+    std::cout << "in descructor" << std::endl;
     signalDone();
+    std::cout << "starting to wait" << std::endl;
     wait();
+    std::cout << "done waiting" << std::endl;
     sampleThr_.join();
     sampledIndices_.clear();
     sampleBuffer_.clear();
@@ -80,36 +81,36 @@ class Prefetcher {
 
   void waitToFillBuffer() {
     std::unique_lock<std::mutex> lk(mData_);
-    cvData_.wait(lk, [this]{
-        if(done_) return true;
-        return sampleIndicator_[insertIdx_] == 0;
+    cvData_.wait(lk, [this] {
+      if (done_)
+        return true;
+      return sampleIndicator_[insertIdx_] == 0;
     });
   }
 
   void waitForBufferToFill() {
     std::unique_lock<std::mutex> lk(mData_);
-    cvData_.wait(lk, [this]{
-        return sampleIndicator_[sampleIdx_] == 1;
-    });
+    cvData_.wait(lk, [this] { return sampleIndicator_[sampleIdx_] == 1; });
   }
 
   void sampleBatch() {
-    std::tuple<DataType, torch::Tensor> batch = replayer_->sample(batchsize_);
-    std::vector<int> indices = replayer_->getSampledIndices();
+    std::tuple<DataType, torch::Tensor> batch =
+        replayBuffer_->sample(batchsize_);
+    std::vector<int> indices = replayBuffer_->getSampledIndices();
 
     {
-    std::lock_guard<std::mutex> lk(mData_);
-    sampledIndices_[insertIdx_] = indices;
-    sampleBuffer_[insertIdx_] = batch;
+      std::lock_guard<std::mutex> lk(mData_);
+      sampledIndices_[insertIdx_] = indices;
+      sampleBuffer_[insertIdx_] = batch;
 
-    sampleIndicator_[insertIdx_] = 1;
-    insertIdx_ ++ ;
-    if (insertIdx_ == bufferSize_) {
+      sampleIndicator_[insertIdx_] = 1;
+      insertIdx_++;
+      if (insertIdx_ == bufferSize_) {
         insertIdx_ = insertIdx_ % bufferSize_;
-    }
+      }
     }
 
-    replayer_->clearSampledIndices();
+    replayBuffer_->clearSampledIndices();
     cvData_.notify_one();
   }
 
@@ -138,7 +139,7 @@ class Prefetcher {
   std::condition_variable cvDone_;
   std::condition_variable cvData_;
 
-  std::shared_ptr<PrioritizedReplay<DataType>> replayer_;
+  std::shared_ptr<PrioritizedReplay<DataType>> replayBuffer_;
   std::thread sampleThr_;
 
   std::vector<int> sampleIndicator_;

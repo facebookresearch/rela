@@ -16,7 +16,8 @@ class R2D2TransitionBuffer {
       , batchH0_(batchsize)
       , batchNextH0_(batchsize)
       , cache_(batchsize)
-      , batchSeqTransition_(batchsize, std::vector<FFTransition>(burnin + seqLen + multiStep))
+      , batchSeqTransition_(
+            batchsize, std::vector<FFTransition>(burnin + seqLen + multiStep))
       , batchSeqPriority_(batchsize, std::vector<float>(seqLen + multiStep))
       , batchLen_(batchsize, 0)
       , canPop_(false) {
@@ -36,7 +37,7 @@ class R2D2TransitionBuffer {
       if (batchNextIdx_[i] == 0) {
         // it does not matter here, should be reset after burnin
         batchH0_[i] = utils::tensorDictNarrow(hid, 1, i, 1, true);
-        for (auto& kv :batchH0_[i]) {
+        for (auto& kv : batchH0_[i]) {
           assert(kv.second.sum().item<float>() == 0);
         }
 
@@ -69,8 +70,8 @@ class R2D2TransitionBuffer {
       batchSeqPriority_[i][nextIdx - burnin_] = priorityAccessor[i];
 
       ++batchNextIdx_[i];
-      if (!t.terminal.item<bool>()
-          && batchNextIdx_[i] < burnin_ + seqLen_ + multiStep_) {
+      if (!t.terminal.item<bool>() &&
+          batchNextIdx_[i] < burnin_ + seqLen_ + multiStep_) {
         continue;
       }
 
@@ -78,7 +79,7 @@ class R2D2TransitionBuffer {
       batchLen_[i] = batchNextIdx_[i];
       while (batchNextIdx_[i] < burnin_ + seqLen_ + multiStep_) {
         batchSeqTransition_[i][batchNextIdx_[i]] = t.padLike();
-        batchSeqPriority_[i][batchNextIdx_[i]  - burnin_] = 0;
+        batchSeqPriority_[i][batchNextIdx_[i] - burnin_] = 0;
         ++batchNextIdx_[i];
       }
       canPop_ = true;
@@ -104,7 +105,7 @@ class R2D2TransitionBuffer {
       assert(batchNextIdx_[i] == burnin_ + seqLen_ + multiStep_);
       auto& seqTransition = batchSeqTransition_[i];
       auto& seqPriority = batchSeqPriority_[i];
-      float len = std::min(batchLen_[i],  burnin_ + seqLen_);
+      float len = std::min(batchLen_[i], burnin_ + seqLen_);
 
       auto t = RNNTransition(seqTransition, batchH0_[i], torch::tensor(len));
       auto p = torch::tensor(seqPriority);
@@ -114,7 +115,8 @@ class R2D2TransitionBuffer {
       batchSeqPriority.push_back(p);
       batchLen.push_back(len);
 
-      // int checkTerminalIdx = std::min(batchLen_[i] - 1, burnin_ + seqLen_ - 1);
+      // int checkTerminalIdx = std::min(batchLen_[i] - 1, burnin_ + seqLen_ -
+      // 1);
       const auto& terminal = seqTransition[len - 1].terminal;
       if (terminal.item<bool>()) {
         // terminal encountered, treat as fresh start
@@ -147,10 +149,11 @@ class R2D2TransitionBuffer {
           const auto& refTransition = seqTransition[batchNextIdx_[i] - 1];
           while (batchNextIdx_[i] < burnin_ + seqLen_ + multiStep_) {
             seqTransition[batchNextIdx_[i]] = refTransition.padLike();
-            seqPriority[batchNextIdx_[i]  - burnin_] = 0;
+            seqPriority[batchNextIdx_[i] - burnin_] = 0;
             ++batchNextIdx_[i];
           }
-          auto t = RNNTransition(seqTransition, batchH0_[i], torch::tensor(len));
+          auto t =
+              RNNTransition(seqTransition, batchH0_[i], torch::tensor(len));
           auto p = torch::tensor(seqPriority);
           p = p.narrow(0, 0, seqLen_);
 

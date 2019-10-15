@@ -80,15 +80,13 @@ class PrioritizedReplay {
     assert(priority.dim() == 1);
     assert((int)sampledIndices_.size() == priority.size(0));
 
-    // std::cout << "after update: weight: " << torch::pow(priority, alpha_) << std::endl;
-
     sumTree_.update(sampledIndices_, torch::pow(priority, alpha_));
     sampledIndices_.clear();
   }
 
   // update priority for the prefetcher
   void updatePriority(const torch::Tensor& priority,
-                                const std::vector<int> & sampledIndices) {
+                      const std::vector<int>& sampledIndices) {
     assert(priority.dim() == 1);
     sumTree_.update(sampledIndices, torch::pow(priority, alpha_));
   }
