@@ -60,7 +60,7 @@ PYBIND11_MODULE(rela, m) {
                     int,                                        //batchsize
                     int>())                                     //bufferSize
       .def("sample", &FFPrefetcher::sample)
-      .def("update_priority", &FFPrefetcher::updatePriority);
+      .def("update_priority", &FFPrefetcher::updatePriority)
       .def("start", &FFPrefetcher::start);
 
   py::class_<RNNPrefetcher, std::shared_ptr<RNNPrefetcher>>(m, "RNNPrefetcher")
@@ -68,8 +68,8 @@ PYBIND11_MODULE(rela, m) {
                     int,                                         //batchsize
                     int>())                                      //bufferSize
       .def("sample", &RNNPrefetcher::sample)
-      .def("update_priority", &RNNPrefetcher::updatePriority);
-      .def("start", &RNNPrefetcher:start);
+      .def("update_priority", &RNNPrefetcher::updatePriority)
+      .def("start", &RNNPrefetcher::start);
 
   py::class_<Env, std::shared_ptr<Env>>(m, "Env");
 
