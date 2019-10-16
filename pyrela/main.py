@@ -32,7 +32,7 @@ def parse_args():
 
     #prefetcher settings
     parser.add_argument("--use_prefetcher", type=int, default=0)
-    parser.add_argument("--prefetcher_buffer_size", type=int, default=10) 
+    parser.add_argument("--prefetcher_buffer_size", type=int, default=15) 
 
     # game settings
     parser.add_argument("--game", type=str, default="boxing")
