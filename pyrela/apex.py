@@ -6,14 +6,18 @@ from typing import Dict
 class ApexAgent(torch.jit.ScriptModule):
     __constants__ = ["multi_step", "gamma"]
 
-    def __init__(self, net_cons, multi_step, gamma):
+    def __init__(self, net_cons, multi_step, gamma, use_heirarchical_net):
         super().__init__()
         self.net_cons = net_cons
         self.multi_step = multi_step
         self.gamma = gamma
+        self.use_heirarchical_net = use_heirarchical_net
 
         self.online_net = net_cons()
         self.target_net = net_cons()
+
+        print ("online net", self.online_net)
+        assert False
 
     @classmethod
     def clone(cls, model, device):
@@ -34,10 +38,13 @@ class ApexAgent(torch.jit.ScriptModule):
         next_obs: Dict[str, torch.Tensor],
         gameNum: torch.Tensor,
     ) -> torch.Tensor:
-        online_q = self.online_net(obs)
+        if self.use_heirarchical_net:
+            online_q = self.online_net(obs, gameNum)
+        else:
+            online_q = self.online_net(obs)
         online_qa = online_q.gather(1, action["a"].unsqueeze(1)).squeeze(1)
                                                                                             
-        online_next_a = self.greedy_act(next_obs)
+        online_next_a = self.greedy_act(next_obs, gameNum)
         bootstrap_q = self.target_net(next_obs)
         bootstrap_qa = bootstrap_q.gather(1, online_next_a.unsqueeze(1)).squeeze(1)
         target = reward + bootstrap * (self.gamma ** self.multi_step) * bootstrap_qa
@@ -45,9 +52,14 @@ class ApexAgent(torch.jit.ScriptModule):
         return target.detach() - online_qa
 
     @torch.jit.script_method
-    def greedy_act(self, obs: Dict[str, torch.Tensor]) -> torch.Tensor:
+    def greedy_act(self, 
+                   obs: Dict[str, torch.Tensor],
+                   gameNum: torch.Tensor,) -> torch.Tensor:
         legal_move = obs["legal_move"]
-        q = self.online_net(obs).detach()
+        if self.use_heirarchical_net:
+            q = self.online_net(obs, gameNum).detach()
+        else:
+            q = self.online_net(obs).detach()
         legal_q = (1 + q - q.min()) * legal_move
         # legal_q > 0 for legal_move and maintain correct orders
         greedy_action = legal_q.argmax(1)

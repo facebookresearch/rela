@@ -12,7 +12,7 @@ import create_atari
 import rela
 from apex import ApexAgent
 from r2d2 import R2D2Agent
-from net import AtariFFNet, AtariLSTMNet
+from net import AtariFFNet, AtariFFHeirarchicalNet, AtariLSTMNet
 
 import common_utils
 import utils
@@ -98,7 +98,10 @@ if __name__ == "__main__":
         )
         replay_class = rela.RNNPrioritizedReplay
     elif args.algo == "apex":
-        net_cons = lambda: AtariFFNet(num_action)
+        if args.game_training_proportion is not None:
+            net_cons = lambda: AtariFFHeirarchicalNet(num_action, len(args.game_training_proportion))
+        else:
+            net_cons = lambda: AtariFFNet(num_action)
         agent = ApexAgent(net_cons, args.multi_step, args.gamma)
         replay_class = rela.FFPrioritizedReplay
 
