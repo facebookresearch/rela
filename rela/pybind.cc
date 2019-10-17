@@ -37,7 +37,8 @@ PYBIND11_MODULE(rela, m) {
       .def(py::init<int,       // capacity,
                     int,       // seed,
                     float,     // alpha, priority exponent
-                    float>())  // beta, importance sampling exponent
+                    float,
+                    bool>())  // beta, importance sampling exponent
       .def("size", &FFPrioritizedReplay::size)
       .def("num_add", &FFPrioritizedReplay::numAdd)
       .def("sample", &FFPrioritizedReplay::sample)
@@ -48,7 +49,8 @@ PYBIND11_MODULE(rela, m) {
       .def(py::init<int,       // capacity,
                     int,       // seed,
                     float,     // alpha, priority exponent
-                    float>())  // beta, importance sampling exponent
+                    float,
+                    bool>())  // beta, importance sampling exponent
       .def("size", &RNNPrioritizedReplay::size)
       .def("num_add", &RNNPrioritizedReplay::numAdd)
       .def("sample", &RNNPrioritizedReplay::sample)

@@ -57,6 +57,7 @@ def parse_args():
     # replay buffer settings
     parser.add_argument("--burn_in_frames", default=80000, type=int)
     parser.add_argument("--replay_buffer_size", default=2 ** 21, type=int)
+    parser.add_argument("--prefetch", default=1, type=int)
     parser.add_argument(
         "--priority_exponent", type=float, default=0.6, help="alpha in PER paper"
     )
@@ -140,6 +141,7 @@ if __name__ == "__main__":
         args.seed,
         args.priority_exponent,
         args.importance_exponent,
+        args.prefetch,
     )
 
     explore_eps = utils.generate_eps(
