@@ -80,52 +80,6 @@ class VectorEnv {
         utils::tensorDictJoin(batchObs, 0), batchReward, batchTerminal);
   }
 
-  // // return 'obs', 'reward', 'terminal'
-  // // obs: [num_envs, obs_dims]
-  // // reward: float32 tensor [num_envs]
-  // // terminal: bool tensor [num_envs]
-  // virtual std::tuple<TensorDict, torch::Tensor, torch::Tensor> step(
-  //     const TensorDict& action) {
-  //   // TensorVecDict batchObs(envs_.size());
-  //   int numEnv = envs_.size();
-  //   std::vector<TensorDict> vecObs(numEnv);
-  //   torch::Tensor batchReward = torch::zeros(numEnv, torch::kFloat32);
-  //   torch::Tensor batchTerminal = torch::zeros(numEnv, torch::kBool);
-  //   auto rangeStep = [&](int start, int end) {
-  //     for (int i = start; i < end; i++) {
-  //       TensorDict obs;
-  //       float reward;
-  //       bool terminal;
-  //       std::tie(obs, reward, terminal) =
-  //           envs_[i]->step(utils::tensorDictIndex(action, i));
-  //       // utils::tensorVecDictAppend(vecObs, obs);
-  //       vecObs[i] = obs;
-  //       batchReward[i] = reward;
-  //       batchTerminal[i] = terminal;
-  //     }
-  //   };
-  //   if (numThread_ == 1) {
-  //     rangeStep(0, numEnv);
-  //   } else {
-  //     assert(numEnv % numThread_ == 0);
-  //     int numEnvPerThread = numEnv / numThread_;
-  //     std::vector<std::future<void>> futures;
-  //     for (int i = 0; i < numThread_; ++i) {
-  //       auto fut = std::async(std::launch::async,
-  //                             rangeStep,
-  //                             i * numEnvPerThread,
-  //                             (i + 1) * numEnvPerThread);
-  //       futures.push_back(std::move(fut));
-  //     }
-  //     for (int i = 0; i < numThread_; ++i) {
-  //       futures[i].get();
-  //     }
-  //   }
-
-  //   auto batchObs = utils::vectorTensorDictJoin(vecObs, 0);
-  //   return std::make_tuple(batchObs, batchReward, batchTerminal);
-  // }
-
   virtual bool anyTerminated() const {
     for (size_t i = 0; i < envs_.size(); i++) {
       if (envs_[i]->terminated())
@@ -144,6 +98,5 @@ class VectorEnv {
 
  private:
   std::vector<std::shared_ptr<Env>> envs_;
-  int numThread_ = 20;
 };
 }  // namespace rela
