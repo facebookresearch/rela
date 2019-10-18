@@ -43,8 +43,11 @@ class ApexAgent(torch.jit.ScriptModule):
             online_qa = torch.zeros(bootstrap.shape, device = bootstrap.device)
             for i in range(self.total_num_games):
                 curr_indices = (obs["game_name"] == i).nonzero()
-                if (len(curr_indices.shape) == 2):
-                    curr_indices = torch.squeeze(curr_indices)
+                if len(curr_indices.shape) == 2:
+                    if curr_indices.shape == (1,1):
+                        curr_indices = torch.squeeze(curr_indices, dim = 1)
+                    else:
+                        curr_indices = torch.squeeze(curr_indices)
                 if (len(curr_indices.size()) == 0 or len(curr_indices) == 0):
                     continue
 
@@ -53,7 +56,7 @@ class ApexAgent(torch.jit.ScriptModule):
                  curr_reward, 
                  curr_bootstrap, 
                  curr_next_obs, 
-                 curr_game_num) = self.batch_inputs_on_game_num(obs, action, reward, bootstrap, next_obs, game_num, i) 
+                 curr_game_num) = self.batch_inputs_on_game_num(obs, action, reward, bootstrap, next_obs, game_num, curr_indices) 
 
                 curr_online_q = self.online_net(curr_obs)
                 curr_online_qa = curr_online_q.gather(1, curr_action["a"].unsqueeze(1)).squeeze(1)                  
@@ -90,12 +93,14 @@ class ApexAgent(torch.jit.ScriptModule):
 
             for i in range(self.total_num_games):
                 curr_indices = (obs["game_name"] == i).nonzero()
-                if (len(curr_indices.shape) == 2):
-                    curr_indices = torch.squeeze(curr_indices)
+                if len(curr_indices.shape) == 2:
+                    if curr_indices.shape == (1,1):
+                        curr_indices = torch.squeeze(curr_indices, dim = 1)
+                    else:
+                        curr_indices = torch.squeeze(curr_indices)
                 if (len(curr_indices.size()) == 0 or len(curr_indices) == 0):
                     continue
-
-                curr_obs = self.batch_obs_on_game_num(obs, i)
+                curr_obs = self.batch_obs_on_game_num(obs, curr_indices)
                 q[curr_indices] = self.online_net(curr_obs).detach()
         else:
             q = self.online_net(obs).detach()
@@ -154,12 +159,8 @@ class ApexAgent(torch.jit.ScriptModule):
         bootstrap: torch.Tensor,
         next_obs: Dict[str, torch.Tensor],
         game_num: torch.Tensor,
-        desired_game_num: int
+        indices: torch.Tensor
         ):
-
-        indices = (obs["game_name"] == desired_game_num).nonzero()
-        if (len(indices) == 2):
-            indices = torch.squeeze(indices)
 
         new_obs = self.batch_dict_on_indices(obs, indices)
         new_action = self.batch_dict_on_indices(action, indices)
@@ -170,24 +171,17 @@ class ApexAgent(torch.jit.ScriptModule):
         return (new_obs, new_action, new_reward, new_bootstrap, new_next_obs, new_game_num)
 
     @torch.jit.script_method
-    def batch_obs_on_game_num(self, obs: Dict[str, torch.Tensor], desired_game_num: int):
-        indices = (obs["game_name"] == desired_game_num).nonzero()
-        if (len(indices.shape) == 2):
-            indices = torch.squeeze(indices)
-
-        return self.batch_dict_on_indices(obs, indices)        
+    def batch_obs_on_game_num(self, obs: Dict[str, torch.Tensor], indices: torch.Tensor):
+        return self.batch_dict_on_indices(obs, indices) 
 
     @torch.jit.script_method
     def batch_dict_on_indices(self, input_dict: Dict[str, torch.Tensor], indices: torch.Tensor):
         output_dict = {}
-        if (len(indices.shape) == 2):
-            indices = torch.squeeze(indices) 
         for key in input_dict.keys():
             output_dict[key] = input_dict[key][indices]
+            continue
         return output_dict
     
     @torch.jit.script_method
     def batch_tensor_on_indices(self, input_tensor: torch.Tensor, indices: torch.Tensor):
-        if (len(indices.shape) == 2):
-            indices = torch.squeeze(indices)
         return input_tensor[indices]

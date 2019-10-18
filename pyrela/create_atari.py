@@ -89,6 +89,10 @@ def create_train_env(
     actors = []
     if game_training_proportion is not None:
         game_name_list = list(game_training_proportion.keys())
+        game_name_list.remove(game_name)
+        game_name_list = [game_name] + game_name_list
+        print ("game name list is: ", game_name_list)
+
     i = 0
     for thread_idx in range(num_thread):
         env = rela.VectorEnv()
