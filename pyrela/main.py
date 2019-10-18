@@ -91,6 +91,9 @@ if __name__ == "__main__":
     sys.stderr = common_utils.Logger(os.path.join(args.save_dir, "train.err"))
 
     num_action = create_atari.get_num_action(args.game)
+    if args.game_training_proportion is not None:
+        args.game_training_proportion = json.loads(args.game_training_proportion)  
+
     if args.algo == "r2d2":
         net_cons = lambda device: AtariLSTMNet(device, num_action)
         agent = R2D2Agent(
@@ -99,10 +102,14 @@ if __name__ == "__main__":
         replay_class = rela.RNNPrioritizedReplay
     elif args.algo == "apex":
         if args.game_training_proportion is not None:
+            print ("game dict is: ", args.game_training_proportion)
+            print ("number of games is: ", len((args.game_training_proportion)))
             net_cons = lambda: AtariFFHeirarchicalNet(num_action, len(args.game_training_proportion))
         else:
             net_cons = lambda: AtariFFNet(num_action)
-        agent = ApexAgent(net_cons, args.multi_step, args.gamma)
+        print ("before agent")
+        agent = ApexAgent(net_cons, args.multi_step, args.gamma, args.game_training_proportion is not None)
+        print ("after agent")
         replay_class = rela.FFPrioritizedReplay
 
     agent = agent.to(args.train_device)
@@ -154,8 +161,6 @@ if __name__ == "__main__":
             gameNum,
             replay_buffer,
         )
-    if args.game_training_proportion is not None:
-        args.game_training_proportion = json.loads(args.game_training_proportion)  
 
     print("creating train env")
     context, games, actors = create_atari.create_train_env(

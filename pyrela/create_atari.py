@@ -87,17 +87,20 @@ def create_train_env(
     context = rela.Context()
     games = []
     actors = []
+    if game_training_proportion is not None:
+        game_name_list = list(game_training_proportion.keys())
+    i = 0
     for thread_idx in range(num_thread):
         env = rela.VectorEnv()
-        game_index = None
+        game_index = 0
         thread_game_set = set()
         for game_idx in range(num_game_per_thread):
             if game_training_proportion is not None:
-                game_name = list(game_training_proportion.keys())[0]
-                game_index = list(game_training_proportion.keys()).index(game_name)
+                game_name = game_name_list[i]
+                game_index = game_name_list.index(game_name)
                 game_training_proportion[game_name] -= 1
                 if game_training_proportion[game_name] == 0:
-                    del game_training_proportion[game_name]
+                    i += 1
                 thread_game_set.add(game_name)
             game = create_game(
                 game_name,

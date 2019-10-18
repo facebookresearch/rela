@@ -50,25 +50,36 @@ class AtariFFNet(torch.jit.ScriptModule):
         
         return self.duel(v, a, legal_move)
 
+class encoder(torch.jit.ScriptModule):
+    def __init__(self, frame_stack):
+        super(encoder, self).__init__()
+        self.frame_stack = frame_stack
+
+        self.net = nn.Sequential(
+            nn.Conv2d(self.frame_stack, 32, 8, stride=4, padding=0),
+            nn.ReLU(),
+            nn.Conv2d(32, 64, 4, stride=2, padding=0),
+            nn.ReLU(),
+            nn.Conv2d(64, 64, 3, stride=1, padding=0),
+            nn.ReLU(),)
+
+    def forward(self, x):
+        return self.net(x)
 
 class AtariFFHeirarchicalNet(torch.jit.ScriptModule):
-    __constants__ = ["conv_out_dim", "num_action"]
+    __constants__ = ["conv_out_dim", "num_action", "encoders"]
 
-    def __init__(self, num_actioni, num_games):
+    def __init__(self, num_action, num_games):
         super().__init__()
         self.frame_stack = 4
         self.conv_out_dim = 3136
         self.hid_dim = 512
         self.num_action = num_action
 
-        self.nets = [nn.Sequential(
-            nn.Conv2d(self.frame_stack, 32, 8, stride=4, padding=0),
-            nn.ReLU(),
-            nn.Conv2d(32, 64, 4, stride=2, padding=0),
-            nn.ReLU(),
-            nn.Conv2d(64, 64, 3, stride=1, padding=0),
-            nn.ReLU(),
-        ) for _ in range(num_games)]
+        self.encoders = nn.ModuleList(
+           [encoder(self.frame_stack) for _ in range(num_games)])
+        self.net = encoder(self.frame_stack)
+
         self.linear = nn.Sequential(
             nn.Linear(self.conv_out_dim, self.hid_dim), nn.ReLU()
         )
@@ -89,9 +100,15 @@ class AtariFFHeirarchicalNet(torch.jit.ScriptModule):
         """
         q-values for invalid_moves are UNDEFINED
         """
+        game_name = int(obs["game_name"][0])
         s = obs["s"].float() / 255.0
         legal_move = obs["legal_move"]
-        h = self.net(s).view(-1, self.conv_out_dim)
+        i = 0
+        h = s
+        encoded = []
+        for enc in self.encoders:
+            encoded.append(enc(s).view(-1, self.conv_out_dim))
+        h = encoded[game_name]
         h = self.linear(h)
         v = self.fc_v(h)  # .view(-1, 1)
         a = self.fc_a(h)  # .view(-1, self.num_action)
