@@ -6,18 +6,17 @@ from typing import Dict
 class ApexAgent(torch.jit.ScriptModule):
     __constants__ = ["multi_step", "gamma", "use_heirarchical_net", "total_num_games"]
 
-    def __init__(self, net_cons, multi_step, gamma, use_heirarchical_net):
+    def __init__(self, net_cons, multi_step, gamma, 
+                 use_heirarchical_net, total_num_games):
         super().__init__()
         self.net_cons = net_cons
         self.multi_step = multi_step
         self.gamma = gamma
-        self.total_num_games = 2
         self.use_heirarchical_net = use_heirarchical_net
-        print ("starting to create net")
+        self.total_num_games = total_num_games
+
         self.online_net = net_cons()
-        print ("created online net")
         self.target_net = net_cons()
-        print ("created net")
 
     @classmethod
     def clone(cls, model, device):
@@ -36,13 +35,13 @@ class ApexAgent(torch.jit.ScriptModule):
         reward: torch.Tensor,
         bootstrap: torch.Tensor,
         next_obs: Dict[str, torch.Tensor],
-        game_num: torch.Tensor,
+        game_idx: torch.Tensor,
     ) -> torch.Tensor:
         if self.use_heirarchical_net:
             target = torch.zeros(bootstrap.shape, device = bootstrap.device)
             online_qa = torch.zeros(bootstrap.shape, device = bootstrap.device)
             for i in range(self.total_num_games):
-                curr_indices = (obs["game_name"] == i).nonzero()
+                curr_indices = (obs["game_idx"] == i).nonzero()
                 if len(curr_indices.shape) == 2:
                     if curr_indices.shape == (1,1):
                         curr_indices = torch.squeeze(curr_indices, dim = 1)
@@ -56,12 +55,12 @@ class ApexAgent(torch.jit.ScriptModule):
                  curr_reward, 
                  curr_bootstrap, 
                  curr_next_obs, 
-                 curr_game_num) = self.batch_inputs_on_game_num(obs, action, reward, bootstrap, next_obs, game_num, curr_indices) 
+                 curr_game_idx) = self.batch_inputs_on_game_idx(obs, action, reward, bootstrap, next_obs, game_idx, curr_indices) 
 
                 curr_online_q = self.online_net(curr_obs)
                 curr_online_qa = curr_online_q.gather(1, curr_action["a"].unsqueeze(1)).squeeze(1)                  
 
-                curr_online_next_a = self.greedy_act(curr_next_obs, curr_game_num)
+                curr_online_next_a = self.greedy_act(curr_next_obs, curr_game_idx)
                 curr_bootstrap_q = self.target_net(curr_next_obs)
                 curr_bootstrap_qa = curr_bootstrap_q.gather(1, curr_online_next_a.unsqueeze(1)).squeeze(1)
                
@@ -75,7 +74,7 @@ class ApexAgent(torch.jit.ScriptModule):
             online_q = self.online_net(obs)
             online_qa = online_q.gather(1, action["a"].unsqueeze(1)).squeeze(1)
                                                                                             
-            online_next_a = self.greedy_act(next_obs, game_num)
+            online_next_a = self.greedy_act(next_obs, game_idx)
             bootstrap_q = self.target_net(next_obs)
             bootstrap_qa = bootstrap_q.gather(1, online_next_a.unsqueeze(1)).squeeze(1)
             target = reward + bootstrap * (self.gamma ** self.multi_step) * bootstrap_qa
@@ -85,14 +84,14 @@ class ApexAgent(torch.jit.ScriptModule):
     @torch.jit.script_method
     def greedy_act(self, 
                    obs: Dict[str, torch.Tensor],
-                   game_num: torch.Tensor) -> torch.Tensor:
+                   game_idx: torch.Tensor) -> torch.Tensor:
         legal_move = obs["legal_move"]
-        game_name = obs["game_name"]
+        game_idx = obs["game_idx"]
         if self.use_heirarchical_net:
             q = torch.zeros(legal_move.shape, device = obs["s"].device)            
 
             for i in range(self.total_num_games):
-                curr_indices = (obs["game_name"] == i).nonzero()
+                curr_indices = (obs["game_idx"] == i).nonzero()
                 if len(curr_indices.shape) == 2:
                     if curr_indices.shape == (1,1):
                         curr_indices = torch.squeeze(curr_indices, dim = 1)
@@ -100,7 +99,7 @@ class ApexAgent(torch.jit.ScriptModule):
                         curr_indices = torch.squeeze(curr_indices)
                 if (len(curr_indices.size()) == 0 or len(curr_indices) == 0):
                     continue
-                curr_obs = self.batch_obs_on_game_num(obs, curr_indices)
+                curr_obs = self.batch_obs_on_game_idx(obs, curr_indices)
                 q[curr_indices] = self.online_net(curr_obs).detach()
         else:
             q = self.online_net(obs).detach()
@@ -111,10 +110,9 @@ class ApexAgent(torch.jit.ScriptModule):
 
     @torch.jit.script_method
     def act(self, obs: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
-        game_num = obs["game_name"]
-        assert (game_num.sum() % 5 == 0 or game_num.sum() % 256 == 0)        
+        game_idx = obs["game_idx"]
 
-        greedy_action = self.greedy_act(obs, game_num)
+        greedy_action = self.greedy_act(obs, game_idx)
 
         eps = obs["eps"].squeeze(1)
         random_action = obs["legal_move"].multinomial(1).squeeze(1)
@@ -132,9 +130,9 @@ class ApexAgent(torch.jit.ScriptModule):
         terminal: torch.Tensor,
         bootstrap: torch.Tensor,
         next_obs: Dict[str, torch.Tensor],
-        game_num: torch.Tensor,
+        game_idx: torch.Tensor,
     ) -> torch.Tensor:
-        err = self.td_err(obs, action, reward, bootstrap, next_obs, game_num)
+        err = self.td_err(obs, action, reward, bootstrap, next_obs, game_idx)
         return err.detach().abs().cpu()
 
     def loss(self, batch):
@@ -142,7 +140,7 @@ class ApexAgent(torch.jit.ScriptModule):
         returns the loss and priority
         """
         err = self.td_err(
-            batch.obs, batch.action, batch.reward, batch.bootstrap, batch.next_obs, batch.game_num
+            batch.obs, batch.action, batch.reward, batch.bootstrap, batch.next_obs, batch.game_idx
         )
         loss = nn.functional.smooth_l1_loss(
             err, torch.zeros_like(err), reduction="none"
@@ -151,14 +149,14 @@ class ApexAgent(torch.jit.ScriptModule):
         return loss, priority
 
     @torch.jit.script_method
-    def batch_inputs_on_game_num(
+    def batch_inputs_on_game_idx(
         self,
         obs: Dict[str, torch.Tensor],
         action: Dict[str, torch.Tensor],
         reward: torch.Tensor,
         bootstrap: torch.Tensor,
         next_obs: Dict[str, torch.Tensor],
-        game_num: torch.Tensor,
+        game_idx: torch.Tensor,
         indices: torch.Tensor
         ):
 
@@ -167,11 +165,11 @@ class ApexAgent(torch.jit.ScriptModule):
         new_reward = self.batch_tensor_on_indices(reward, indices)
         new_bootstrap = self.batch_tensor_on_indices(bootstrap, indices)
         new_next_obs = self.batch_dict_on_indices(next_obs, indices)
-        new_game_num = self.batch_tensor_on_indices(game_num, indices)
-        return (new_obs, new_action, new_reward, new_bootstrap, new_next_obs, new_game_num)
+        new_game_idx = self.batch_tensor_on_indices(game_idx, indices)
+        return (new_obs, new_action, new_reward, new_bootstrap, new_next_obs, new_game_idx)
 
     @torch.jit.script_method
-    def batch_obs_on_game_num(self, obs: Dict[str, torch.Tensor], indices: torch.Tensor):
+    def batch_obs_on_game_idx(self, obs: Dict[str, torch.Tensor], indices: torch.Tensor):
         return self.batch_dict_on_indices(obs, indices) 
 
     @torch.jit.script_method

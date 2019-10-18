@@ -10,7 +10,7 @@ FFTransition FFTransition::makeBatch(std::vector<FFTransition> transitions) {
   std::vector<torch::Tensor> terminalVec;
   std::vector<torch::Tensor> bootstrapVec;
   TensorVecDict nextObsVec;
-  std::vector<torch::Tensor> gameNumVec;
+  std::vector<torch::Tensor> gameIdxVec;
 
   for (size_t i = 0; i < transitions.size(); i++) {
     utils::tensorVecDictAppend(obsVec, transitions[i].obs);
@@ -19,9 +19,8 @@ FFTransition FFTransition::makeBatch(std::vector<FFTransition> transitions) {
     terminalVec.push_back(transitions[i].terminal);
     bootstrapVec.push_back(transitions[i].bootstrap);
     utils::tensorVecDictAppend(nextObsVec, transitions[i].nextObs);
-    gameNumVec.push_back(transitions[i].gameNum);
+    gameIdxVec.push_back(transitions[i].gameIdx);
   }
-    
 
   FFTransition batch;
   batch.obs = utils::tensorDictJoin(obsVec, 0);
@@ -30,7 +29,7 @@ FFTransition FFTransition::makeBatch(std::vector<FFTransition> transitions) {
   batch.terminal = torch::stack(terminalVec, 0);
   batch.bootstrap = torch::stack(bootstrapVec, 0);
   batch.nextObs = utils::tensorDictJoin(nextObsVec, 0);
-  batch.gameNum = torch::stack(gameNumVec, 0);
+  batch.gameIdx = torch::stack(gameIdxVec, 0);
   return batch;
 }
 
@@ -51,7 +50,7 @@ FFTransition FFTransition::index(int i) const {
   for (auto& name2tensor : nextObs) {
     element.nextObs.insert({name2tensor.first, name2tensor.second[i]});
   }
-  element.gameNum = gameNum[i];
+  element.gameIdx = gameIdx[i];
 
   return element;
 }
@@ -77,7 +76,7 @@ TorchJitInput FFTransition::toJitInput(const torch::Device& device) const {
   input.push_back(terminal.to(device));
   input.push_back(bootstrap.to(device));
   input.push_back(utils::tensorDictToTorchDict(nextObs, device));
-  input.push_back(gameNum.to(device));
+  input.push_back(gameIdx.to(device));
   return input;
 }
 

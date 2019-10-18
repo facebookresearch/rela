@@ -100,10 +100,10 @@ class AtariFFHeirarchicalNet(torch.jit.ScriptModule):
         """
         q-values for invalid_moves are UNDEFINED
         """
-        if len(obs["game_name"].shape) == 0:
-            game_name = int(obs["game_name"])
+        if len(obs["game_idx"].shape) == 0:
+            game_idx = int(obs["game_idx"])
         else:
-            game_name = int(obs["game_name"][0])
+            game_idx = int(obs["game_idx"][0])
         s = obs["s"].float() / 255.0
         legal_move = obs["legal_move"]
         i = 0
@@ -111,7 +111,7 @@ class AtariFFHeirarchicalNet(torch.jit.ScriptModule):
         encoded = []
         for enc in self.encoders:
             encoded.append(enc(s).view(-1, self.conv_out_dim))
-        h = encoded[game_name]
+        h = encoded[game_idx]
         h = self.linear(h)
         v = self.fc_v(h)  # .view(-1, 1)
         a = self.fc_a(h)  # .view(-1, self.num_action)

@@ -12,11 +12,17 @@ namespace rela {
 
 class MultiStepTransitionBuffer {
  public:
-  MultiStepTransitionBuffer(int multiStep, int batchsize, float gamma, int gameNum)
+  MultiStepTransitionBuffer(int multiStep,
+                            int batchsize,
+                            float gamma,
+                            int gameIdx)
       : multiStep_(multiStep)
       , batchsize_(batchsize)
       , gamma_(gamma)
-      , gameNum_(gameNum) {
+      , gameIdx_(gameIdx) {
+
+    std::vector<int> gameIdxVec(batchsize_, gameIdx_);
+    gameIdxTens_ = torch::tensor(gameIdxVec).detach().to(torch::kCPU);
   }
 
   void pushObsAndAction(TensorDict& obs, TensorDict& action) {
@@ -102,14 +108,8 @@ class MultiStepTransitionBuffer {
     rewardHistory_.pop_front();
     terminalHistory_.pop_front();
 
-    std::vector<int> gameNumVec;
-    for (int i = 0; i < batchsize_; i ++) {
-        gameNumVec.push_back(gameNum_);
-    }
-
-    auto gameNum = torch::tensor(gameNumVec).detach().to(torch::kCPU);
-    return FFTransition(obs, action, reward, terminal, bootstrap, nextObs, gameNum);
-
+    return FFTransition(
+        obs, action, reward, terminal, bootstrap, nextObs, gameIdxTens_);
   }
 
   void clear() {
@@ -123,7 +123,9 @@ class MultiStepTransitionBuffer {
   const int multiStep_;
   const int batchsize_;
   const float gamma_;
-  const int gameNum_;
+  const int gameIdx_;
+
+  torch::Tensor gameIdxTens_;
 
   std::deque<TensorDict> obsHistory_;
   std::deque<TensorDict> actionHistory_;
@@ -137,22 +139,36 @@ class DQNActor : public Actor {
            int multiStep,
            int batchsize,
            float gamma,
-           int gameNum,
+           int gameIdx,
            std::shared_ptr<FFPrioritizedReplay> replayBuffer)
       : batchsize_(batchsize)
       , modelLocker_(std::move(modelLocker))
-      , transitionBuffer_(multiStep, batchsize, gamma, gameNum)
+      , transitionBuffer_(multiStep, batchsize, gamma, gameIdx)
       , replayBuffer_(replayBuffer)
-      , numAct_(0) {
+      , numAct_(0)
+      , gameIdx_(gameIdx) {
+
+    for (int i = 0; i < batchsize_; i++) {
+      gameIdxVec_.push_back(gameIdx_);
+    }
   }
 
   // for single env evaluation
   DQNActor(std::shared_ptr<ModelLocker> modelLocker)
       : batchsize_(1)
       , modelLocker_(std::move(modelLocker))
-      , transitionBuffer_(1, 1, 1, 0)
+      , transitionBuffer_(
+            1,
+            1,
+            1,
+            0)  // the 0 for game_idx to correspond to the correct encoder
       , replayBuffer_(nullptr)
-      , numAct_(0) {
+      , numAct_(0)
+      , gameIdx_(0) {
+
+    for (int i = 0; i < batchsize_; i++) {
+      gameIdxVec_.push_back(gameIdx_);
+    }
   }
 
   int numAct() const {
@@ -161,8 +177,14 @@ class DQNActor : public Actor {
 
   virtual TensorDict act(TensorDict& obs) override {
     torch::NoGradGuard ng;
+
+    obs.insert(
+        {"game_idx",
+         std::move(torch::tensor(gameIdxVec_).detach().to(torch::kCPU))});
+
     auto inputObs = utils::tensorDictToTorchDict(obs, modelLocker_->device);
     TorchJitInput input;
+
     input.push_back(inputObs);
 
     int id = -1;
@@ -213,10 +235,13 @@ class DQNActor : public Actor {
   }
 
   const int batchsize_;
+  std::vector<int> gameIdxVec_;
+  torch::Tensor gameIdxTens_;
 
   std::shared_ptr<ModelLocker> modelLocker_;
   MultiStepTransitionBuffer transitionBuffer_;
   std::shared_ptr<FFPrioritizedReplay> replayBuffer_;
   std::atomic<int> numAct_;
+  const int gameIdx_;
 };
 }  // namespace rela

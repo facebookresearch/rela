@@ -102,14 +102,12 @@ if __name__ == "__main__":
         replay_class = rela.RNNPrioritizedReplay
     elif args.algo == "apex":
         if args.game_training_proportion is not None:
-            print ("game dict is: ", args.game_training_proportion)
-            print ("number of games is: ", len((args.game_training_proportion)))
             net_cons = lambda: AtariFFHeirarchicalNet(num_action, len(args.game_training_proportion))
         else:
             net_cons = lambda: AtariFFNet(num_action)
-        print ("before agent")
-        agent = ApexAgent(net_cons, args.multi_step, args.gamma, args.game_training_proportion is not None)
-        print ("after agent")
+        agent = ApexAgent(net_cons, args.multi_step, args.gamma, 
+                          args.game_training_proportion is not None,
+                          len(args.game_training_proportion))
         replay_class = rela.FFPrioritizedReplay
 
     agent = agent.to(args.train_device)

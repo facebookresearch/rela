@@ -24,14 +24,14 @@ class FFTransition {
                torch::Tensor& terminal,
                torch::Tensor& bootstrap,
                TensorDict& nextObs,
-               torch::Tensor& gameNum)
+               torch::Tensor& gameIdx)
       : obs(obs)
       , action(action)
       , reward(reward)
       , terminal(terminal)
       , bootstrap(bootstrap)
       , nextObs(nextObs)
-      , gameNum(gameNum) {
+      , gameIdx(gameIdx) {
   }
 
   static FFTransition makeBatch(std::vector<FFTransition> transitions);
@@ -48,7 +48,7 @@ class FFTransition {
   torch::Tensor terminal;
   torch::Tensor bootstrap;
   TensorDict nextObs;
-  torch::Tensor gameNum;
+  torch::Tensor gameIdx;
 };
 
 class RNNTransition {
