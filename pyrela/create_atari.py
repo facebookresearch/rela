@@ -71,19 +71,22 @@ def create_train_env(
     game_training_proportion,
     is_heirarchical_multigame,
     *,
-    is_apex = True,
+    is_apex=True,
     terminal_on_life_loss=False,
     terminal_signal_on_life_loss=True,
 ):
-    if game_training_proportion is not None: 
+    if game_training_proportion is not None:
         if sum(game_training_proportion.values()) != 1:
-            print ("The game proportions must sum to 1")
+            print("The game proportions must sum to 1")
             assert False
         total_game_number = num_thread * num_game_per_thread
-        game_training_proportion = {key: value * total_game_number for key, value in game_training_proportion.items()}
-        print ("going to create the following games", game_training_proportion)
+        game_training_proportion = {
+            key: value * total_game_number
+            for key, value in game_training_proportion.items()
+        }
+        print("going to create the following games", game_training_proportion)
     else:
-        print ("not doing heterogeneous dev")
+        print("not doing heterogeneous dev")
     context = rela.Context()
     games = []
     actors = []
@@ -91,7 +94,7 @@ def create_train_env(
         game_name_list = list(game_training_proportion.keys())
         game_name_list.remove(game_name)
         game_name_list = [game_name] + game_name_list
-        print ("game name list is: ", game_name_list)
+        print("game name list is: ", game_name_list)
 
     i = 0
     for thread_idx in range(num_thread):
@@ -116,12 +119,12 @@ def create_train_env(
             )
             games.append(game)
             env.append(game)
-        if is_heirarchical_multigame: 
+        if is_heirarchical_multigame:
             if len(thread_game_set) != 1:
                 assert (False, "on a given thread we have to have the same game")
 
             # making sure the game index is valid to be used in a heirarchical multigame
-            assert (game_index is not None and game_index >= 0) 
+            assert game_index is not None and game_index >= 0
 
         if is_apex:
             actor = actor_creator(thread_idx, game_index)

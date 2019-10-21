@@ -31,7 +31,7 @@ class R2D2Agent(torch.jit.ScriptModule):
             model.multi_step,
             model.gamma,
             model.eta,
-            model.burn_in
+            model.burn_in,
         )
         cloned.load_state_dict(model.state_dict())
         return cloned.to(device)
@@ -136,8 +136,8 @@ class R2D2Agent(torch.jit.ScriptModule):
         burn_in_obs = {}
         train_obs = {}
         for k, v in obs.items():
-            burn_in_obs[k] = v[:self.burn_in]
-            train_obs[k] = v[self.burn_in:]
+            burn_in_obs[k] = v[: self.burn_in]
+            train_obs[k] = v[self.burn_in :]
 
         with torch.no_grad():
             _, online_hid = self.online_net.unroll_rnn(burn_in_obs, hid)
@@ -146,7 +146,7 @@ class R2D2Agent(torch.jit.ScriptModule):
                 # to handle dummy burn_in, at beginning of episode
                 # print(k, online_hid[k].size())
                 # print(k, target_hid[k].size())
-                zero_out = (1 - terminal[self.burn_in-1]).unsqueeze(0).unsqueeze(2)
+                zero_out = (1 - terminal[self.burn_in - 1]).unsqueeze(0).unsqueeze(2)
                 # print(zero_out.size())
                 online_hid[k] = online_hid[k] * zero_out
                 target_hid[k] = target_hid[k] * zero_out
@@ -154,14 +154,14 @@ class R2D2Agent(torch.jit.ScriptModule):
         assert False
         train_action = {}
         for k, v in action.item():
-            train_action[k] = v[self.burn_in:]
+            train_action[k] = v[self.burn_in :]
 
         # for _, val in hid.items():
         #     assert val.sum() == 0, val.sum()
 
         # this only works because the trajectories are padded,
         # i.e. no terminal in the middle
-        online_qs, _ = self.online_net(train_obs, online_hid, )
+        online_qs, _ = self.online_net(train_obs, online_hid)
         with torch.no_grad():
             target_qs, _ = self.target_net(train_obs, target_hid)
 

@@ -37,9 +37,20 @@ def parse_args():
         "--max_frame", type=int, default=108000, help="30min of gameplay (50fps)"
     )
     parser.add_argument("--gamma", type=float, default=0.997, help="discount factor")
-    parser.add_argument("--game_training_proportion", type=str, default=None, help="""
+    parser.add_argument(
+        "--game_training_proportion",
+        type=str,
+        default=None,
+        help="""
     dictionary mapping game to proportion of games to make in training, sum of values = 1
-    """)
+    """,
+    )
+    parser.add_argument(
+        "--use_heirarchical_net",
+        type=int,
+        default=0,
+        help="for multigame training, indicator of if to use heirarchical network",
+    )
 
     # optimization/training settings
     parser.add_argument("--lr", type=float, default=6.25e-5, help="learning rate")
@@ -92,22 +103,35 @@ if __name__ == "__main__":
 
     num_action = create_atari.get_num_action(args.game)
     if args.game_training_proportion is not None:
-        args.game_training_proportion = json.loads(args.game_training_proportion)  
+        args.game_training_proportion = json.loads(args.game_training_proportion)
 
     if args.algo == "r2d2":
         net_cons = lambda device: AtariLSTMNet(device, num_action)
         agent = R2D2Agent(
-            net_cons, args.train_device, args.multi_step, args.gamma, args.eta, args.seq_burn_in
+            net_cons,
+            args.train_device,
+            args.multi_step,
+            args.gamma,
+            args.eta,
+            args.seq_burn_in,
         )
         replay_class = rela.RNNPrioritizedReplay
     elif args.algo == "apex":
-        if args.game_training_proportion is not None:
-            net_cons = lambda: AtariFFHeirarchicalNet(num_action, len(args.game_training_proportion))
+        if args.use_heirarchical_net:
+            net_cons = lambda: AtariFFHeirarchicalNet(
+                num_action, len(args.game_training_proportion)
+            )
         else:
             net_cons = lambda: AtariFFNet(num_action)
-        agent = ApexAgent(net_cons, args.multi_step, args.gamma, 
-                          args.game_training_proportion is not None,
-                          len(args.game_training_proportion))
+        agent = ApexAgent(
+            net_cons,
+            args.multi_step,
+            args.gamma,
+            args.use_heirarchical_net,
+            len(args.game_training_proportion)
+            if args.game_training_proportion is not None
+            else 1,
+        )
         replay_class = rela.FFPrioritizedReplay
 
     agent = agent.to(args.train_device)
@@ -170,8 +194,8 @@ if __name__ == "__main__":
         args.num_game_per_thread,
         actor_creator,
         args.game_training_proportion,
-        args.game_training_proportion is not None,
-        is_apex = args.algo == "apex",
+        args.use_heirarchical_net,
+        is_apex=args.algo == "apex",
     )
 
     context.start()
@@ -258,14 +282,7 @@ if __name__ == "__main__":
         context.pause()
         eval_model = agent.clone(agent, device="cpu")
         score = evaluate(
-            args.game,
-            10,
-            eval_model,
-            "cpu",
-            actor_cls,
-            epoch + 999,
-            args.max_frame,
-            0,
+            args.game, 10, eval_model, "cpu", actor_cls, epoch + 999, args.max_frame, 0
         )
 
         print("epoch %d, eval score: %f" % (epoch, score))

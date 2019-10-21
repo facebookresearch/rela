@@ -47,8 +47,9 @@ class AtariFFNet(torch.jit.ScriptModule):
         h = self.linear(h)
         v = self.fc_v(h)  # .view(-1, 1)
         a = self.fc_a(h)  # .view(-1, self.num_action)
-        
+
         return self.duel(v, a, legal_move)
+
 
 class encoder(torch.jit.ScriptModule):
     def __init__(self, frame_stack):
@@ -61,10 +62,12 @@ class encoder(torch.jit.ScriptModule):
             nn.Conv2d(32, 64, 4, stride=2, padding=0),
             nn.ReLU(),
             nn.Conv2d(64, 64, 3, stride=1, padding=0),
-            nn.ReLU(),)
+            nn.ReLU(),
+        )
 
     def forward(self, x):
         return self.net(x)
+
 
 class AtariFFHeirarchicalNet(torch.jit.ScriptModule):
     __constants__ = ["conv_out_dim", "num_action", "encoders"]
@@ -77,7 +80,8 @@ class AtariFFHeirarchicalNet(torch.jit.ScriptModule):
         self.num_action = num_action
 
         self.encoders = nn.ModuleList(
-           [encoder(self.frame_stack) for _ in range(num_games)])
+            [encoder(self.frame_stack) for _ in range(num_games)]
+        )
         self.net = encoder(self.frame_stack)
 
         self.linear = nn.Sequential(
@@ -115,7 +119,7 @@ class AtariFFHeirarchicalNet(torch.jit.ScriptModule):
         h = self.linear(h)
         v = self.fc_v(h)  # .view(-1, 1)
         a = self.fc_a(h)  # .view(-1, self.num_action)
-        
+
         return self.duel(v, a, legal_move)
 
 
@@ -193,7 +197,7 @@ class AtariLSTMNet(torch.jit.ScriptModule):
         self,
         obs: Dict[str, torch.Tensor],
         hid: Dict[str, torch.Tensor],
-        action: torch.Tensor
+        action: torch.Tensor,
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         """
         return:
@@ -213,9 +217,8 @@ class AtariLSTMNet(torch.jit.ScriptModule):
         return qa, greedy_action
 
     @torch.jit.script_method
-    def unroll_rnn(self,
-                   obs: Dict[str, torch.Tensor],
-                   hid: Dict[str, torch.Tensor],
+    def unroll_rnn(
+        self, obs: Dict[str, torch.Tensor], hid: Dict[str, torch.Tensor]
     ) -> Tuple[torch.Tensor, Dict[str, torch.Tensor]]:
         s = obs["s"]
         assert s.dim() == 5  # [seq, batch, c, h, w]
