@@ -73,10 +73,10 @@ class MultiStepTransitionBuffer {
     auto bootstrapAccessor = bootstrap.accessor<float, 1>();
 
     std::vector<int> nextObsIndices(batchsize_);
-    // calculate bootstrap and nextState indice
+    // calculate bootstrap and nextState indices
     for (int i = 0; i < batchsize_; i++) {
       for (int step = 0; step < multiStep_; step++) {
-        // next state is step (shouldn't be useCd anyways)
+        // next state is step (shouldn't be used anyways)
         if (terminalHistory_[step][i].item<bool>()) {
           bootstrapAccessor[i] = 0.0;
           nextObsIndices[i] = step;
@@ -148,8 +148,8 @@ class DQNActor : public Actor {
       , numAct_(0)
       , gameIdx_(gameIdx) {
 
-    for (int i = 0; i < batchsize_; i++) {
-      gameIdxVec_.push_back(gameIdx_);
+    for (int i = 0; i < batchsize_; i ++) {
+        gameIdxVec_.push_back(gameIdx_);
     }
   }
 
@@ -165,9 +165,9 @@ class DQNActor : public Actor {
       , replayBuffer_(nullptr)
       , numAct_(0)
       , gameIdx_(0) {
-
-    for (int i = 0; i < batchsize_; i++) {
-      gameIdxVec_.push_back(gameIdx_);
+    
+    for (int i = 0; i < batchsize_; i ++ ) {
+        gameIdxVec_.push_back(gameIdx_);
     }
   }
 
