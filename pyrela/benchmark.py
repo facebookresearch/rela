@@ -17,9 +17,12 @@ import common_utils
 def benchmark_fps(args):
     pprint.pprint(vars(args))
 
-    net_cons = lambda: AtariFFNet(512, args.num_action)
-    agent = ApexAgent(net_cons, 3, 0.99)
-    model_locker = rela.ModelLocker(agent._c, args.act_device)
+    net_cons = lambda: AtariFFNet(args.num_action)
+    agent1 = ApexAgent(net_cons, 3, 0.99).to('cuda:0')
+    agent2 = ApexAgent(net_cons, 3, 0.99).to('cuda:1')
+    model_locker1 = rela.ModelLocker([agent1], 'cuda:0')
+    model_locker2 = rela.ModelLocker([agent2], 'cuda:1')
+    lockers = [model_locker1, model_locker2]
     replay_buffer = rela.FFPrioritizedReplay(
         args.replay_buffer_size,
         args.seed,
@@ -29,13 +32,13 @@ def benchmark_fps(args):
 
     eps = generate_eps(0.4, 7, args.num_thread * args.num_game_per_thread)
     actor_creator = lambda i: rela.DQNActor(
-        model_locker, 1, args.num_game_per_thread, 0.99, replay_buffer
+        lockers[i % 2], 1, args.num_game_per_thread, 0.99, replay_buffer
     )
 
     context, games, actors = create_train_env(
         args.game,
-        eps,
         args.seed,
+        eps,
         108000,  # args.max_frame
         args.num_thread,
         args.num_game_per_thread,
@@ -117,7 +120,7 @@ def benchmark_fps(args):
 
 
 def benchmark(args):
-    thread_game_worker = [(1, 1), (80, 20), (160, 20)]
+    thread_game_worker = [(4, 200)]
 
     summaries = []
     headers = [

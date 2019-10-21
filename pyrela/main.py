@@ -12,7 +12,7 @@ import create_atari
 import rela
 from apex import ApexAgent
 from r2d2 import R2D2Agent
-from net import AtariFFNet, AtariFFHeirarchicalNet, AtariLSTMNet
+from net import AtariFFNet, AtariFFHeirarchicalNet, AtariLSTMNet, AtariFakeLSTMNet
 
 import common_utils
 import utils
@@ -29,9 +29,11 @@ def parse_args():
     parser.add_argument("--seq_burn_in", type=int, default=40)
     parser.add_argument("--seq_len", type=int, default=80)
     parser.add_argument("--eta", type=float, default=0.9)
+    parser.add_argument("--same_hid", type=int, default=0)
 
     # game settings
     parser.add_argument("--game", type=str, default="boxing")
+    parser.add_argument("--one_life", type=int, default=0)
     parser.add_argument("--seed", type=int, default=10002)
     parser.add_argument(
         "--max_frame", type=int, default=108000, help="30min of gameplay (50fps)"
@@ -55,21 +57,22 @@ def parse_args():
     # optimization/training settings
     parser.add_argument("--lr", type=float, default=6.25e-5, help="learning rate")
     parser.add_argument("--eps", type=float, default=1.5e-4, help="optim epsilon")
-    # parser.add_argument("--lr", type=float, default=1e-4, help="Learning rate")
-    # parser.add_argument("--adam_eps", type=float, default=1e-3, help="Adam epsilon")
-    parser.add_argument("--train_device", type=str, default="cuda:0")
     parser.add_argument("--batchsize", default=512, type=int, help="for train")
     parser.add_argument("--num_epoch", type=int, default=3000)
     parser.add_argument("--epoch_len", type=int, default=1000)
     parser.add_argument("--num_update_between_sync", type=int, default=2500)
+    parser.add_argument("--train_device", type=str, default="cuda:0")
+
+    # parser.add_argument("--weight_norm", type=int, default=0)
 
     # DQN settings
-    parser.add_argument("--hid_dim", type=int, default=512, help="size of hid layer")
+    # parser.add_argument("--hid_dim", type=int, default=512, help="size of hid layer")
     parser.add_argument("--multi_step", type=int, default=3, help="multi-step return")
 
     # replay buffer settings
     parser.add_argument("--burn_in_frames", default=80000, type=int)
     parser.add_argument("--replay_buffer_size", default=2 ** 21, type=int)
+    parser.add_argument("--prefetch", default=1, type=int)
     parser.add_argument(
         "--priority_exponent", type=float, default=0.6, help="alpha in PER paper"
     )
@@ -113,7 +116,22 @@ if __name__ == "__main__":
             args.multi_step,
             args.gamma,
             args.eta,
+            args.seq_len,
             args.seq_burn_in,
+            args.same_hid,
+        )
+        replay_class = rela.RNNPrioritizedReplay
+    elif args.algo == "fake_r2d2":
+        net_cons = lambda device: AtariFakeLSTMNet(device, num_action)
+        agent = R2D2Agent(
+            net_cons,
+            args.train_device,
+            args.multi_step,
+            args.gamma,
+            args.eta,
+            args.seq_len,
+            args.seq_burn_in,
+            1,
         )
         replay_class = rela.RNNPrioritizedReplay
     elif args.algo == "apex":
@@ -141,7 +159,7 @@ if __name__ == "__main__":
         optim = torch.optim.RMSprop(
             agent.online_net.parameters(), lr=args.lr, eps=args.eps
         )
-    elif args.algo == "r2d2":
+    elif args.algo == "r2d2" or args.algo == "fake_r2d2":
         optim = torch.optim.Adam(
             agent.online_net.parameters(), lr=args.lr, eps=args.eps
         )
@@ -154,6 +172,7 @@ if __name__ == "__main__":
         args.seed,
         args.priority_exponent,
         args.importance_exponent,
+        args.prefetch,
     )
 
     explore_eps = utils.generate_eps(
@@ -162,7 +181,7 @@ if __name__ == "__main__":
         args.num_thread * args.num_game_per_thread,
     )
 
-    if args.algo == "r2d2":
+    if args.algo == "r2d2" or args.algo == "fake_r2d2":
         actor_cls = rela.R2D2Actor
         actor_creator = lambda i: rela.R2D2Actor(
             model_locker,
@@ -196,6 +215,7 @@ if __name__ == "__main__":
         args.game_training_proportion,
         args.use_heirarchical_net,
         is_apex=args.algo == "apex",
+        terminal_on_life_loss=bool(args.one_life),
     )
 
     context.start()
@@ -282,7 +302,15 @@ if __name__ == "__main__":
         context.pause()
         eval_model = agent.clone(agent, device="cpu")
         score = evaluate(
-            args.game, 10, eval_model, "cpu", actor_cls, epoch + 999, args.max_frame, 0
+            args.game,
+            10,
+            eval_model,
+            "cpu",
+            actor_cls,
+            epoch + 999,
+            args.max_frame,
+            0,
+            terminal_on_life_loss=bool(args.one_life),
         )
 
         print("epoch %d, eval score: %f" % (epoch, score))
