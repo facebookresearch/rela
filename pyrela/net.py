@@ -82,7 +82,6 @@ class AtariFFHeirarchicalNet(torch.jit.ScriptModule):
         self.encoders = nn.ModuleList(
             [encoder(self.frame_stack) for _ in range(num_games)]
         )
-        self.net = encoder(self.frame_stack)
 
         self.linear = nn.Sequential(
             nn.Linear(self.conv_out_dim, self.hid_dim), nn.ReLU()
