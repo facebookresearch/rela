@@ -117,3 +117,6 @@ this repo, run the following command before submitting PR or push
 clang-format -i *.h
 clang-format -i *.cc
 ```
+
+### License
+Reinforcement Learning Assembly is licensed under [MIT License](LICENSE).
