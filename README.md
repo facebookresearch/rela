@@ -4,7 +4,7 @@ Reinforcement Learning Assembly (ReLA) is a platform to expediate RL research. I
 
 ### Prerequisite
 
-Install `cudnn7.4` and `cuda10.0` . This might be platform dependent. Other versions might also work but we have only tested with the above versions.
+Install `cudnn7.4` and `cuda10.0`. Install `gcc7.4.0`. This might be platform dependent. Other versions might also work but we have only tested with the above versions.
 Set `OMP_NUM_THREADS` for optimal performance.
 
 ```
@@ -30,35 +30,14 @@ export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
 TORCH_CUDA_ARCH_LIST="6.0;7.0" python setup.py install
 ```
 
-### Clone & Build this repo
+### Clone & Get submodules
 ```
 git clone ...
 git submodule sync && git submodule update --init --recursive
 ```
 
-#### optional grpc installation
-first install protobuf with
-
-```
-conda install -c anaconda protobuf
-conda install grpcio
-conda install grpcio-tools
-sh install_grpc.sh
-```
-then add the following to your .bashrc/.zshrc
-```
-CONDA_PREFIX=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
-export CPATH=${CONDA_PREFIX}/include:${CPATH}
-export LIBRARY_PATH=${CONDA_PREFIX}/lib:${LIBRARY_PATH}
-export LD_LIBRARY_PATH=${CONDA_PREFIX}/lib:${LD_LIBRARY_PATH}
-```
-
-run `install_grpc.sh` under the root folder (i.e torchRL if
-not changed).  This will install the grpc lib in your current conda
-env.
-
-#### build
-Then to build this repo with atari
+#### Build this repo
+Then to build this repo with atari.
 ```
 cd atari
 
