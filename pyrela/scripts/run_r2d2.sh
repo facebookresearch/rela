@@ -1,3 +1,5 @@
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 export game=boxing
 export suffix=stored_priority
 export job_name=exps/r2d2_${game}_${suffix}

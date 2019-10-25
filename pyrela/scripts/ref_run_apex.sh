@@ -1,3 +1,5 @@
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 export job_name='exps/apex_pong'
 mkdir -p ${job_name}
 sbatch --job-name $job_name \

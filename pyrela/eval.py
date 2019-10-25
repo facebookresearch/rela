@@ -1,3 +1,5 @@
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 import time
 import numpy as np
 from create_atari import create_eval_env, get_num_action

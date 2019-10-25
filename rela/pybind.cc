@@ -1,3 +1,5 @@
+// Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 #include <pybind11/pybind11.h>
 #include <torch/extension.h>
 

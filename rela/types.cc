@@ -1,3 +1,5 @@
+// Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 #include "rela/types.h"
 #include "rela/utils.h"
 
