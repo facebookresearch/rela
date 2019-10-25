@@ -1,29 +1,17 @@
 # Reinforcement Learning Assembly
+### Introduction
+Reinforcement Learning Assembly (ReLA) is a platform to expediate RL research. It uses JIT TorchScript module to execute Pytorch models in C++ with multithreading for maximum throughput. It also includes reimplementation of SOTA off-policy RL methods like Ape-X and R2D2, with verified training curves in various atari games. This is the backbone framework for multiple reinforcement learning projects in Facebook AI. 
 
 ### Prerequisite
 
-load the following modules
-```
-module purge
-module load cudnn/v7.4-cuda.10.0
-module load cuda/10.0
+Install `cudnn7.4` and `cuda10.0` . This might be platform dependent. Other versions might also work but we have only tested with the above versions.
+Set `OMP_NUM_THREADS` for optimal performance.
 
+```
 export OMP_NUM_THREADS=1
 ```
 
-Get a clone of conda env with PyTorch compiled with `gcc7.4.0` from
-```
-/private/home/hengyuan/miniconda3/envs/pytorch1.2
-```
-and add the following lines to `.bashrc` after `conda active conda-env`
-```
-CONDA_PREFIX=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
-export CPATH=${CONDA_PREFIX}/include:${CPATH}
-export LIBRARY_PATH=${CONDA_PREFIX}/lib:${LIBRARY_PATH}
-export LD_LIBRARY_PATH=${CONDA_PREFIX}/lib:${LD_LIBRARY_PATH}
-```
-
-Or create your own conda env & compile pytorch with compiler of your choice
+Create your own conda env & compile pytorch with compiler of your choice
 ```
 # create a fresh conda environment with python3
 conda create --name [your env name] python=3.7
@@ -34,7 +22,6 @@ conda install numpy pyyaml mkl mkl-include setuptools cmake cffi typing
 conda install -c pytorch magma-cuda100
 
 # clone the repo
-# Note: put the repo onto /scratch partition for MUCH FASTER building speed.
 git clone -b v1.2.0 --recursive https://github.com/pytorch/pytorch
 cd pytorch
 
@@ -49,7 +36,7 @@ git clone ...
 git submodule sync && git submodule update --init --recursive
 ```
 
-#### prerequisite for grpc (skip for now)
+#### optional grpc installation
 first install protobuf with
 
 ```
@@ -68,7 +55,7 @@ export LD_LIBRARY_PATH=${CONDA_PREFIX}/lib:${LD_LIBRARY_PATH}
 
 run `install_grpc.sh` under the root folder (i.e torchRL if
 not changed).  This will install the grpc lib in your current conda
-env. Thanks Heinrich for this script!
+env.
 
 #### build
 Then to build this repo with atari
