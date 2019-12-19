@@ -104,8 +104,6 @@ make -j40
 cd ../..  # go back to rela/atari
 mkdir build
 cd build
-# next line may produce an error 'Target "torch" not found.', which
-# can be ignored
 cmake ..
 make
 ```
